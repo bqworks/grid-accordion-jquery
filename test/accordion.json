@@ -1,0 +1,37 @@
+{
+	"accordion": {
+		"panels": [
+			{
+				"background": {"source": "http://bqworks.com/products/grid-accordion/images/1.jpg"},
+				"backgroundLink": {"address": "http://bqworks.com"},
+				"backgroundOpened": {"source": "http://bqworks.com/products/grid-accordion/images/9.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 1 Layer 1", "style": "always black vertical padding"},
+					{"content": "Panel 1 Layer 2", "style": "opened white", "width": "3242", "horizontal": "50", "vertical": "300", "width": "150", "height": "40", "showOffset": "100", "showTransition": "down", "hideTransition": "up"},
+					{"content": "Panel 1 Layer 3", "style": "closed black padding", "horizontal": "130", "vertical": "bottom", "width": "120", "height": "50", "showTransition": "left", "hideTransition": "right"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/products/grid-accordion/images/2.jpg"},
+				"backgroundLink": {"address": "http://bqworks.com"},
+				"backgroundOpened": {"source": "http://bqworks.com/products/grid-accordion/images/10.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 1 Layer 1", "style": "always black vertical padding"},
+					{"content": "Panel 1 Layer 2", "style": "opened white", "width": "3242", "horizontal": "50", "vertical": "300", "width": "150", "height": "40", "showOffset": "100", "showTransition": "down", "hideTransition": "up"},
+					{"content": "Panel 1 Layer 3", "style": "closed black padding", "horizontal": "130", "vertical": "bottom", "width": "120", "height": "50", "showTransition": "left", "hideTransition": "right"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/products/grid-accordion/images/3.jpg"}
+			},
+			{
+				"background": {"source": "http://bqworks.com/products/grid-accordion/images/4.jpg"}
+			},
+			{
+				"background": {"source": "http://bqworks.com/products/grid-accordion/images/5.jpg"}
+			}
+		]
+	}
+}
