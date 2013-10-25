@@ -118,7 +118,7 @@
 			var currentPanelsPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10);
 			
 			// reduce the movement speed if the panels' container is outside its bounds
-			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= - this.totalPanelsSize + this.totalSize && this.currentPage === this.getTotalPages() - 1))
+			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= - this.totalPanelsWidth + this.totalWidth && this.currentPage === this.getTotalPages() - 1))
 				distance = distance * 0.2;
 
 			// move the panels' container

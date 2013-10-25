@@ -12,7 +12,8 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	/*overflow: hidden;*/
+	border: 1px solid #F00;
 }
 
 .grid-accordion .ga-panels {
@@ -36,14 +37,9 @@
 	overflow: visible;
 }
 
-.grid-accordion.ga-horizontal .ga-panel {
-	height: 100%;
-	width: auto;
-}
-
-.grid-accordion.ga-vertical .ga-panel {
-	width: 100%;
-	height: auto;
+.grid-accordion .ga-panel {
+	/*height: 100px;
+	width: 100px;*/
 }
 
 .grid-accordion .ga-panel.ga-shadow {
@@ -57,16 +53,10 @@
 	border: none;
 }
 
-.grid-accordion.ga-horizontal .ga-background,
-.grid-accordion.ga-horizontal .ga-background-opened {
-	height: 100%;
-	width: auto;
-}
-
-.grid-accordion.ga-vertical .ga-background,
-.grid-accordion.ga-vertical .ga-background-opened {
-	width: 100%;
-	height: auto;
+.grid-accordion .ga-background,
+.grid-accordion .ga-background-opened {
+	/*height: 100px;
+	width: 100px;*/
 }
 
 .grid-accordion .ga-background-opened {
