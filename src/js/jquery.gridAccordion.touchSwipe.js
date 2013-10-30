@@ -115,10 +115,11 @@
 				return;
 			
 			// get the current position of panels' container
-			var currentPanelsPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10);
-			
+			var currentPanelsPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10),
+				max = this.settings.orientation === 'horizontal' ? - this.totalPanelsSize + this.totalWidth : - this.totalPanelsSize + this.totalHeight;
+
 			// reduce the movement speed if the panels' container is outside its bounds
-			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= - this.totalPanelsWidth + this.totalWidth && this.currentPage === this.getTotalPages() - 1))
+			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= max && this.currentPage === this.getTotalPages() - 1))
 				distance = distance * 0.2;
 
 			// move the panels' container

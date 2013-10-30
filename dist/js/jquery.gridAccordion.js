@@ -59,9 +59,8 @@
 		this.totalWidth = 0;
 		this.totalHeight = 0;
 
-		// the width and height of the panels' container
-		this.totalPanelsWidth = 0;
-		this.totalPanelsHeight = 0;
+		// the width or height (depending on orientation) of the panels' container
+		this.totalPanelsSize = 0;
 
 		// the computed width and height, in pixels, of the opened panel
 		this.computedOpenedPanelWidth = 0;
@@ -148,7 +147,7 @@
 				this.$panelsContainer = $('<div class="ga-panels"></div>').appendTo(this.$maskContainer);
 
 			// initialize accordion modules
-			//var modules = $.GridAccordion.modules.accordion;
+			var modules = $.GridAccordion.modules.accordion;
 
 			if (typeof modules !== 'undefined')
 				for (var i in modules) {
@@ -474,12 +473,14 @@
 			this.closedPanelHeight = Math.floor(this.closedPanelHeight);
 
 			// get the total width and height of the panels' container
-			this.totalPanelsWidth = this.closedPanelWidth * this.getTotalPanels() + this.computedPanelDistance * (this.getTotalPanels() - 1);
-			this.totalPanelsHeight = this.closedPanelHeight * this.getTotalPanels() + this.computedPanelDistance * (this.getTotalPanels() - 1);
-
-			this.$panelsContainer.css(this.sizeProperty, this.totalPanelsWidth);
-			this.$panelsContainer.css(this.sizeProperty, this.totalPanelsHeight);
-
+			if (this.settings.orientation === 'horizontal') {
+				this.totalPanelsSize = this.totalWidth * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
+				this.$panelsContainer.css('width', this.totalPanelsSize);
+			} else {
+				this.totalPanelsSize = this.totalHeight * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
+				this.$panelsContainer.css('height', this.totalPanelsSize);
+			}
+ 
 			// reset the accordion's size so that the panels fit exactly inside if their size and position are rounded
 			var roundedWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1),
 				roundedHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
@@ -3941,10 +3942,11 @@
 				return;
 			
 			// get the current position of panels' container
-			var currentPanelsPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10);
-			
+			var currentPanelsPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10),
+				max = this.settings.orientation === 'horizontal' ? - this.totalPanelsSize + this.totalWidth : - this.totalPanelsSize + this.totalHeight;
+
 			// reduce the movement speed if the panels' container is outside its bounds
-			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= - this.totalPanelsWidth + this.totalWidth && this.currentPage === this.getTotalPages() - 1))
+			if ((currentPanelsPosition >= 0 && this.currentPage === 0) || (currentPanelsPosition <= max && this.currentPage === this.getTotalPages() - 1))
 				distance = distance * 0.2;
 
 			// move the panels' container
