@@ -15,9 +15,9 @@
 
 			this.modules[target].push(name);
 
-			if (target == 'accordion')
+			if (target === 'accordion')
 				$.extend(GridAccordion.prototype, module);
-			else if (target == 'panel')
+			else if (target === 'panel')
 				$.extend(GridAccordionPanel.prototype, module);
 		}
 	};
@@ -121,6 +121,9 @@
 		// and also based on the computed distance between panels
 		this.isOverlapping = false;
 
+		// stores all panels that contain images which are in the loading process
+		this.loadingPanels = [];
+
 		// initialize the accordion
 		this._init();
 	};
@@ -145,13 +148,13 @@
 				this.$panelsContainer = $('<div class="ga-panels"></div>').appendTo(this.$maskContainer);
 
 			// initialize accordion modules
-			var modules = $.GridAccordion.modules.accordion;
+			//var modules = $.GridAccordion.modules.accordion;
 
-			/*if (typeof modules !== 'undefined')
+			if (typeof modules !== 'undefined')
 				for (var i in modules) {
 					if (typeof this['init' + modules[i]] !== 'undefined')
 						this['init' + modules[i]]();
-				}*/
+				}
 
 			// keep a reference of the original settings and use it
 			// to restore the settings when the breakpoints are used
@@ -160,12 +163,12 @@
 			// set a panel to be opened from the start
 			this.currentIndex = this.settings.startPanel;
 
-			if (this.currentIndex != -1)
+			if (this.currentIndex !== -1)
 				this.$accordion.addClass('ga-opened');
 
 			// if a panels was not set to be opened but a page was specified,
 			// set that page index to be opened
-			if (this.settings.startPage != -1)
+			if (this.settings.startPage !== -1)
 				this.currentPage = this.settings.startPage;
 
 			// parse the breakpoints object and store the values into an array
@@ -187,7 +190,7 @@
 			this.update();
 
 			// if there is a panel opened at start handle that panel as if it was manually opened
-			if (this.currentIndex != -1) {
+			if (this.currentIndex !== -1) {
 				this.$accordion.find('.ga-panel').eq(this.currentIndex).addClass('ga-opened');
 
 				// fire 'panelOpen' event
@@ -231,11 +234,11 @@
 
 			// add a class to the accordion based on the orientation
 			// to be used in CSS
-			if (this.settings.orientation == 'horizontal') {
+			if (this.settings.orientation === 'horizontal') {
 				this.$accordion.removeClass('ga-vertical').addClass('ga-horizontal');
 				this.positionProperty = 'left';
 				this.sizeProperty = 'width';
-			} else if (this.settings.orientation == 'vertical') {
+			} else if (this.settings.orientation === 'vertical') {
 				this.$accordion.removeClass('ga-horizontal').addClass('ga-vertical');
 				this.positionProperty = 'top';
 				this.sizeProperty = 'height';
@@ -252,7 +255,7 @@
 
 				// if an aspect ratio was not specified, set the aspect ratio
 				// based on the specified width and height
-				if (this.settings.aspectRatio == -1)
+				if (this.settings.aspectRatio === -1)
 					this.settings.aspectRatio = this.settings.width / this.settings.height;
 
 				// resize the accordion when the browser resizes
@@ -265,19 +268,6 @@
 				this.$accordion.css({width: this.settings.width, height: this.settings.height, maxWidth: '', maxHeight: ''});
 				this.$maskContainer.attr('style', '');
 			}
-
-			// if the number of rows or columns has changed, update the current page to reflect
-			// the same relative position of the panels
-			if (this.settings.columns == -1 || this.settings.rows == -1) {
-				this.currentPage = 0;
-			} else if (this.currentIndex != -1) {
-				this.currentPage = Math.floor(this.currentIndex / (this.settings.columns * this.settings.rows));
-			}/* else if (this.settings.columns != this.previousColumns && this.previousColumns !== -1) {
-				var correctPage = Math.round((this.currentPage * this.previousColumns) / this.settings.columns);
-
-				if (this.currentPage !== correctPage)
-					this.currentPage = correctPage;
-			}*/
 
 			// if there is distance between the panels, the panels can't overlap
 			if (this.settings.panelDistance > 0 || this.settings.panelOverlap === false) {
@@ -297,15 +287,28 @@
 			this.columns = this.settings.columns;
 			this.rows = this.settings.rows;
 
-			if (this.settings.columns == -1 && this.settings.rows == -1) {
+			if (this.settings.columns === -1 && this.settings.rows === -1) {
 				this.columns = 4;
 				this.rows = 3;
-			} else if (this.settings.columns == -1) {
+			} else if (this.settings.columns === -1) {
 				this.columns = Math.ceil(this.getTotalPanels() / this.settings.rows);
 				this.rows = this.settings.rows;
-			} else if (this.settings.rows == -1) {
+			} else if (this.settings.rows === -1) {
 				this.columns = this.settings.columns;
 				this.rows = Math.ceil(this.getTotalPanels() / this.settings.columns);
+			}
+
+			// if the number of rows or columns has changed, update the current page to reflect
+			// the same relative position of the panels
+			if (this.settings.columns === -1 || this.settings.rows === -1) {
+				this.currentPage = 0;
+			} else if (this.currentIndex !== -1) {
+				this.currentPage = Math.floor(this.currentIndex / (this.settings.columns * this.settings.rows));
+			} else if ((this.settings.columns !== this.previousColumns && this.previousColumns !== -1) || (this.settings.rows !== this.previousRows && this.previousRows !== -1)) {
+				var correctPage = Math.round((this.currentPage * (this.previousColumns * this.previousRows)) / (this.settings.columns * this.settings.rows));
+
+				if (this.currentPage !== correctPage)
+					this.currentPage = correctPage;
 			}
 
 			// create or update the pagination buttons
@@ -339,17 +342,17 @@
 				this.$accordion.css({width: '100%'});
 
 			// set the height of the accordion based on the aspect ratio
-			if (this.settings.aspectRatio != -1)
+			if (this.settings.aspectRatio !== -1)
 				this.$accordion.css('height', this.$accordion.innerWidth() / this.settings.aspectRatio);
 
 			// get the total size, in pixels, of the accordion
-			if (this.settings.responsiveMode == 'custom' && this.settings.responsive === true) {
+			if (this.settings.responsiveMode === 'custom' && this.settings.responsive === true) {
 				// clear previous styling
 				this.$maskContainer.attr('style', '');
 
 				this.totalWidth = this.$accordion.innerWidth();
 				this.totalHeight = this.$accordion.innerHeight();
-			} else if (this.settings.responsiveMode == 'auto' && this.settings.responsive === true) {
+			} else if (this.settings.responsiveMode === 'auto' && this.settings.responsive === true) {
 				// get the accordion's size ratio based on the set size and the actual size
 				this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
 
@@ -365,87 +368,91 @@
 				this.totalHeight = this.$maskContainer.innerHeight();
 			}
 
-			// set the size of the background images explicitly because of a bug?
-			// that causes anchors not to adapt their size to the size of the image,
-			// when the image size is set in percentages, which causes the total size
-			// of the panel to be bigger than it should
-			//if (this.settings.orientation == 'horizontal')
-			//	this.$accordion.find('img.ga-background, img.ga-background-opened').css('height', this.$panelsContainer.innerHeight());
-			//else
-			//	this.$accordion.find('img.ga-background, img.ga-background-opened').css('width', this.$panelsContainer.innerWidth());
+			// reset the list of panels that we are tracking
+			this.loadingPanels.length = 0;
 
 			// set the initial computedOpenedPanelWidth to the value defined in the options
 			this.computedOpenedPanelWidth = this.settings.openedPanelWidth;
 
-			// if the panels are set to open to their maximum width,
 			// parse maxComputedOpenedPanelWidth and set it to a pixel value
-			if (this.settings.openedPanelWidth == 'max') {
-				// set the initial maxComputedOpenedPanelWidth to the value defined in the options
-				this.maxComputedOpenedPanelWidth = this.settings.maxOpenedPanelWidth;
+			this.maxComputedOpenedPanelWidth = this.settings.maxOpenedPanelWidth;
 
-				if (typeof this.maxComputedOpenedPanelWidth == 'string') {
-					if (this.maxComputedOpenedPanelWidth.indexOf('%') != -1) {
-						this.maxComputedOpenedPanelWidth = this.totalWidth * (parseInt(this.maxComputedOpenedPanelWidth, 10)/ 100);
-					} else if (this.maxComputedOpenedPanelWidth.indexOf('px') != -1) {
-						this.maxComputedOpenedPanelWidth = parseInt(this.maxComputedOpenedPanelWidth, 10);
-					}
+			if (typeof this.maxComputedOpenedPanelWidth === 'string') {
+				if (this.maxComputedOpenedPanelWidth.indexOf('%') !== -1) {
+					this.maxComputedOpenedPanelWidth = this.totalWidth * (parseInt(this.maxComputedOpenedPanelWidth, 10)/ 100);
+				} else if (this.maxComputedOpenedPanelWidth.indexOf('px') !== -1) {
+					this.maxComputedOpenedPanelWidth = parseInt(this.maxComputedOpenedPanelWidth, 10);
 				}
 			}
 
 			// set the initial computedOpenedPanelHeight to the value defined in the options
 			this.computedOpenedPanelHeight = this.settings.openedPanelHeight;
 
-			// if the panels are set to open to their maximum height,
 			// parse maxComputedOpenedPanelHeight and set it to a pixel value
-			if (this.settings.openedPanelHeight == 'max') {
-				// set the initial maxComputedOpenedPanelHeight to the value defined in the options
-				this.maxComputedOpenedPanelHeight = this.settings.maxOpenedPanelHeight;
+			this.maxComputedOpenedPanelHeight = this.settings.maxOpenedPanelHeight;
 
-				if (typeof this.maxComputedOpenedPanelHeight == 'string') {
-					if (this.maxComputedOpenedPanelHeight.indexOf('%') != -1) {
-						this.maxComputedOpenedPanelHeight = this.totalHeight * (parseInt(this.maxComputedOpenedPanelHeight, 10)/ 100);
-					} else if (this.maxComputedOpenedPanelHeight.indexOf('px') != -1) {
-						this.maxComputedOpenedPanelHeight = parseInt(this.maxComputedOpenedPanelHeight, 10);
-					}
+			if (typeof this.maxComputedOpenedPanelHeight === 'string') {
+				if (this.maxComputedOpenedPanelHeight.indexOf('%') !== -1) {
+					this.maxComputedOpenedPanelHeight = this.totalHeight * (parseInt(this.maxComputedOpenedPanelHeight, 10)/ 100);
+				} else if (this.maxComputedOpenedPanelHeight.indexOf('px') !== -1) {
+					this.maxComputedOpenedPanelHeight = parseInt(this.maxComputedOpenedPanelHeight, 10);
 				}
 			}
 
 			// parse computedOpenedPanelWidth and set it to a pixel value
-			if (typeof this.computedOpenedPanelWidth == 'string') {
-				if (this.computedOpenedPanelWidth.indexOf('%') != -1) {
+			if (typeof this.computedOpenedPanelWidth === 'string') {
+				if (this.computedOpenedPanelWidth.indexOf('%') !== -1) {
 					this.computedOpenedPanelWidth = this.totalWidth * (parseInt(this.computedOpenedPanelWidth, 10)/ 100);
-				} else if (this.computedOpenedPanelWidth.indexOf('px') != -1) {
+				} else if (this.computedOpenedPanelWidth.indexOf('px') !== -1) {
 					this.computedOpenedPanelWidth = parseInt(this.computedOpenedPanelWidth, 10);
-				} else if (this.computedOpenedPanelWidth == 'max') {
-					this.computedOpenedPanelWidth = this.currentIndex == -1 ? this.totalWidth * 0.5 : this.getPanelAt(this.currentIndex).getContentSize();
+				} else if (this.computedOpenedPanelWidth === 'max') {
+					this.computedOpenedPanelWidth = this.currentIndex === -1 ? this.totalWidth * 0.5 : this.getPanelAt(this.currentIndex).getContentSize().width;
 					
-					if (this.computedOpenedPanelWidth == 'loading' || this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
+					if (this.computedOpenedPanelWidth === 'loading' || this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
 						this.computedOpenedPanelWidth = this.maxComputedOpenedPanelWidth;
 				}
 			}
 
 			// parse computedOpenedPanelHeight and set it to a pixel value
-			if (typeof this.computedOpenedPanelHeight == 'string') {
-				if (this.computedOpenedPanelHeight.indexOf('%') != -1) {
+			if (typeof this.computedOpenedPanelHeight === 'string') {
+				if (this.computedOpenedPanelHeight.indexOf('%') !== -1) {
 					this.computedOpenedPanelHeight = this.totalHeight * (parseInt(this.computedOpenedPanelHeight, 10)/ 100);
-				} else if (this.computedOpenedPanelHeight.indexOf('px') != -1) {
+				} else if (this.computedOpenedPanelHeight.indexOf('px') !== -1) {
 					this.computedOpenedPanelHeight = parseInt(this.computedOpenedPanelHeight, 10);
-				} else if (this.computedOpenedPanelHeight == 'max') {
-					this.computedOpenedPanelHeight = this.currentIndex == -1 ? this.totalHeight * 0.5 : this.getPanelAt(this.currentIndex).getContentSize();
+				} else if (this.computedOpenedPanelHeight === 'max') {
+					this.computedOpenedPanelHeight = this.currentIndex === -1 ? this.totalHeight * 0.5 : this.getPanelAt(this.currentIndex).getContentSize().height;
 					
-					if (this.computedOpenedPanelHeight == 'loading' || this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
+					if (this.computedOpenedPanelHeight === 'loading' || this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
 						this.computedOpenedPanelHeight = this.maxComputedOpenedPanelHeight;
 				}
 			}
+
+			// calculate the minimum width between the panels opened vertically and the minimum height between the panels opened horizontally
+			if (this.settings.openedPanelWidth === 'auto' || this.settings.openedPanelHeight === 'auto') {
+				var minSize = this._getMinSize(this._getFirstPanelFromPage(), this._getLastPanelFromPage()),
+					maxWidth = minSize.width,
+					maxHeight = minSize.height;
+					
+				if (this.settings.openedPanelWidth === 'auto') {
+					this.computedOpenedPanelWidth = maxWidth;
+				}
+				
+				if (this.settings.openedPanelHeight === 'auto') {
+					this.computedOpenedPanelHeight = maxHeight;
+				}
+			}
+
+			// adjust the maximum width and height of the images
+			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'max-width': this.maxComputedOpenedPanelWidth,'max-height': this.maxComputedOpenedPanelHeight});
 
 			// set the initial computedPanelDistance to the value defined in the options
 			this.computedPanelDistance = this.settings.panelDistance;
 
 			// parse computedPanelDistance and set it to a pixel value
-			if (typeof this.computedPanelDistance == 'string') {
-				if (this.computedPanelDistance.indexOf('%') != -1) {
+			if (typeof this.computedPanelDistance === 'string') {
+				if (this.computedPanelDistance.indexOf('%') !== -1) {
 					this.computedPanelDistance = this.totalWidth * (parseInt(this.computedPanelDistance, 10)/ 100);
-				} else if (this.computedPanelDistance.indexOf('px') != -1) {
+				} else if (this.computedPanelDistance.indexOf('px') !== -1) {
 					this.computedPanelDistance = parseInt(this.computedPanelDistance, 10);
 				}
 			}
@@ -477,7 +484,7 @@
 			var roundedWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1),
 				roundedHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
 
-			if (this.settings.responsiveMode == 'custom' || this.settings.responsive === false) {
+			if (this.settings.responsiveMode === 'custom' || this.settings.responsive === false) {
 				this.$accordion.css({'width': roundedWidth, 'height': roundedHeight});
 			} else {
 				this.$accordion.css({'width': roundedWidth * this.autoResponsiveRatio, 'height': roundedHeight * this.autoResponsiveRatio});
@@ -492,65 +499,94 @@
 				this.totalHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
 				
 				var cssObj = {},
-					targetPosition = - (this.totalWidth + this.computedPanelDistance) * this.currentPage;
-				
-				if (this.currentPage === this.getTotalPages() - 1)
-					targetPosition = - (this.closedPanelWidth * this.getTotalPanels() + this.computedPanelDistance * (this.getTotalPanels() - 1) - this.totalWidth);
+					targetPosition = - ((this.settings.orientation === 'horizontal' ? this.totalWidth : this.totalHeight) + this.computedPanelDistance) * this.currentPage;
 
 				cssObj[this.positionProperty] = targetPosition;
 				this.$panelsContainer.css(cssObj);
 			}
-			
+
 			// set the position and size of each panel
 			$.each(this.panels, function(index, element) {
 				var leftPosition, topPosition, width, height, horizontalIndex, verticalIndex;
 
-				if (that.settings.orientation == 'horizontal') {
+				// calculate the position of the panels
+				if (that.settings.orientation === 'horizontal') {
 					horizontalIndex = index % that.columns + (that.columns * Math.floor(index / (that.rows * that.columns)));
 					verticalIndex = Math.floor(index / that.columns) - (that.rows * Math.floor(index / (that.rows * that.columns)));
 
-					if (that.currentIndex === -1 || (that.currentIndex !== -1 ) && (Math.floor(index / (that.rows * that.columns)) !== that.currentPage)) {
-						leftPosition = horizontalIndex * (that.closedPanelWidth + that.computedPanelDistance);
-						topPosition = verticalIndex * (that.closedPanelHeight + that.computedPanelDistance);
-					} else {
+					if (that.currentIndex !== -1 && Math.floor(index / (that.rows * that.columns)) === that.currentPage) {
 						leftPosition = that.currentPage * (that.totalWidth + that.computedPanelDistance) +
-										(horizontalIndex - (that.currentPage * that.columns)) * (that.collapsedPanelWidth + that.computedPanelDistance) +
+										(horizontalIndex - (that.currentPage * (that.columns))) * (that.collapsedPanelWidth + that.computedPanelDistance) +
 										(index % that.columns > that.currentIndex % that.columns ? that.computedOpenedPanelWidth - that.collapsedPanelWidth : 0);
 						
 						topPosition = verticalIndex * (that.collapsedPanelHeight + that.computedPanelDistance) +
 										(Math.floor(index / that.columns) > Math.floor(that.currentIndex / that.columns) ? that.computedOpenedPanelHeight - that.collapsedPanelHeight : 0);
+					} else {
+						leftPosition = horizontalIndex * (that.closedPanelWidth + that.computedPanelDistance);
+						topPosition = verticalIndex * (that.closedPanelHeight + that.computedPanelDistance);
 					}
 				} else {
 					horizontalIndex = index % that.columns;
 					verticalIndex = Math.floor(index / that.columns);
 
-					if (that.currentIndex === -1 || (that.currentIndex !== -1 ) && (Math.floor(index / (that.rows * that.columns)) !== that.currentPage)) {
-						leftPosition = horizontalIndex * (that.closedPanelWidth + that.computedPanelDistance);
-						topPosition = verticalIndex * (that.closedPanelHeight + that.computedPanelDistance);
-					} else {
+					if (that.currentIndex !== -1 && (Math.floor(index / (that.rows * that.columns)) === that.currentPage)) {
 						leftPosition = horizontalIndex * (that.collapsedPanelWidth + that.computedPanelDistance) +
 										(index % that.columns > that.currentIndex % that.columns ? that.computedOpenedPanelWidth - that.collapsedPanelWidth : 0);
 
 						topPosition = that.currentPage * (that.totalHeight + that.computedPanelDistance) +
 										(verticalIndex - (that.currentPage * that.rows)) * (that.collapsedPanelHeight + that.computedPanelDistance) +
 										(Math.floor(index / that.columns) > Math.floor(that.currentIndex / that.columns) ? that.computedOpenedPanelHeight - that.collapsedPanelHeight : 0);
+					} else {
+						leftPosition = horizontalIndex * (that.closedPanelWidth + that.computedPanelDistance);
+						topPosition = verticalIndex * (that.closedPanelHeight + that.computedPanelDistance);
 					}
 				}
 
-				element.setPosition(leftPosition, topPosition);
-				
-				// get the size of the panel based on the state of the panel (opened, closed or collapsed)
+				// calculate the width and height of the panel
 				if (that.isOverlapping === false) {
-					if (that.currentIndex === -1 || (that.currentIndex !== -1 ) && (Math.floor(index / (that.rows * that.columns)) !== that.currentPage)) {
-						width = that.closedPanelWidth;
-						height = that.closedPanelHeight;
-					} else {
+					if (that.currentIndex !== -1 && Math.floor(index / (that.rows * that.columns)) === that.currentPage) {
 						width = index % that.columns === that.currentIndex % that.columns ? that.computedOpenedPanelWidth : that.collapsedPanelWidth;
 						height = Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns) ? that.computedOpenedPanelHeight : that.collapsedPanelHeight;
+					} else {
+						width = that.closedPanelWidth;
+						height = that.closedPanelHeight;
+					}
+				}
+
+				// if panels are set to open to their maximum width or height and the current panel
+				// should be opened horizontally or vertically, adjust its position and size,
+				// so that it's centered and doesn't open more than its size
+				if (Math.floor(index / (that.rows * that.columns)) === that.currentPage &&
+					(that.settings.openedPanelWidth === 'max' && index % that.columns === that.currentIndex % that.columns) ||
+					(that.settings.openedPanelHeight === 'max' && Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns))) {
+					
+					var contentSize = element.getContentSize();
+
+					if (index % that.columns === that.currentIndex % that.columns) {
+						if (contentSize.width === 'loading' && that.loadingPanels.indexOf(index) === -1) {
+							that.loadingPanels.push(index);
+						} else if (contentSize.width < that.computedOpenedPanelWidth) {
+							leftPosition += (that.computedOpenedPanelWidth - contentSize.width) / 2;
+							width = contentSize.width;
+						}
 					}
 
-					element.setSize(width, height);
+					if (Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns)) {
+						if (contentSize.height === 'loading' && that.loadingPanels.indexOf(index) === -1) {
+							that.loadingPanels.push(index);
+						} else if (contentSize.height < that.computedOpenedPanelHeight) {
+							topPosition += (that.computedOpenedPanelHeight - contentSize.height) / 2;
+							height = contentSize.height;
+						}
+					}
 				}
+
+				// set the position of the panel
+				element.setPosition(leftPosition, topPosition);
+
+				// set the size of the panel
+				if (that.isOverlapping === false)
+					element.setSize(width, height);
 			});
 
 			// check if the current window width is bigger than the biggest breakpoint
@@ -559,7 +595,7 @@
 			// for that breakpoint but only after merging them with the original settings
 			// in order to make sure that only the specified settings for the breakpoint are applied
 			if (this.settings.breakpoints !== null && this.breakpoints.length > 0) {
-				if ($(window).width() > this.breakpoints[this.breakpoints.length - 1].size && this.currentBreakpoint != -1) {
+				if ($(window).width() > this.breakpoints[this.breakpoints.length - 1].size && this.currentBreakpoint !== -1) {
 					this.currentBreakpoint = -1;
 					this._setProperties(this.originalSettings, false);
 				} else {
@@ -632,7 +668,7 @@
 				if (that.isPageScrolling === true)
 					return;
 
-				if (that.settings.openPanelOn == 'hover') {
+				if (that.settings.openPanelOn === 'hover') {
 					clearTimeout(that.mouseDelayTimer);
 
 					// open the panel, but only after a short delay in order to prevent
@@ -661,7 +697,7 @@
 
 			// listen for 'panelClick' events
 			panel.on('panelClick.' + NS, function(event) {
-				if (that.settings.openPanelOn == 'click') {
+				if (that.settings.openPanelOn === 'click') {
 					// open the panel if it's not already opened
 					// and close the panels if the clicked panel is opened
 					if (index !== this.currentIndex)
@@ -677,12 +713,17 @@
 			});
 
 			// listen for 'imagesComplete' events and if the images were loaded in
-			// the panel that is currently opened and the size of the panel is different
-			// than the currently computed size of the panel, force the re-opening of the panel
-			// to the correct size
+			// a panel that is tracked, remove that panel from the list of loading panels.
+			// if the list of loading panels remains empty, re-open the selected panel
+			// in order to arrange all panels properly 
 			panel.on('imagesComplete.' + NS, function(event) {
-				if (event.index === that.currentIndex && event.contentSize !== that.computedOpenedPanelWidth) {
-					that.openPanel(event.index, true);
+				var arrayIndex =  that.loadingPanels.indexOf(event.index);
+
+				if (arrayIndex !== -1) {
+					that.loadingPanels.splice(arrayIndex, 1);
+
+					if (that.loadingPanels.length === 0)
+						that.openPanel(that.currentIndex, true);
 				}
 			});
 		},
@@ -843,19 +884,16 @@
 			this.currentIndex = index;
 			
 			// synchronize the page with the selected panel by navigating to the page that
-			// contains the panel if necessary.
-			// if the last page is already selected and the selected panel is on this last page 
-			// don't navigate to a different page no matter what panel is selected and whether
-			// the panel actually belongs to the previous page
-			/*if (this.settings.columns != -1 && !(this.currentPage == this.getTotalPages() - 1 && index >= this.getTotalPanels() - this.settings.columns)) {
-				var page = Math.floor(this.currentIndex / this.settings.columns);
+			// contains the panel if necessary
+			if (this.settings.columns !== -1 && this.settings.rows !== -1) {
+				var page = Math.floor(this.currentIndex / (this.columns * this.rows));
 
 				if (page !== this.currentPage)
 					this.gotoPage(page);
 
 				// reset the current index because when the closePanels was called inside gotoPage the current index became -1
 				this.currentIndex = index;
-			}*/
+			}
 
 			var that = this,
 				targetLeft = [],
@@ -871,13 +909,16 @@
 				lastPanel = this._getLastPanelFromPage(),
 				counter = 0;
 
+			// reset the list of tracked loading panels
+			this.loadingPanels.length = 0;
+
 			this.$accordion.find('.ga-opened').removeClass('ga-opened');
 			this.$accordion.find('.ga-panel').eq(this.currentIndex).addClass('ga-opened');
 
-			// check if the panel needs to open to its maximum size and recalculate
-			// the size of the opened panel and the size of the collapsed panel
-			if (this.settings.openedPanelWidth == 'max') {
-				this.computedOpenedPanelWidth = this.getPanelAt(this.currentIndex).getContentSize();
+			// check if the panel needs to open to its maximum width and/or height, and recalculate
+			// the width and/or height of the opened panel and the size of the collapsed panel
+			if (this.settings.openedPanelWidth === 'max') {
+				this.computedOpenedPanelWidth = this.getPanelAt(this.currentIndex).getContentSize().width;
 
 				if (this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
 					this.computedOpenedPanelWidth = this.maxComputedOpenedPanelWidth;
@@ -885,15 +926,42 @@
 				this.collapsedPanelWidth = (this.totalWidth - this.computedOpenedPanelWidth - (this.columns - 1) * this.computedPanelDistance) / (this.columns - 1);
 			}
 
+			if (this.settings.openedPanelHeight === 'max') {
+				this.computedOpenedPanelHeight = this.getPanelAt(this.currentIndex).getContentSize().height;
+
+				if (this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
+					this.computedOpenedPanelHeight = this.maxComputedOpenedPanelHeight;
+
+				this.collapsedPanelHeight = (this.totalHeight - this.computedOpenedPanelHeight - (this.rows - 1) * this.computedPanelDistance) / (this.rows - 1);
+			}
+
+			// calculate the minimum width and height between the panels that need to open vertically, respectively horizontally
+			if (this.settings.openedPanelWidth === 'auto' || this.settings.openedPanelHeight === 'auto') {
+				var minSize = this._getMinSize(firstPanel, lastPanel),
+					maxWidth = minSize.width,
+					maxHeight = minSize.height;
+
+				if (this.settings.openedPanelWidth === 'auto') {
+					this.computedOpenedPanelWidth = maxWidth;
+					this.collapsedPanelWidth = (this.totalWidth - this.computedOpenedPanelWidth - (this.columns - 1) * this.computedPanelDistance) / (this.columns - 1);
+				}
+				
+				if (this.settings.openedPanelHeight === 'auto') {
+					this.computedOpenedPanelHeight = maxHeight;
+					this.collapsedPanelHeight = (this.totalHeight - this.computedOpenedPanelHeight - (this.rows - 1) * this.computedPanelDistance) / (this.rows - 1);
+				}
+			}
+			
 			// get the starting and target position and size of each panel
 			for (var i = firstPanel; i <= lastPanel; i++) {
 				var panel = this.getPanelAt(i),
-					position = panel.getPosition();
-				
+					position = panel.getPosition(),
+					contentSize = panel.getContentSize();
+
 				startLeft[i] = position.left;
 				startTop[i] = position.top;
 
-				if (this.settings.orientation == 'horizontal') {
+				if (this.settings.orientation === 'horizontal') {
 					targetLeft[i] = this.currentPage * (this.totalWidth + this.computedPanelDistance) +
 									(counter % this.columns) * (this.collapsedPanelWidth + this.computedPanelDistance) +
 									(i % this.columns > this.currentIndex % this.columns ? this.computedOpenedPanelWidth - this.collapsedPanelWidth : 0);
@@ -909,34 +977,45 @@
 									(Math.floor(i / this.columns) > Math.floor(this.currentIndex / this.columns) ? this.computedOpenedPanelHeight - this.collapsedPanelHeight : 0);
 				}
 
-				// the last page might contain less panels than the set number of columns.
-				// in this situation, the last page will contain some panels from the previous page
-				// and this requires the panels from the last page to be positioned differently than
-				// the rest of the panels. this requires some amendments to the position of the last panels
-				// by replacing the current page index with a float number: this.getTotalPanels() / this.settings.columns, 
-				// which would represent the actual number of existing pages.
-				// here we subtract the float number from the formal number of pages in order to calculate
-				// how much length it's necessary to subtract from the initially calculated value
-				
-				//if (this.settings.columns != -1 && this.currentPage == this.getTotalPages() - 1)
-				//	targetPosition[i] -= (this.getTotalPages() - this.getTotalPanels() / this.settings.columns) * (this.totalWidth + this.computedPanelDistance);
-
-				// check if the panel's position needs to change
-				if (targetLeft[i] !== startLeft[i] || targetTop[i] !== startTop[i])
-					animatedPanels.push(i);
-
 				if (this.isOverlapping === false) {
 					var size = panel.getSize();
+
 					startWidth[i] = size.width;
 					startHeight[i] = size.height;
 					
 					targetWidth[i] = i % this.columns === this.currentIndex % this.columns ? this.computedOpenedPanelWidth : this.collapsedPanelWidth;
 					targetHeight[i] = Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns) ? this.computedOpenedPanelHeight : this.collapsedPanelHeight;
-
-					// check if the panel's size needs to change
-					if ((targetWidth[i] !== startWidth[i] || targetHeight[i] !== startHeight[i]) && $.inArray(i, animatedPanels) == -1)
-						animatedPanels.push(i);
 				}
+
+				// adjust the left position and width of the vertically opened panels,
+				// if they are set to open to their maximum width
+				if (this.settings.openedPanelWidth === 'max' && i % this.columns === this.currentIndex % this.columns) {
+					if (contentSize.width === 'loading' && this.loadingPanels.indexOf(i) === -1) {
+						this.loadingPanels.push(i);
+					} else if (contentSize.width < this.computedOpenedPanelWidth) {
+						targetLeft[i] += (this.computedOpenedPanelWidth - contentSize.width) / 2;
+						targetWidth[i] = contentSize.width;
+					}
+				}
+
+				// adjust the top position and height of the horizontally opened panels,
+				// if they are set to open to their maximum height
+				if (this.settings.openedPanelHeight === 'max' && Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
+					if (contentSize.height === 'loading' && this.loadingPanels.indexOf(i) === -1) {
+						this.loadingPanels.push(i);
+					} else if (contentSize.height < this.computedOpenedPanelHeight) {
+						targetTop[i] += (this.computedOpenedPanelHeight - contentSize.height) / 2;
+						targetHeight[i] = contentSize.height;
+					}
+				}
+
+				// check if the panel's position needs to change
+				if (targetLeft[i] !== startLeft[i] || targetTop[i] !== startTop[i])
+					animatedPanels.push(i);
+
+				// check if the panel's size needs to change
+				if (this.isOverlapping === false && (targetWidth[i] !== startWidth[i] || targetHeight[i] !== startHeight[i]) && $.inArray(i, animatedPanels) === -1)
+					animatedPanels.push(i);
 
 				counter++;
 			}
@@ -1021,7 +1100,7 @@
 				startLeft[i] = position.left;
 				startTop[i] = position.top;
 
-				if (this.settings.orientation == 'horizontal') {
+				if (this.settings.orientation === 'horizontal') {
 					targetLeft[i] = this.currentPage * (this.totalWidth + this.computedPanelDistance) +
 									(counter % this.columns) * (this.closedPanelWidth + this.computedPanelDistance);
 					
@@ -1032,10 +1111,6 @@
 					targetTop[i] = this.currentPage * (this.totalHeight + this.computedPanelDistance) +
 									(Math.floor(counter / this.columns)) * (this.closedPanelHeight + this.computedPanelDistance);
 				}
-
-				// same calculations as in openPanel
-				//if (this.settings.columns != -1 && this.currentPage == this.getTotalPages() - 1)
-				//	targetPosition[i] -= (this.getTotalPages() - this.getTotalPanels() / this.settings.columns) * (this.totalWidth + this.computedPanelDistance);
 
 				if (this.isOverlapping === false) {
 					var size = panel.getSize();
@@ -1105,6 +1180,37 @@
 		},
 
 		/*
+			Calculate the minimum width on vertical and minimum height on horizontal
+			between the panels included in the specified interval
+		*/
+		_getMinSize: function(first, last) {
+			var maxWidth = this.maxComputedOpenedPanelWidth,
+				maxHeight = this.maxComputedOpenedPanelHeight;
+
+			// get the starting and target position and size of each panel
+			for (var i = first; i <= last; i++) {
+				var panel = this.getPanelAt(i),
+					contentSize = panel.getContentSize();
+
+				if (i % this.columns === this.currentIndex % this.columns) {
+					if (contentSize.width === 'loading' && this.loadingPanels.indexOf(i) === -1)
+						this.loadingPanels.push(i);
+					else if (contentSize.width < maxWidth)
+						maxWidth = contentSize.width;
+				}
+
+				if (Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
+					if (contentSize.height === 'loading' && this.loadingPanels.indexOf(i) === -1)
+						this.loadingPanels.push(i);
+					else if (contentSize.height < maxHeight)
+						maxHeight = contentSize.height;
+				}
+			}
+
+			return {width: maxWidth, height: maxHeight};
+		},
+
+		/*
 			Return the index of the currently opened panel
 		*/
 		getCurrentIndex: function() {
@@ -1126,24 +1232,10 @@
 		},
 
 		/*
-			Return the total number of columns
-		*/
-		getTotalColumns: function() {
-			return this.settings.orientation == 'horizontal' ? Math.ceil(this.getTotalPanels() / this.settings.rows) : this.settings.columns;
-		},
-
-		/*
-			Return the total number of rows
-		*/
-		getTotalRows: function() {
-			return this.settings.orientation == 'horizontal' ? this.settings.rows : Math.ceil(this.getTotalPanels() / this.settings.columns);
-		},
-
-		/*
 			Return the total number of pages
 		*/
 		getTotalPages: function() {
-			if (this.settings.columns == -1 || this.settings.rows == -1)
+			if (this.settings.columns === -1 || this.settings.rows === -1)
 				return 1;
 			
 			return Math.ceil(this.getTotalPanels() / (this.columns * this.rows));
@@ -1153,7 +1245,7 @@
 			Return the current page
 		*/
 		getCurrentPage: function() {
-			return this.settings.columns == -1 ? 0 : this.currentPage;
+			return this.settings.columns === -1 ? 0 : this.currentPage;
 		},
 
 		/*
@@ -1161,19 +1253,15 @@
 		*/
 		gotoPage: function(index) {
 			// close any opened panels before scrolling to a different page
-			if (this.currentIndex != -1)
+			if (this.currentIndex !== -1)
 				this.closePanels();
 
 			this.currentPage = index;
-
 			this.isPageScrolling = true;
 
 			var that = this,
 				animObj = {},
-				targetPosition = - (index * this.totalWidth + this.currentPage * this.computedPanelDistance);
-			
-			if (this.currentPage === this.getTotalPages() - 1)
-				targetPosition = - (this.totalPanelsWidth - this.totalWidth);
+				targetPosition = - (index * (this.settings.orientation === 'horizontal' ? this.totalWidth : this.totalHeight) + this.currentPage * this.computedPanelDistance);
 
 			animObj[this.positionProperty] = targetPosition;
 
@@ -1227,19 +1315,11 @@
 		_getLastPanelFromPage: function() {
 			if (this.getTotalPages() === 1) {
 				return this.getTotalPanels() - 1;
+			} else if (this.currentPage === this.getTotalPages() - 1) {
+				return this.getTotalPanels() - 1;
 			} else {
 				return (this.currentPage + 1) * (this.columns * this.rows) - 1;
 			}
-		},
-
-		/*
-			Return the page that the specified panel belongs to
-		*/
-		_getPageOfPanel: function(index) {
-			if (this.currentPage == this.getTotalPages() - 1 && index >= this.getTotalPanels() - this.settings.columns)
-				return this.getTotalPages() - 1;
-
-			return Math.floor(index / this.settings.columns);
 		},
 
 		/*
@@ -1302,10 +1382,13 @@
 		_setProperties: function(properties, store) {
 			// parse the properties passed as an object
 			for (var prop in properties) {
-				// if the number of columns is changed, store a reference of the previous value
+				// if the number of rows or columns is changed, store a reference of the previous value
 				// which will be used to move the panels to the corresponding page
-				if (prop == 'columns' && this.settings.columns != -1)
+				if (prop === 'columns' && this.settings.columns !== -1)
 					this.previousColumns = this.settings.columns;
+
+				if (prop === 'rows' && this.settings.rows !== -1)
+					this.previousRows = this.settings.rows;
 
 				this.settings[prop] = properties[prop];
 
@@ -1353,8 +1436,8 @@
 			columns: 4,
 			openedPanelWidth: 'max',
 			openedPanelHeight: 'max',
-			maxOpenedPanelWidth: '80%',
-			maxOpenedPanelHeight: '80%',
+			maxOpenedPanelWidth: '70%',
+			maxOpenedPanelHeight: '70%',
 			openPanelOn: 'hover',
 			closePanelsOnMouseOut: true,
 			mouseDelay: 200,
@@ -1366,7 +1449,7 @@
 			breakpoints: null,
 			startPage: 0,
 			shadow: true,
-			panelOverlap: true,
+			panelOverlap: false,
 			init: function() {},
 			update: function() {},
 			accordionMouseOver: function() {},
@@ -1448,8 +1531,8 @@
 		*/
 		update: function() {
 			// get the new position and size properties
-			this.positionProperty = this.settings.orientation == 'horizontal' ? 'left' : 'top';
-			this.sizeProperty = this.settings.orientation == 'horizontal' ? 'width' : 'height';
+			this.positionProperty = this.settings.orientation === 'horizontal' ? 'left' : 'top';
+			this.sizeProperty = this.settings.orientation === 'horizontal' ? 'width' : 'height';
 
 			// reset the current size and position
 			this.$panel.css({top: '', left: '', width: '', height: ''});
@@ -1532,35 +1615,34 @@
 			Get the real size of the panel's content
 		*/
 		getContentSize: function() {
-			var size,
+			var width,
+				height,
 				that = this;
 
 			// check if there are loading images
-			if (this.checkImagesComplete() == 'loading')
-				return 'loading';
+			if (this.checkImagesComplete() === 'loading')
+				return {width: 'loading', height: 'loading'};
 
 			if (this.settings.panelOverlap === false || parseInt(this.settings.panelDistance, 10) > 0) {
 				// get the current size of the inner content and then temporarily set the panel to a small size
 				// in order to accurately calculate the size of the inner content
-				var currentSize = this.$panel.css(this.sizeProperty);
-				this.$panel.css(this.sizeProperty, 10);
-				size = this.sizeProperty == 'width' ? this.$panel[0].scrollWidth : this.$panel[0].scrollHeight;
-				this.$panel.css(this.sizeProperty, currentSize);
+				var currentWidth = this.$panel.css('width'),
+					currentHeight = this.$panel.css('height');
+
+				this.$panel.css({'width': 10, 'height': 10});
+				width = this.$panel[0].scrollWidth;
+				height = this.$panel[0].scrollHeight;
+				this.$panel.css({'width': currentWidth, 'height': currentHeight});
 			} else {
 				// workaround for when scrollWidth and scrollHeight return incorrect values
 				// this happens in some browsers (Firefox and Opera a.t.m.) unless there is a set width and height for the element
-				if (this.sizeProperty == 'width') {
-					this.$panel.css({'width': '100px', 'overflow': 'hidden'});
-					size = this.$panel[0].scrollWidth;
-					this.$panel.css({'width': '', 'overflow': ''});
-				} else {
-					this.$panel.css({'height': '100px', 'overflow': 'hidden'});
-					size = this.$panel[0].scrollHeight;
-					this.$panel.css({'height': '', 'overflow': ''});
-				}
+				this.$panel.css({'width': '100px','height': '100px',  'overflow': 'hidden'});
+				width = this.$panel[0].scrollWidth;
+				height = this.$panel[0].scrollHeight;
+				this.$panel.css({'width': '', 'height': '', 'overflow': ''});
 			}
 
-			return size;
+			return {width: width, height: height};
 		},
 
 		/*
@@ -1579,7 +1661,7 @@
 			});
 
 			// continue checking until all images have loaded
-			if (status == 'loading') {
+			if (status === 'loading') {
 				var checkImage = setInterval(function() {
 					var isLoaded = true;
 
@@ -1701,7 +1783,7 @@
 
 			// store the index of the previously opened panel
 			this.on('panelsClose.Autoplay.' + NS, function(event) {
-				if (event.previousIndex != -1)
+				if (event.previousIndex !== -1)
 					that.autoplayIndex = event.previousIndex;
 			});
 
@@ -1712,7 +1794,7 @@
 
 			// on accordion hover stop the autoplay if autoplayOnHover is set to pause or stop
 			this.on('mouseenter.Autoplay.' + NS, function(event) {
-				if (that.settings.autoplay === true && that.isTimerRunning && (that.settings.autoplayOnHover == 'pause' || that.settings.autoplayOnHover == 'stop')) {
+				if (that.settings.autoplay === true && that.isTimerRunning && (that.settings.autoplayOnHover === 'pause' || that.settings.autoplayOnHover === 'stop')) {
 					that.stopAutoplay();
 					that.isTimerPaused = true;
 				}
@@ -1720,7 +1802,7 @@
 
 			// on accordion hover out restart the autoplay
 			this.on('mouseleave.Autoplay.' + NS, function(event) {
-				if (that.settings.autoplay === true && that.isTimerRunning === false && that.settings.autoplayOnHover != 'stop') {
+				if (that.settings.autoplay === true && that.isTimerRunning === false && that.settings.autoplayOnHover !== 'stop') {
 					that.startAutoplay();
 					that.isTimerPaused = false;
 				}
@@ -1738,9 +1820,9 @@
 					that.autoplayIndex = -1;
 				}
 
-				if (that.settings.autoplayDirection == 'normal') {
+				if (that.settings.autoplayDirection === 'normal') {
 					that.nextPanel();
-				} else if (that.settings.autoplayDirection == 'backwards') {
+				} else if (that.settings.autoplayDirection === 'backwards') {
 					that.previousPanel();
 				}
 			}, this.settings.autoplayDelay);
@@ -1814,7 +1896,7 @@
 					panelId = values.pop(),
 					accordionId = hash.slice(0, - panelId.toString().length - 1);
 
-				if (this.$accordion.attr('id') == accordionId)
+				if (this.$accordion.attr('id') === accordionId)
 					return {'accordionID': accordionId, 'panelId': panelId};
 			}
 
@@ -1835,7 +1917,7 @@
 				// get the index of the panel based on the specified id
 				var panelIndex = this.$accordion.find('.ga-panel#' + panelId).index();
 
-				if (panelIndex != -1)
+				if (panelIndex !== -1)
 					this.openPanel(panelIndex);
 			} else {
 				this.openPanel(panelIdNumber);
@@ -1920,7 +2002,7 @@
 						backgroundLink = $('<a href="' + panel.backgroundLink.address + '"></a>');
 
 						$.each(panel.backgroundLink, function(name, value) {
-							if (name != 'address')
+							if (name !== 'address')
 								backgroundLink.attr(name, value);
 						});
 
@@ -1941,7 +2023,7 @@
 							background.attr({'data-retina': panel.backgroundRetina.source});
 
 						$.each(panel.background, function(name, value) {
-							if (name != 'source')
+							if (name !== 'source')
 								background.attr(name, value);
 						});
 
@@ -1953,7 +2035,7 @@
 						backgroundOpenedLink = $('<a href="' + panel.backgroundOpenedLink.address + '"></a>');
 
 						$.each(panel.backgroundOpenedLink, function(name, value) {
-							if (name != 'address')
+							if (name !== 'address')
 								backgroundOpenedLink.attr(name, value);
 						});
 
@@ -1974,7 +2056,7 @@
 							backgroundOpened.attr({'data-retina': panel.backgroundOpenedRetina.source});
 
 						$.each(panel.backgroundOpened, function(name, value) {
-							if (name != 'source')
+							if (name !== 'source')
 								backgroundOpened.attr(name, value);
 						});
 
@@ -2002,13 +2084,13 @@
 				
 				// parse the data specified for the layer and extract the classes and data attributes
 				$.each(layer, function(name, value) {
-					if (name == 'style') {
+					if (name === 'style') {
 						var classList = value.split(' ');
 						
 						$.each(classList, function(classIndex, className) {
 							classes += ' ga-' + className;
 						});
-					} else if (name != 'content' && name != 'layers'){
+					} else if (name !== 'content' && name !== 'layers'){
 						dataAttributes += ' ' + that.JSONDataAttributesMap[name] + '="' + value + '"';
 					}
 				});
@@ -2027,7 +2109,7 @@
 		_loadJSON: function() {
 			var that = this;
 
-			if (this.settings.JSONSource.slice(-5) == '.json') {
+			if (this.settings.JSONSource.slice(-5) === '.json') {
 				$.getJSON(this.settings.JSONSource, function(result) {
 					that.trigger({type: 'JSONReady.' + NS, jsonData: result});
 				});
@@ -2174,10 +2256,10 @@
 		_handleLayersInOpenedState: function() {
 			// show 'opened' layers and close 'closed' layers
 			$.each(this.layers, function(index, layer) {
-				if (layer.visibleOn == 'opened')
+				if (layer.visibleOn === 'opened')
 					layer.show();
 
-				if (layer.visibleOn == 'closed')
+				if (layer.visibleOn === 'closed')
 					layer.hide();
 			});
 		},
@@ -2185,10 +2267,10 @@
 		_handleLayersInClosedState: function() {
 			// hide 'opened' layers and show 'closed' layers
 			$.each(this.layers, function(index, layer) {
-				if (layer.visibleOn == 'opened')
+				if (layer.visibleOn === 'opened')
 					layer.hide();
 
-				if (layer.visibleOn == 'closed')
+				if (layer.visibleOn === 'closed')
 					layer.show();
 			});
 		},
@@ -2258,8 +2340,8 @@
 				this.$layer.css('z-index', this.data.depth);
 
 			this.position = this.data.position ? (this.data.position).toLowerCase() : 'topleft';
-			this.horizontalPosition = this.position.indexOf('right') != -1 ? 'right' : 'left';
-			this.verticalPosition = this.position.indexOf('bottom') != -1 ? 'bottom' : 'top';
+			this.horizontalPosition = this.position.indexOf('right') !== -1 ? 'right' : 'left';
+			this.verticalPosition = this.position.indexOf('bottom') !== -1 ? 'bottom' : 'top';
 
 			this._setPosition();
 		},
@@ -2270,9 +2352,9 @@
 		_setPosition: function() {
 			// set the horizontal position of the layer based on the data set
 			if (typeof this.data.horizontal !== 'undefined') {
-				if (this.data.horizontal == 'center') {
+				if (this.data.horizontal === 'center') {
 					// prevent content wrapping while setting the width
-					if (this.$layer.attr('style').indexOf('width') == -1) {
+					if (this.$layer.attr('style').indexOf('width') === -1) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('width', this.$layer.outerWidth(true));
 					}
@@ -2287,9 +2369,9 @@
 
 			// set the vertical position of the layer based on the data set
 			if (typeof this.data.vertical !== 'undefined') {
-				if (this.data.vertical == 'center') {
+				if (this.data.vertical === 'center') {
 					// prevent content wrapping while setting the height
-					if (this.$layer.attr('style').indexOf('height') == -1) {
+					if (this.$layer.attr('style').indexOf('height') === -1) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('height', this.$layer.outerHeight(true));
 					}
@@ -2320,9 +2402,9 @@
 				duration = typeof this.data.showDuration !== 'undefined' ? this.data.showDuration / 1000 : 0.4,
 				delay = typeof this.data.showDelay !== 'undefined' ? this.data.showDelay : 10;
 
-			if (this.visibleOn == 'always' || browserName == 'msie' && parseInt(browserVersion, 10) <= 7) {
+			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
 				this.$layer.css('visibility', 'visible');
-			} else if (browserName == 'msie' && parseInt(browserVersion, 10) <= 9) {
+			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
 							.css({'opacity': 0, 'visibility': 'visible'})
@@ -2333,16 +2415,16 @@
 					},
 					transformValues = '';
 
-				if (this.data.showTransition == 'left')
+				if (this.data.showTransition === 'left')
 					transformValues = offset + 'px, 0';
-				else if (this.data.showTransition == 'right')
+				else if (this.data.showTransition === 'right')
 					transformValues = '-' + offset + 'px, 0';
-				else if (this.data.showTransition == 'up')
+				else if (this.data.showTransition === 'up')
 					transformValues = '0, ' + offset + 'px';
-				else if (this.data.showTransition == 'down')
+				else if (this.data.showTransition === 'down')
 					transformValues = '0, -' + offset + 'px';
 
-				start.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				start.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
 
 				var target = {
 					'opacity': 1,
@@ -2350,7 +2432,7 @@
 				};
 
 				if (typeof this.data.showTransition !== 'undefined')
-					target.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(0, 0, 0)' : 'translate(0, 0)';
+					target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(0, 0, 0)' : 'translate(0, 0)';
 
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
@@ -2383,9 +2465,9 @@
 				duration = typeof this.data.hideDuration !== 'undefined' ? this.data.hideDuration / 1000 : 0.4,
 				delay = typeof this.data.hideDelay !== 'undefined' ? this.data.hideDelay : 10;
 
-			if (this.visibleOn == 'always' || browserName == 'msie' && parseInt(browserVersion, 10) <= 7) {
+			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
 				this.$layer.css('visibility', 'hidden');
-			} else if (browserName == 'msie' && parseInt(browserVersion, 10) <= 9) {
+			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
 							.animate({'opacity': 0}, duration * 1000, function() {
@@ -2398,16 +2480,16 @@
 					},
 					transformValues = '';
 
-				if (this.data.hideTransition == 'left')
+				if (this.data.hideTransition === 'left')
 					transformValues = '-' + offset + 'px, 0';
-				else if (this.data.hideTransition == 'right')
+				else if (this.data.hideTransition === 'right')
 					transformValues = offset + 'px, 0';
-				else if (this.data.hideTransition == 'up')
+				else if (this.data.hideTransition === 'up')
 					transformValues = '0, -' + offset + 'px';
-				else if (this.data.hideTransition == 'down')
+				else if (this.data.hideTransition === 'down')
 					transformValues = '0, ' + offset + 'px';
 
-				target.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
 				
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
@@ -2459,7 +2541,7 @@
 				this.transforms = '3d';
 
 			// additional checks for Webkit
-			if (this.transforms == '3d' && typeof div.styleWebkitPerspective !== 'undefined') {
+			if (this.transforms === '3d' && typeof div.styleWebkitPerspective !== 'undefined') {
 				var style = document.createElement('style');
 				style.textContent = '@media (transform-3d),(-webkit-transform-3d){#test-3d{left:9px;position:absolute;height:5px;margin:0;padding:0;border:0;}}';
 				document.getElementsByTagName('head')[0].appendChild(style);
@@ -2558,7 +2640,7 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize != 'loading') {
+				if (newSize !== 'loading') {
 					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex(), contentSize: newSize});
 				}
 			}
@@ -2627,12 +2709,12 @@
 				// but don't allow the scroll if another scroll is in progress
 				if (that.isPageScrolling === false) {
 					if (delta <= -that.settings.mouseWheelSensitivity)
-						if (that.settings.mouseWheelTarget == 'page')
+						if (that.settings.mouseWheelTarget === 'page')
 							that.nextPage();
 						else
 							that.nextPanel();
 					else if (delta >= that.settings.mouseWheelSensitivity)
-						if (that.settings.mouseWheelTarget == 'page')
+						if (that.settings.mouseWheelTarget === 'page')
 							that.previousPage();
 						else
 							that.previousPanel();
@@ -2758,7 +2840,7 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize != 'loading') {
+				if (newSize !== 'loading') {
 					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex(), contentSize: newSize});
 				}
 			}
@@ -2806,7 +2888,7 @@
 				video.videoController();
 
 				video.on('videoPlay.SmartVideo', function() {
-					if (that.settings.playVideoAction == 'stopAutoplay' && typeof that.stopAutoplay !== 'undefined') {
+					if (that.settings.playVideoAction === 'stopAutoplay' && typeof that.stopAutoplay !== 'undefined') {
 						that.stopAutoplay();
 						that.settings.autoplay = false;
 					}
@@ -2818,7 +2900,7 @@
 				});
 
 				video.on('videoPause.SmartVideo', function() {
-					if (that.settings.pauseVideoAction == 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
+					if (that.settings.pauseVideoAction === 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
 						that.startAutoplay();
 						that.settings.autoplay = true;
 					}
@@ -2830,12 +2912,12 @@
 				});
 
 				video.on('videoEnded.SmartVideo', function() {
-					if (that.settings.endVideoAction == 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
+					if (that.settings.endVideoAction === 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
 						that.startAutoplay();
 						that.settings.autoplay = true;
-					} else if (that.settings.endVideoAction == 'nextPanel') {
+					} else if (that.settings.endVideoAction === 'nextPanel') {
 						that.nextPanel();
-					} else if (that.settings.endVideoAction == 'replayVideo') {
+					} else if (that.settings.endVideoAction === 'replayVideo') {
 						video.videoController('replay');
 					}
 
@@ -2850,12 +2932,12 @@
 			// with the opening an closing of individual panels
 			this.on('panelOpen.SmartVideo.' + NS, function(event) {
 				// handle the video from the closed panel
-				if (event.previousIndex != -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
+				if (event.previousIndex !== -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
 					var previousVideo = that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video');
 
-					if (that.settings.closePanelVideoAction == 'stopVideo')
+					if (that.settings.closePanelVideoAction === 'stopVideo')
 						previousVideo.videoController('stop');
-					else if (that.settings.closePanelVideoAction == 'pauseVideo')
+					else if (that.settings.closePanelVideoAction === 'pauseVideo')
 						previousVideo.videoController('pause');
 				}
 
@@ -2863,7 +2945,7 @@
 				if (that.$panelsContainer.find('.ga-panel').eq(event.index).find('.ga-video').length !== 0) {
 					var currentVideo = that.$panelsContainer.find('.ga-panel').eq(event.index).find('.ga-video');
 
-					if (that.settings.openPanelVideoAction == 'playVideo')
+					if (that.settings.openPanelVideoAction === 'playVideo')
 						currentVideo.videoController('play');
 				}
 			});
@@ -2872,12 +2954,12 @@
 			// previously opened panel and handle it
 			this.on('panelsClose.SmartVideo.' + NS, function(event) {
 				// handle the video from the closed panel
-				if (event.previousIndex != -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
+				if (event.previousIndex !== -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
 					var previousVideo = that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video');
 
-					if (that.settings.closePanelVideoAction == 'stopVideo')
+					if (that.settings.closePanelVideoAction === 'stopVideo')
 						previousVideo.videoController('stop');
-					else if (that.settings.closePanelVideoAction == 'pauseVideo')
+					else if (that.settings.closePanelVideoAction === 'pauseVideo')
 						previousVideo.videoController('pause');
 				}
 			});
@@ -3654,7 +3736,7 @@
 						that._fadeOutBackground(background);
 				}
 
-				if (event.previousIndex != -1) {
+				if (event.previousIndex !== -1) {
 					// get the previously opened panel
 					var previousPanel = that.getPanelAt(event.previousIndex),
 						previousBackground = previousPanel.$panel.find('.ga-background'),
@@ -3671,7 +3753,7 @@
 			});
 
 			this.on('panelsClose.SwapBackground.' + NS, function(event) {
-				if (event.previousIndex == -1)
+				if (event.previousIndex === -1)
 					return;
 
 				// get the previously opened panel
@@ -3803,7 +3885,7 @@
 
 		_onTouchStart: function(event) {
 			// disable dragging if the element is set to allow selections
-			if ($(event.target).closest('.selectable').length >= 1 || (this.isTouchSupport === false && this.getTotalPages() == 1))
+			if ($(event.target).closest('.selectable').length >= 1 || (this.isTouchSupport === false && this.getTotalPages() === 1))
 				return;
 
 			// prevent default behavior only for mouse events
@@ -3850,8 +3932,8 @@
 			this.touchDistance.x = this.touchEndPoint.x - this.touchStartPoint.x;
 			this.touchDistance.y = this.touchEndPoint.y - this.touchStartPoint.y;
 			
-			var distance = this.settings.orientation == 'horizontal' ? this.touchDistance.x : this.touchDistance.y,
-				oppositeDistance = this.settings.orientation == 'horizontal' ? this.touchDistance.y : this.touchDistance.x;
+			var distance = this.settings.orientation === 'horizontal' ? this.touchDistance.x : this.touchDistance.y,
+				oppositeDistance = this.settings.orientation === 'horizontal' ? this.touchDistance.y : this.touchDistance.x;
 
 			if (Math.abs(distance) > Math.abs(oppositeDistance))
 				event.preventDefault();
@@ -3914,7 +3996,7 @@
 			noScrollAnimObj[this.positionProperty] = this.touchStartPosition;
 
 			// set the accordion's page based on the distance of the movement and the accordion's settings
-			if (this.settings.orientation == 'horizontal') {
+			if (this.settings.orientation === 'horizontal') {
 				if (this.touchDistance.x > this.settings.touchSwipeThreshold) {
 					if (this.currentPage > 0) {
 						this.previousPage();
@@ -3930,7 +4012,7 @@
 				} else if (Math.abs(this.touchDistance.x) < this.settings.touchSwipeThreshold) {
 					this.$panelsContainer.stop().animate(noScrollAnimObj, 300);
 				}
-			} else if (this.settings.orientation == 'vertical') {
+			} else if (this.settings.orientation === 'vertical') {
 				if (this.touchDistance.y > this.settings.touchSwipeThreshold) {
 					if (this.currentPage > 0) {
 						this.previousPage();
@@ -4117,7 +4199,7 @@
 
 							// parse the attributes specified for the layer and extract the classes and data attributes
 							$.each(xmlLayerItem[0].attributes, function(attributeIndex, attribute) {
-								if (attribute.nodeName == 'style') {
+								if (attribute.nodeName === 'style') {
 									var classList = attribute.nodeValue.split(' ');
 									
 									$.each(classList, function(classIndex, className) {
@@ -4163,14 +4245,14 @@
 		_loadXML: function() {
 			var that = this;
 
-			if (this.settings.XMLSource.slice(-4) == '.xml') {
+			if (this.settings.XMLSource.slice(-4) === '.xml') {
 				$.ajax({type: 'GET',
 						url: this.settings.XMLSource,
-						dataType:  browserName == 'msie' ? 'text' : 'xml',
+						dataType:  browserName === 'msie' ? 'text' : 'xml',
 						success: function(result) {
 							var xmlData;
 							
-							if (browserName == 'msie') {
+							if (browserName === 'msie') {
 								xmlData = new ActiveXObject('Microsoft.XMLDOM');
 								xmlData.async = false;
 								xmlData.loadXML(result);
