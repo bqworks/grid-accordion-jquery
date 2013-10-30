@@ -62,10 +62,10 @@
 		_handleLayersInOpenedState: function() {
 			// show 'opened' layers and close 'closed' layers
 			$.each(this.layers, function(index, layer) {
-				if (layer.visibleOn == 'opened')
+				if (layer.visibleOn === 'opened')
 					layer.show();
 
-				if (layer.visibleOn == 'closed')
+				if (layer.visibleOn === 'closed')
 					layer.hide();
 			});
 		},
@@ -73,10 +73,10 @@
 		_handleLayersInClosedState: function() {
 			// hide 'opened' layers and show 'closed' layers
 			$.each(this.layers, function(index, layer) {
-				if (layer.visibleOn == 'opened')
+				if (layer.visibleOn === 'opened')
 					layer.hide();
 
-				if (layer.visibleOn == 'closed')
+				if (layer.visibleOn === 'closed')
 					layer.show();
 			});
 		},
@@ -146,8 +146,8 @@
 				this.$layer.css('z-index', this.data.depth);
 
 			this.position = this.data.position ? (this.data.position).toLowerCase() : 'topleft';
-			this.horizontalPosition = this.position.indexOf('right') != -1 ? 'right' : 'left';
-			this.verticalPosition = this.position.indexOf('bottom') != -1 ? 'bottom' : 'top';
+			this.horizontalPosition = this.position.indexOf('right') !== -1 ? 'right' : 'left';
+			this.verticalPosition = this.position.indexOf('bottom') !== -1 ? 'bottom' : 'top';
 
 			this._setPosition();
 		},
@@ -158,9 +158,9 @@
 		_setPosition: function() {
 			// set the horizontal position of the layer based on the data set
 			if (typeof this.data.horizontal !== 'undefined') {
-				if (this.data.horizontal == 'center') {
+				if (this.data.horizontal === 'center') {
 					// prevent content wrapping while setting the width
-					if (this.$layer.attr('style').indexOf('width') == -1) {
+					if (this.$layer.attr('style').indexOf('width') === -1) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('width', this.$layer.outerWidth(true));
 					}
@@ -175,9 +175,9 @@
 
 			// set the vertical position of the layer based on the data set
 			if (typeof this.data.vertical !== 'undefined') {
-				if (this.data.vertical == 'center') {
+				if (this.data.vertical === 'center') {
 					// prevent content wrapping while setting the height
-					if (this.$layer.attr('style').indexOf('height') == -1) {
+					if (this.$layer.attr('style').indexOf('height') === -1) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('height', this.$layer.outerHeight(true));
 					}
@@ -208,9 +208,9 @@
 				duration = typeof this.data.showDuration !== 'undefined' ? this.data.showDuration / 1000 : 0.4,
 				delay = typeof this.data.showDelay !== 'undefined' ? this.data.showDelay : 10;
 
-			if (this.visibleOn == 'always' || browserName == 'msie' && parseInt(browserVersion, 10) <= 7) {
+			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
 				this.$layer.css('visibility', 'visible');
-			} else if (browserName == 'msie' && parseInt(browserVersion, 10) <= 9) {
+			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
 							.css({'opacity': 0, 'visibility': 'visible'})
@@ -221,16 +221,16 @@
 					},
 					transformValues = '';
 
-				if (this.data.showTransition == 'left')
+				if (this.data.showTransition === 'left')
 					transformValues = offset + 'px, 0';
-				else if (this.data.showTransition == 'right')
+				else if (this.data.showTransition === 'right')
 					transformValues = '-' + offset + 'px, 0';
-				else if (this.data.showTransition == 'up')
+				else if (this.data.showTransition === 'up')
 					transformValues = '0, ' + offset + 'px';
-				else if (this.data.showTransition == 'down')
+				else if (this.data.showTransition === 'down')
 					transformValues = '0, -' + offset + 'px';
 
-				start.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				start.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
 
 				var target = {
 					'opacity': 1,
@@ -238,7 +238,7 @@
 				};
 
 				if (typeof this.data.showTransition !== 'undefined')
-					target.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(0, 0, 0)' : 'translate(0, 0)';
+					target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(0, 0, 0)' : 'translate(0, 0)';
 
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
@@ -271,9 +271,9 @@
 				duration = typeof this.data.hideDuration !== 'undefined' ? this.data.hideDuration / 1000 : 0.4,
 				delay = typeof this.data.hideDelay !== 'undefined' ? this.data.hideDelay : 10;
 
-			if (this.visibleOn == 'always' || browserName == 'msie' && parseInt(browserVersion, 10) <= 7) {
+			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
 				this.$layer.css('visibility', 'hidden');
-			} else if (browserName == 'msie' && parseInt(browserVersion, 10) <= 9) {
+			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
 							.animate({'opacity': 0}, duration * 1000, function() {
@@ -286,16 +286,16 @@
 					},
 					transformValues = '';
 
-				if (this.data.hideTransition == 'left')
+				if (this.data.hideTransition === 'left')
 					transformValues = '-' + offset + 'px, 0';
-				else if (this.data.hideTransition == 'right')
+				else if (this.data.hideTransition === 'right')
 					transformValues = offset + 'px, 0';
-				else if (this.data.hideTransition == 'up')
+				else if (this.data.hideTransition === 'up')
 					transformValues = '0, -' + offset + 'px';
-				else if (this.data.hideTransition == 'down')
+				else if (this.data.hideTransition === 'down')
 					transformValues = '0, ' + offset + 'px';
 
-				target.transform = LayersHelper.useTransforms() == '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
 				
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
@@ -347,7 +347,7 @@
 				this.transforms = '3d';
 
 			// additional checks for Webkit
-			if (this.transforms == '3d' && typeof div.styleWebkitPerspective !== 'undefined') {
+			if (this.transforms === '3d' && typeof div.styleWebkitPerspective !== 'undefined') {
 				var style = document.createElement('style');
 				style.textContent = '@media (transform-3d),(-webkit-transform-3d){#test-3d{left:9px;position:absolute;height:5px;margin:0;padding:0;border:0;}}';
 				document.getElementsByTagName('head')[0].appendChild(style);

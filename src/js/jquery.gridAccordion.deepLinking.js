@@ -39,7 +39,7 @@
 					panelId = values.pop(),
 					accordionId = hash.slice(0, - panelId.toString().length - 1);
 
-				if (this.$accordion.attr('id') == accordionId)
+				if (this.$accordion.attr('id') === accordionId)
 					return {'accordionID': accordionId, 'panelId': panelId};
 			}
 
@@ -60,7 +60,7 @@
 				// get the index of the panel based on the specified id
 				var panelIndex = this.$accordion.find('.ga-panel#' + panelId).index();
 
-				if (panelIndex != -1)
+				if (panelIndex !== -1)
 					this.openPanel(panelIndex);
 			} else {
 				this.openPanel(panelIdNumber);

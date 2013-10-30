@@ -145,7 +145,7 @@
 
 							// parse the attributes specified for the layer and extract the classes and data attributes
 							$.each(xmlLayerItem[0].attributes, function(attributeIndex, attribute) {
-								if (attribute.nodeName == 'style') {
+								if (attribute.nodeName === 'style') {
 									var classList = attribute.nodeValue.split(' ');
 									
 									$.each(classList, function(classIndex, className) {
@@ -191,14 +191,14 @@
 		_loadXML: function() {
 			var that = this;
 
-			if (this.settings.XMLSource.slice(-4) == '.xml') {
+			if (this.settings.XMLSource.slice(-4) === '.xml') {
 				$.ajax({type: 'GET',
 						url: this.settings.XMLSource,
-						dataType:  browserName == 'msie' ? 'text' : 'xml',
+						dataType:  browserName === 'msie' ? 'text' : 'xml',
 						success: function(result) {
 							var xmlData;
 							
-							if (browserName == 'msie') {
+							if (browserName === 'msie') {
 								xmlData = new ActiveXObject('Microsoft.XMLDOM');
 								xmlData.async = false;
 								xmlData.loadXML(result);

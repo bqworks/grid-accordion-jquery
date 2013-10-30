@@ -31,7 +31,7 @@
 				video.videoController();
 
 				video.on('videoPlay.SmartVideo', function() {
-					if (that.settings.playVideoAction == 'stopAutoplay' && typeof that.stopAutoplay !== 'undefined') {
+					if (that.settings.playVideoAction === 'stopAutoplay' && typeof that.stopAutoplay !== 'undefined') {
 						that.stopAutoplay();
 						that.settings.autoplay = false;
 					}
@@ -43,7 +43,7 @@
 				});
 
 				video.on('videoPause.SmartVideo', function() {
-					if (that.settings.pauseVideoAction == 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
+					if (that.settings.pauseVideoAction === 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
 						that.startAutoplay();
 						that.settings.autoplay = true;
 					}
@@ -55,12 +55,12 @@
 				});
 
 				video.on('videoEnded.SmartVideo', function() {
-					if (that.settings.endVideoAction == 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
+					if (that.settings.endVideoAction === 'startAutoplay' && typeof that.startAutoplay !== 'undefined') {
 						that.startAutoplay();
 						that.settings.autoplay = true;
-					} else if (that.settings.endVideoAction == 'nextPanel') {
+					} else if (that.settings.endVideoAction === 'nextPanel') {
 						that.nextPanel();
-					} else if (that.settings.endVideoAction == 'replayVideo') {
+					} else if (that.settings.endVideoAction === 'replayVideo') {
 						video.videoController('replay');
 					}
 
@@ -75,12 +75,12 @@
 			// with the opening an closing of individual panels
 			this.on('panelOpen.SmartVideo.' + NS, function(event) {
 				// handle the video from the closed panel
-				if (event.previousIndex != -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
+				if (event.previousIndex !== -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
 					var previousVideo = that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video');
 
-					if (that.settings.closePanelVideoAction == 'stopVideo')
+					if (that.settings.closePanelVideoAction === 'stopVideo')
 						previousVideo.videoController('stop');
-					else if (that.settings.closePanelVideoAction == 'pauseVideo')
+					else if (that.settings.closePanelVideoAction === 'pauseVideo')
 						previousVideo.videoController('pause');
 				}
 
@@ -88,7 +88,7 @@
 				if (that.$panelsContainer.find('.ga-panel').eq(event.index).find('.ga-video').length !== 0) {
 					var currentVideo = that.$panelsContainer.find('.ga-panel').eq(event.index).find('.ga-video');
 
-					if (that.settings.openPanelVideoAction == 'playVideo')
+					if (that.settings.openPanelVideoAction === 'playVideo')
 						currentVideo.videoController('play');
 				}
 			});
@@ -97,12 +97,12 @@
 			// previously opened panel and handle it
 			this.on('panelsClose.SmartVideo.' + NS, function(event) {
 				// handle the video from the closed panel
-				if (event.previousIndex != -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
+				if (event.previousIndex !== -1 && that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video').length !== 0) {
 					var previousVideo = that.$panelsContainer.find('.ga-panel').eq(event.previousIndex).find('.ga-video');
 
-					if (that.settings.closePanelVideoAction == 'stopVideo')
+					if (that.settings.closePanelVideoAction === 'stopVideo')
 						previousVideo.videoController('stop');
-					else if (that.settings.closePanelVideoAction == 'pauseVideo')
+					else if (that.settings.closePanelVideoAction === 'pauseVideo')
 						previousVideo.videoController('pause');
 				}
 			});

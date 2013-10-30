@@ -66,7 +66,7 @@
 						backgroundLink = $('<a href="' + panel.backgroundLink.address + '"></a>');
 
 						$.each(panel.backgroundLink, function(name, value) {
-							if (name != 'address')
+							if (name !== 'address')
 								backgroundLink.attr(name, value);
 						});
 
@@ -87,7 +87,7 @@
 							background.attr({'data-retina': panel.backgroundRetina.source});
 
 						$.each(panel.background, function(name, value) {
-							if (name != 'source')
+							if (name !== 'source')
 								background.attr(name, value);
 						});
 
@@ -99,7 +99,7 @@
 						backgroundOpenedLink = $('<a href="' + panel.backgroundOpenedLink.address + '"></a>');
 
 						$.each(panel.backgroundOpenedLink, function(name, value) {
-							if (name != 'address')
+							if (name !== 'address')
 								backgroundOpenedLink.attr(name, value);
 						});
 
@@ -120,7 +120,7 @@
 							backgroundOpened.attr({'data-retina': panel.backgroundOpenedRetina.source});
 
 						$.each(panel.backgroundOpened, function(name, value) {
-							if (name != 'source')
+							if (name !== 'source')
 								backgroundOpened.attr(name, value);
 						});
 
@@ -148,13 +148,13 @@
 				
 				// parse the data specified for the layer and extract the classes and data attributes
 				$.each(layer, function(name, value) {
-					if (name == 'style') {
+					if (name === 'style') {
 						var classList = value.split(' ');
 						
 						$.each(classList, function(classIndex, className) {
 							classes += ' ga-' + className;
 						});
-					} else if (name != 'content' && name != 'layers'){
+					} else if (name !== 'content' && name !== 'layers'){
 						dataAttributes += ' ' + that.JSONDataAttributesMap[name] + '="' + value + '"';
 					}
 				});
@@ -173,7 +173,7 @@
 		_loadJSON: function() {
 			var that = this;
 
-			if (this.settings.JSONSource.slice(-5) == '.json') {
+			if (this.settings.JSONSource.slice(-5) === '.json') {
 				$.getJSON(this.settings.JSONSource, function(result) {
 					that.trigger({type: 'JSONReady.' + NS, jsonData: result});
 				});

@@ -51,12 +51,12 @@
 				// but don't allow the scroll if another scroll is in progress
 				if (that.isPageScrolling === false) {
 					if (delta <= -that.settings.mouseWheelSensitivity)
-						if (that.settings.mouseWheelTarget == 'page')
+						if (that.settings.mouseWheelTarget === 'page')
 							that.nextPage();
 						else
 							that.nextPanel();
 					else if (delta >= that.settings.mouseWheelSensitivity)
-						if (that.settings.mouseWheelTarget == 'page')
+						if (that.settings.mouseWheelTarget === 'page')
 							that.previousPage();
 						else
 							that.previousPanel();

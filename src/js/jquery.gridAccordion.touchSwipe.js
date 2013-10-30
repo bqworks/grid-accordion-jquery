@@ -59,7 +59,7 @@
 
 		_onTouchStart: function(event) {
 			// disable dragging if the element is set to allow selections
-			if ($(event.target).closest('.selectable').length >= 1 || (this.isTouchSupport === false && this.getTotalPages() == 1))
+			if ($(event.target).closest('.selectable').length >= 1 || (this.isTouchSupport === false && this.getTotalPages() === 1))
 				return;
 
 			// prevent default behavior only for mouse events
@@ -106,8 +106,8 @@
 			this.touchDistance.x = this.touchEndPoint.x - this.touchStartPoint.x;
 			this.touchDistance.y = this.touchEndPoint.y - this.touchStartPoint.y;
 			
-			var distance = this.settings.orientation == 'horizontal' ? this.touchDistance.x : this.touchDistance.y,
-				oppositeDistance = this.settings.orientation == 'horizontal' ? this.touchDistance.y : this.touchDistance.x;
+			var distance = this.settings.orientation === 'horizontal' ? this.touchDistance.x : this.touchDistance.y,
+				oppositeDistance = this.settings.orientation === 'horizontal' ? this.touchDistance.y : this.touchDistance.x;
 
 			if (Math.abs(distance) > Math.abs(oppositeDistance))
 				event.preventDefault();
@@ -170,7 +170,7 @@
 			noScrollAnimObj[this.positionProperty] = this.touchStartPosition;
 
 			// set the accordion's page based on the distance of the movement and the accordion's settings
-			if (this.settings.orientation == 'horizontal') {
+			if (this.settings.orientation === 'horizontal') {
 				if (this.touchDistance.x > this.settings.touchSwipeThreshold) {
 					if (this.currentPage > 0) {
 						this.previousPage();
@@ -186,7 +186,7 @@
 				} else if (Math.abs(this.touchDistance.x) < this.settings.touchSwipeThreshold) {
 					this.$panelsContainer.stop().animate(noScrollAnimObj, 300);
 				}
-			} else if (this.settings.orientation == 'vertical') {
+			} else if (this.settings.orientation === 'vertical') {
 				if (this.touchDistance.y > this.settings.touchSwipeThreshold) {
 					if (this.currentPage > 0) {
 						this.previousPage();

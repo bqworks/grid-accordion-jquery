@@ -43,7 +43,7 @@
 
 			// store the index of the previously opened panel
 			this.on('panelsClose.Autoplay.' + NS, function(event) {
-				if (event.previousIndex != -1)
+				if (event.previousIndex !== -1)
 					that.autoplayIndex = event.previousIndex;
 			});
 
@@ -54,7 +54,7 @@
 
 			// on accordion hover stop the autoplay if autoplayOnHover is set to pause or stop
 			this.on('mouseenter.Autoplay.' + NS, function(event) {
-				if (that.settings.autoplay === true && that.isTimerRunning && (that.settings.autoplayOnHover == 'pause' || that.settings.autoplayOnHover == 'stop')) {
+				if (that.settings.autoplay === true && that.isTimerRunning && (that.settings.autoplayOnHover === 'pause' || that.settings.autoplayOnHover === 'stop')) {
 					that.stopAutoplay();
 					that.isTimerPaused = true;
 				}
@@ -62,7 +62,7 @@
 
 			// on accordion hover out restart the autoplay
 			this.on('mouseleave.Autoplay.' + NS, function(event) {
-				if (that.settings.autoplay === true && that.isTimerRunning === false && that.settings.autoplayOnHover != 'stop') {
+				if (that.settings.autoplay === true && that.isTimerRunning === false && that.settings.autoplayOnHover !== 'stop') {
 					that.startAutoplay();
 					that.isTimerPaused = false;
 				}
@@ -80,9 +80,9 @@
 					that.autoplayIndex = -1;
 				}
 
-				if (that.settings.autoplayDirection == 'normal') {
+				if (that.settings.autoplayDirection === 'normal') {
 					that.nextPanel();
-				} else if (that.settings.autoplayDirection == 'backwards') {
+				} else if (that.settings.autoplayDirection === 'backwards') {
 					that.previousPanel();
 				}
 			}, this.settings.autoplayDelay);
