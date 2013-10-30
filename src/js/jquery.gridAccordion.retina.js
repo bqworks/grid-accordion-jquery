@@ -12,8 +12,6 @@
 	var Retina = {
 
 		initRetina: function() {
-			var that = this;
-
 			$.extend(this.settings, this.retinaDefaults, this.options);
 
 			// check if the current display supports high PPI
@@ -25,18 +23,7 @@
 			if (typeof this._loadImage !== 'undefined') {
 				this._loadImage = this._loadRetinaImage;
 			} else {
-				$.each(this.panels, function(index, element) {
-					var $panel = element.$panel;
-
-					if (typeof $panel.attr('data-loaded') === 'undefined') {
-						$panel.attr('data-loaded', true);
-
-						$panel.find('img').each(function() {
-							var image = $(this);
-							that._loadRetinaImage(image, element);
-						});
-					}
-				});
+				this.on('update.Retina.' + NS, $.proxy(this._checkRetinaImages, this));
 			}
 		},
 
@@ -48,6 +35,32 @@
 				return true;
 
 			return false;
+		},
+
+		_checkRetinaImages: function() {
+			var that = this;
+
+			this.off('update.Retina.' + NS);
+
+			$.each(this.panels, function(index, element) {
+				var $panel = element.$panel,
+					panelIndex = element.getIndex();
+
+				// if the panel is on the same row or column with the opened panel
+				// add it to the list of tracked loading panels
+				if (that.currentIndex !== -1 && that.loadingPanels.indexOf(panelIndex) == -1 &&
+					(panelIndex % that.columns === that.currentIndex % that.columns || Math.floor(panelIndex / that.columns) === Math.floor(that.currentIndex / that.columns)))
+					that.loadingPanels.push(panelIndex);
+
+				if (typeof $panel.attr('data-loaded') === 'undefined') {
+					$panel.attr('data-loaded', true);
+
+					$panel.find('img').each(function() {
+						var image = $(this);
+						that._loadRetinaImage(image, element);
+					});
+				}
+			});
 		},
 
 		_loadRetinaImage: function(image, panel) {
@@ -101,8 +114,8 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize !== 'loading') {
-					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex(), contentSize: newSize});
+				if (newSize.width !== 'loading') {
+					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
 				}
 			}
 		},

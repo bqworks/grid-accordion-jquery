@@ -27,7 +27,14 @@
 
 			// loop through all the visible panels, verify if there are unloaded images, and load them
 			$.each(panelsToCheck, function(index, element) {
-				var $panel = element.$panel;
+				var $panel = element.$panel,
+					panelIndex = element.getIndex();
+
+				// if the panel is on the same row or column with the opened panel
+				// add it to the list of tracked loading panels
+				if (that.currentIndex !== -1 && that.loadingPanels.indexOf(panelIndex) == -1 &&
+					(panelIndex % that.columns === that.currentIndex % that.columns || Math.floor(panelIndex / that.columns) === Math.floor(that.currentIndex / that.columns)))
+					that.loadingPanels.push(panelIndex);
 
 				if (typeof $panel.attr('data-loaded') === 'undefined') {
 					$panel.attr('data-loaded', true);
@@ -72,8 +79,8 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize !== 'loading') {
-					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex(), contentSize: newSize});
+				if (newSize.width !== 'loading') {
+					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
 				}
 			}
 		},
@@ -85,5 +92,5 @@
 	};
 
 	$.GridAccordion.addModule('LazyLoading', LazyLoading, 'accordion');
-	
+
 })(window, jQuery);

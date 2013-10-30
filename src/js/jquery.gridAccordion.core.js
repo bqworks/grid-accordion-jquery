@@ -283,6 +283,14 @@
 			// update panels
 			this._updatePanels();
 
+			// create or remove the shadow
+			if (this.settings.shadow === true) {
+				this.$accordion.find('.ga-panel').addClass('ga-shadow');
+			} else if (this.settings.shadow === false) {
+				this.$accordion.find('.ga-shadow').removeClass('ga-shadow');
+			}
+
+			// calculate the actual number of rows and columns
 			this.columns = this.settings.columns;
 			this.rows = this.settings.rows;
 
@@ -315,13 +323,6 @@
 
 			// set the size of the accordion
 			this.resize();
-
-			// create or remove the shadow
-			if (this.settings.shadow === true) {
-				this.$accordion.find('.ga-panel').addClass('ga-shadow');
-			} else if (this.settings.shadow === false) {
-				this.$accordion.find('.ga-shadow').removeClass('ga-shadow');
-			}
 
 			// fire the update event
 			var eventObject = {type: 'update'};
@@ -719,7 +720,7 @@
 			// in order to arrange all panels properly 
 			panel.on('imagesComplete.' + NS, function(event) {
 				var arrayIndex =  that.loadingPanels.indexOf(event.index);
-
+				
 				if (arrayIndex !== -1) {
 					that.loadingPanels.splice(arrayIndex, 1);
 
