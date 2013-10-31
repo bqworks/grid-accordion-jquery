@@ -399,6 +399,8 @@
 				}
 			}
 
+			var openedPanelContentSize = this.getPanelAt(this.currentIndex).getContentSize();
+
 			// parse computedOpenedPanelWidth and set it to a pixel value
 			if (typeof this.computedOpenedPanelWidth === 'string') {
 				if (this.computedOpenedPanelWidth.indexOf('%') !== -1) {
@@ -406,9 +408,9 @@
 				} else if (this.computedOpenedPanelWidth.indexOf('px') !== -1) {
 					this.computedOpenedPanelWidth = parseInt(this.computedOpenedPanelWidth, 10);
 				} else if (this.computedOpenedPanelWidth === 'max') {
-					this.computedOpenedPanelWidth = this.currentIndex === -1 ? this.totalWidth * 0.5 : this.getPanelAt(this.currentIndex).getContentSize().width;
+					this.computedOpenedPanelWidth = this.currentIndex === -1 ? this.totalWidth * 0.5 : openedPanelContentSize.width;
 					
-					if (this.computedOpenedPanelWidth === 'loading' || this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
+					if (openedPanelContentSize === 'loading' || this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
 						this.computedOpenedPanelWidth = this.maxComputedOpenedPanelWidth;
 				}
 			}
@@ -420,9 +422,9 @@
 				} else if (this.computedOpenedPanelHeight.indexOf('px') !== -1) {
 					this.computedOpenedPanelHeight = parseInt(this.computedOpenedPanelHeight, 10);
 				} else if (this.computedOpenedPanelHeight === 'max') {
-					this.computedOpenedPanelHeight = this.currentIndex === -1 ? this.totalHeight * 0.5 : this.getPanelAt(this.currentIndex).getContentSize().height;
+					this.computedOpenedPanelHeight = this.currentIndex === -1 ? this.totalHeight * 0.5 : openedPanelContentSize.height;
 					
-					if (this.computedOpenedPanelHeight === 'loading' || this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
+					if (openedPanelContentSize === 'loading' || this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
 						this.computedOpenedPanelHeight = this.maxComputedOpenedPanelHeight;
 				}
 			}
@@ -565,7 +567,7 @@
 					var contentSize = element.getContentSize();
 
 					if (index % that.columns === that.currentIndex % that.columns) {
-						if (contentSize.width === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
+						if (contentSize === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
 							that.loadingPanels.push(index);
 						} else if (contentSize.width < that.computedOpenedPanelWidth) {
 							leftPosition += (that.computedOpenedPanelWidth - contentSize.width) / 2;
@@ -574,7 +576,7 @@
 					}
 
 					if (Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns)) {
-						if (contentSize.height === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
+						if (contentSize === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
 							that.loadingPanels.push(index);
 						} else if (contentSize.height < that.computedOpenedPanelHeight) {
 							topPosition += (that.computedOpenedPanelHeight - contentSize.height) / 2;
@@ -992,7 +994,7 @@
 				// adjust the left position and width of the vertically opened panels,
 				// if they are set to open to their maximum width
 				if (this.settings.openedPanelWidth === 'max' && i % this.columns === this.currentIndex % this.columns) {
-					if (contentSize.width === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
 					} else if (contentSize.width < this.computedOpenedPanelWidth) {
 						targetLeft[i] += (this.computedOpenedPanelWidth - contentSize.width) / 2;
@@ -1003,7 +1005,7 @@
 				// adjust the top position and height of the horizontally opened panels,
 				// if they are set to open to their maximum height
 				if (this.settings.openedPanelHeight === 'max' && Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
-					if (contentSize.height === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
 					} else if (contentSize.height < this.computedOpenedPanelHeight) {
 						targetTop[i] += (this.computedOpenedPanelHeight - contentSize.height) / 2;
@@ -1195,14 +1197,14 @@
 					contentSize = panel.getContentSize();
 
 				if (i % this.columns === this.currentIndex % this.columns) {
-					if (contentSize.width === 'loading' && $.inArray(i, this.loadingPanels) === -1)
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1)
 						this.loadingPanels.push(i);
 					else if (contentSize.width < maxWidth)
 						maxWidth = contentSize.width;
 				}
 
 				if (Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
-					if (contentSize.height === 'loading' && $.inArray(i, this.loadingPanels) === -1)
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1)
 						this.loadingPanels.push(i);
 					else if (contentSize.height < maxHeight)
 						maxHeight = contentSize.height;
@@ -1623,7 +1625,7 @@
 
 			// check if there are loading images
 			if (this.checkImagesComplete() === 'loading')
-				return {width: 'loading', height: 'loading'};
+				return 'loading';
 
 			if (this.settings.panelOverlap === false || parseInt(this.settings.panelDistance, 10) > 0) {
 				// get the current size of the inner content and then temporarily set the panel to a small size
@@ -2649,7 +2651,7 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize.width !== 'loading') {
+				if (newSize !== 'loading') {
 					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
 				}
 			}
@@ -2868,7 +2870,7 @@
 				// get the size of the panel, after the new image was added, and 
 				// if there aren't loading images, trigger the 'imagesComplete' event
 				var newSize = panel.getContentSize();
-				if (newSize.width !== 'loading') {
+				if (newSize !== 'loading') {
 					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
 				}
 			}
