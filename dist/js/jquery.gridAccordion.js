@@ -1450,7 +1450,7 @@
 			pageScrollEasing: 'swing',
 			breakpoints: null,
 			startPage: 0,
-			shadow: true,
+			shadow: false,
 			panelOverlap: false,
 			init: function() {},
 			update: function() {},
@@ -2309,7 +2309,7 @@
 
 		_init: function() {
 			// hide the layer by default
-			this.$layer.css({'visibility': 'hidden', 'display': 'none'});
+			this.$layer.css({'display': 'none'});
 
 			if (this.$layer.hasClass('ga-opened')) {
 				this.visibleOn = 'opened';
@@ -2405,15 +2405,15 @@
 				delay = typeof this.data.showDelay !== 'undefined' ? this.data.showDelay : 10;
 
 			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
-				this.$layer.css('visibility', 'visible');
+				this.$layer.css('display', 'block');
 			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
-							.css({'opacity': 0, 'visibility': 'visible'})
+							.css({'opacity': 0, 'display': 'block'})
 							.animate({'opacity': 1}, duration * 1000);
 			} else {
 				var start = {
-						'opacity': 0, 'visibility': 'visible'
+						'opacity': 0, 'display': 'block'
 					},
 					transformValues = '';
 
@@ -2468,12 +2468,12 @@
 				delay = typeof this.data.hideDelay !== 'undefined' ? this.data.hideDelay : 10;
 
 			if (this.visibleOn === 'always' || browserName === 'msie' && parseInt(browserVersion, 10) <= 7) {
-				this.$layer.css('visibility', 'hidden');
+				this.$layer.css('display', 'none');
 			} else if (browserName === 'msie' && parseInt(browserVersion, 10) <= 9) {
 				this.$layer.stop()
 							.delay(delay)
 							.animate({'opacity': 0}, duration * 1000, function() {
-								$(this).css({'visibility': 'hidden'});
+								$(this).css({'display': 'none'});
 							});
 			} else {
 				var target = {
@@ -2502,7 +2502,7 @@
 
 					// hide the layer after transition
 					if (that.isVisible === false)
-						that.$layer.css('visibility', 'hidden');
+						that.$layer.css('display', 'none');
 				});
 
 				this.$layer.delay(delay)
