@@ -2768,8 +2768,6 @@
 	var Retina = {
 
 		initRetina: function() {
-			$.extend(this.settings, this.retinaDefaults, this.options);
-
 			// check if the current display supports high PPI
 			if (this._isRetina() === false)
 				return;
