@@ -1450,7 +1450,7 @@
 			pageScrollEasing: 'swing',
 			breakpoints: null,
 			startPage: 0,
-			shadow: true,
+			shadow: false,
 			panelOverlap: false,
 			init: function() {},
 			update: function() {},
