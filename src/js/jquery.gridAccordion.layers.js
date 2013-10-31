@@ -131,7 +131,7 @@
 		_setStyle: function() {
 			this.styled = true;
 
-			this.$layer.css('display', '');
+			this.$layer.css('display', 'block');
 
 			// get the data attributes specified in HTML
 			this.data = this.$layer.data();

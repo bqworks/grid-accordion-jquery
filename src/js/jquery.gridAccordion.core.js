@@ -443,7 +443,7 @@
 			}
 
 			// adjust the maximum width and height of the images
-			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'max-width': this.maxComputedOpenedPanelWidth,'max-height': this.maxComputedOpenedPanelHeight});
+			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'max-width': this.maxComputedOpenedPanelWidth, 'max-height': this.maxComputedOpenedPanelHeight});
 
 			// set the initial computedPanelDistance to the value defined in the options
 			this.computedPanelDistance = this.settings.panelDistance;
@@ -565,7 +565,7 @@
 					var contentSize = element.getContentSize();
 
 					if (index % that.columns === that.currentIndex % that.columns) {
-						if (contentSize.width === 'loading' && that.loadingPanels.indexOf(index) === -1) {
+						if (contentSize.width === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
 							that.loadingPanels.push(index);
 						} else if (contentSize.width < that.computedOpenedPanelWidth) {
 							leftPosition += (that.computedOpenedPanelWidth - contentSize.width) / 2;
@@ -574,7 +574,7 @@
 					}
 
 					if (Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns)) {
-						if (contentSize.height === 'loading' && that.loadingPanels.indexOf(index) === -1) {
+						if (contentSize.height === 'loading' && $.inArray(index, that.loadingPanels) === -1) {
 							that.loadingPanels.push(index);
 						} else if (contentSize.height < that.computedOpenedPanelHeight) {
 							topPosition += (that.computedOpenedPanelHeight - contentSize.height) / 2;
@@ -719,7 +719,7 @@
 			// if the list of loading panels remains empty, re-open the selected panel
 			// in order to arrange all panels properly 
 			panel.on('imagesComplete.' + NS, function(event) {
-				var arrayIndex =  that.loadingPanels.indexOf(event.index);
+				var arrayIndex = $.inArray(event.index, that.loadingPanels);
 				
 				if (arrayIndex !== -1) {
 					that.loadingPanels.splice(arrayIndex, 1);
@@ -992,7 +992,7 @@
 				// adjust the left position and width of the vertically opened panels,
 				// if they are set to open to their maximum width
 				if (this.settings.openedPanelWidth === 'max' && i % this.columns === this.currentIndex % this.columns) {
-					if (contentSize.width === 'loading' && this.loadingPanels.indexOf(i) === -1) {
+					if (contentSize.width === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
 					} else if (contentSize.width < this.computedOpenedPanelWidth) {
 						targetLeft[i] += (this.computedOpenedPanelWidth - contentSize.width) / 2;
@@ -1003,7 +1003,7 @@
 				// adjust the top position and height of the horizontally opened panels,
 				// if they are set to open to their maximum height
 				if (this.settings.openedPanelHeight === 'max' && Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
-					if (contentSize.height === 'loading' && this.loadingPanels.indexOf(i) === -1) {
+					if (contentSize.height === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
 					} else if (contentSize.height < this.computedOpenedPanelHeight) {
 						targetTop[i] += (this.computedOpenedPanelHeight - contentSize.height) / 2;
@@ -1195,14 +1195,14 @@
 					contentSize = panel.getContentSize();
 
 				if (i % this.columns === this.currentIndex % this.columns) {
-					if (contentSize.width === 'loading' && this.loadingPanels.indexOf(i) === -1)
+					if (contentSize.width === 'loading' && $.inArray(i, this.loadingPanels) === -1)
 						this.loadingPanels.push(i);
 					else if (contentSize.width < maxWidth)
 						maxWidth = contentSize.width;
 				}
 
 				if (Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
-					if (contentSize.height === 'loading' && this.loadingPanels.indexOf(i) === -1)
+					if (contentSize.height === 'loading' && $.inArray(i, this.loadingPanels) === -1)
 						this.loadingPanels.push(i);
 					else if (contentSize.height < maxHeight)
 						maxHeight = contentSize.height;

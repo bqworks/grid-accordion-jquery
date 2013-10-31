@@ -48,7 +48,7 @@
 
 				// if the panel is on the same row or column with the opened panel
 				// add it to the list of tracked loading panels
-				if (that.currentIndex !== -1 && that.loadingPanels.indexOf(panelIndex) == -1 &&
+				if (that.currentIndex !== -1 && $.inArray(panelIndex, that.loadingPanels) == -1 &&
 					(panelIndex % that.columns === that.currentIndex % that.columns || Math.floor(panelIndex / that.columns) === Math.floor(that.currentIndex / that.columns)))
 					that.loadingPanels.push(panelIndex);
 

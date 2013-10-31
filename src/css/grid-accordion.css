@@ -46,6 +46,8 @@
 .grid-accordion .ga-background-opened {
 	border: none;
 	vertical-align: bottom;
+	width: auto;
+	height: auto;
 	max-width: none;
 	max-height: none;
 }
