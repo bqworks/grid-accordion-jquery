@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<title>Grid Accordion - Example 1</title>
+
+<link rel="stylesheet" type="text/css" href="../dist/css/grid-accordion.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../dist/js/jquery.gridAccordion.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		// instantiate the accordion
+		$('#example1').gridAccordion({
+			width: 960,
+			height: 800,
+			responsiveMode: 'auto',
+			visiblePanels: 5,
+			closePanelsOnMouseOut: false,
+			autoplay: true
+		});
+
+		// change the responsive mode
+		$('.controls a').click(function(event) {
+			event.preventDefault();
+
+			if ($(this).hasClass('auto')) {
+				// change the responsive mode to 'auto' and remove the 'custom-responsive' class
+				$('#example1').removeClass('custom-responsive');
+				$('#example1').gridAccordion('responsiveMode', 'auto');
+
+				// change the arrows' visibility
+				$('.auto-arrow').show();
+				$('.custom-arrow').hide();
+			} else if ($(this).hasClass('custom')) {
+				// change the responsive mode to 'custom' and add the 'custom-responsive' 
+				// class in order to use it as a reference in the CSS code
+				$('#example1').addClass('custom-responsive');
+				$('#example1').gridAccordion('responsiveMode', 'custom');
+
+				// change the arrows' visibility
+				$('.custom-arrow').show();
+				$('.auto-arrow').hide();
+			}
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	
+	<!-- Grid Accordion -->
+
+	<div id="example1" class="grid-accordion">
+		<div class="ga-panels">
+
+			<!-- Panel 1 -->
+			<div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image1.jpg" data-retina="http://bqworks.com/accordion-slider/images/image1@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter" 
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 1
+				</div>
+
+				<h3 class="ga-layer ga-opened ga-black ga-padding" 
+					data-horizontal="40" data-vertical="10%" 
+					data-show-transition="left" data-hide-transition="left">
+					Lorem ipsum dolor sit amet
+				</h3>
+				<p class="ga-layer ga-opened ga-white ga-padding hide-medium-screen" 
+					data-horizontal="40" data-vertical="22%" 
+					data-show-transition="left" data-show-delay="200" data-hide-transition="left" data-hide-delay="200">
+					consectetur adipisicing elit
+				</p>
+				<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen" 
+					data-horizontal="40" data-vertical="34%" data-width="350" 
+					data-show-transition="left" data-show-delay="400" data-hide-transition="left" data-hide-delay="500">
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</p>
+			</div>
+
+	        <!-- Panel 2 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image2.jpg" data-retina="http://bqworks.com/accordion-slider/images/image2@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 2
+				</div>
+
+				<div class="ga-layer" 
+					data-position="bottomLeft" data-horizontal="20" data-vertical="20" data-width="100%">
+					
+					<p class="ga-layer ga-opened ga-white ga-padding"
+						data-position="bottomLeft"
+						data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="200">
+						Lorem ipsum
+					</p>
+
+					<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen"
+						data-position="bottomLeft" data-horizontal="120"
+						data-show-transition="left" data-hide-transition="up" data-show-delay="600" data-hide-delay="100">
+						dolor sit amet
+					</p>
+
+					<p class="ga-layer ga-opened ga-white ga-padding hide-small-screen"
+						data-position="bottomLeft" data-horizontal="245"
+						data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+						consectetur adipisicing elit.
+					</p>
+				</div>
+			</div>
+
+	        <!-- Panel 3 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image3.jpg" data-retina="http://bqworks.com/accordion-slider/images/image3@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 3
+				</div>
+
+				<p class="ga-layer ga-opened ga-white ga-padding" 
+					data-horizontal="center" data-vertical="44%" 
+					data-show-transition="right" data-hide-transition="left" data-show-delay="500" >
+					Lorem ipsum dolor sit amet
+				</p>
+				<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen" 
+					data-horizontal="center" data-vertical="58%" 
+					data-show-transition="left" data-show-delay="700" data-hide-transition="right" data-hide-delay="200">
+					consectetur adipisicing elit
+				</p>
+			</div>
+
+	        <!-- Panel 4 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image4.jpg" data-retina="http://bqworks.com/accordion-slider/images/image4@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 4
+				</div>
+
+				<p class="ga-layer ga-opened ga-black ga-padding" 
+					data-position="bottomLeft"
+					data-show-transition="up" data-hide-transition="down">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+
+	        <!-- Panel 5 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image5.jpg" data-retina="http://bqworks.com/accordion-slider/images/image5@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 5
+				</div>
+
+				<p class="ga-layer ga-opened ga-white ga-padding" 
+					data-vertical="10" data-horizontal="2%" data-width="96%" 
+					data-show-transition="down" data-show-delay="400" data-hide-transition="up">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+
+	        <!-- Panel 6 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image6.jpg" data-retina="http://bqworks.com/accordion-slider/images/image6@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 6
+				</div>
+
+				<p class="ga-layer ga-opened ga-white ga-padding" 
+					data-horizontal="10" data-vertical="10" data-width="35%">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+
+	        <!-- Panel 7 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image7.jpg" data-retina="http://bqworks.com/accordion-slider/images/image7@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 7
+				</div>
+
+				<p class="ga-layer ga-opened ga-black ga-padding" 
+					data-position="bottomLeft" data-vertical="10" data-horizontal="2%" data-width="96%" 
+					data-show-transition="up" data-show-delay="400" data-hide-transition="down">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+
+	        <!-- Panel 8 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image8.jpg" data-retina="http://bqworks.com/accordion-slider/images/image8@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 8
+				</div>
+				
+				<h3 class="ga-layer ga-opened ga-white ga-padding" 
+					data-position="topRight" data-horizontal="7%" data-vertical="40%" 
+					data-show-transition="up" data-show-delay="500">
+					Lorem ipsum dolor sit amet
+				</h3>
+				<p class="ga-layer ga-opened ga-black ga-padding hide-medium-screen" 
+					data-position="topRight" data-horizontal="7%" data-vertical="52%" 
+					data-show-transition="up" data-show-delay="700">
+					consectetur adipisicing elit
+				</p>
+				<p class="ga-layer ga-opened ga-white ga-padding hide-small-screen" 
+					data-position="topRight" data-horizontal="7%" data-vertical="64%" data-width="350" 
+					data-show-transition="up" data-show-delay="900">
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</p>
+			</div>
+
+			<!-- Panel 9 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image9.jpg" data-retina="http://bqworks.com/accordion-slider/images/image9@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 9
+				</div>
+				
+				<div class="ga-layer" 
+					data-position="bottomLeft" data-horizontal="5%" data-vertical="10" data-width="90%" data-height="28%">
+
+					<p class="ga-layer ga-opened ga-black ga-padding" 
+						data-show-transition="down" data-hide-transition="up">
+						Lorem ipsum dolor sit amet
+					</p>
+
+					<p class="ga-layer ga-opened ga-white ga-padding hide-small-screen" 
+						data-vertical="50"
+						data-show-transition="up" data-hide-transition="down">
+						consectetur adipisicing elit <span class="hide-medium-screen">, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+					</p>
+				</div>
+			</div>
+
+	        <!-- Panel 10 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image10.jpg" data-retina="http://bqworks.com/accordion-slider/images/image10@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 10
+				</div>
+				
+				<div class="ga-layer" 
+					data-position="bottomLeft" data-horizontal="30" data-vertical="30" data-width="100%" data-height="50%">
+					
+					<h3 class="ga-layer ga-opened ga-white ga-padding"
+						data-show-transition="left" data-hide-transition="right">
+						Lorem ipsum dolor sit amet
+					</h3>
+					<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen" 
+						data-vertical="50" 
+						data-show-transition="left" data-show-delay="200" data-hide-transition="right" data-hide-delay="200">
+						consectetur adipisicing elit
+					</p>
+					<p class="ga-layer ga-opened ga-white ga-padding hide-medium-screen" 
+						data-vertical="100" data-width="350" 
+						data-show-transition="left" data-show-delay="400" data-hide-transition="right" data-hide-delay="500">
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+					</p>
+				</div>
+			</div>
+
+	        <!-- Panel 11 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image11.jpg" data-retina="http://bqworks.com/accordion-slider/images/image11@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 11
+				</div>
+
+				<p class="ga-layer ga-opened ga-white ga-padding" 
+					data-position="bottomLeft" data-vertical="10" data-horizontal="2%" data-width="96%" 
+					data-show-transition="up">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+
+	        <!-- Panel 12 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image12.jpg" data-retina="http://bqworks.com/accordion-slider/images/image12@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 12
+				</div>
+
+				<div class="ga-layer" 
+					data-position="topRight" data-horizontal="20" data-vertical="10%" data-width="50%" data-height="50%">
+					
+					<p class="ga-layer ga-opened ga-white ga-padding"
+						data-show-transition="right" data-hide-transition="left" data-show-delay="500">
+						Lorem ipsum dolor sit amet
+					</p>
+
+					<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen"
+						data-vertical="50"
+						data-show-transition="left" data-hide-transition="right" data-show-delay="700">
+						consectetur adipisicing elit <span class="hide-medium-screen">, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+					</p>
+				</div>
+			</div>
+
+			<!-- Panel 13 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image13.jpg" data-retina="http://bqworks.com/accordion-slider/images/image13@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 13
+				</div>
+				
+				<div class="ga-layer" 
+					data-horizontal="30" data-vertical="30" data-width="100%">
+					
+					<p class="ga-layer ga-opened ga-black ga-padding"
+						data-show-transition="left" data-hide-transition="down" data-show-delay="400" data-hide-delay="200">
+						Lorem ipsum
+					</p>
+
+					<p class="ga-layer ga-opened ga-white ga-padding hide-small-screen"
+						data-horizontal="120"
+						data-show-transition="left" data-hide-transition="down" data-show-delay="600" data-hide-delay="100">
+						dolor sit amet
+					</p>
+
+					<p class="ga-layer ga-opened ga-black ga-padding hide-small-screen"
+						data-horizontal="245"
+						data-show-transition="left" data-hide-transition="down" data-show-delay="800">
+						consectetur adipisicing elit.
+					</p>
+				</div>
+			</div>
+
+	        <!-- Panel 14 -->
+	        <div class="ga-panel">
+				<a href="http://bqworks.com">
+					<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image14.jpg" data-retina="http://bqworks.com/accordion-slider/images/image14@2x.jpg"/>
+				</a>
+
+				<div class="ga-layer ga-closed ga-white panel-counter"
+					 data-position="bottomLeft" data-horizontal="8" data-vertical="8">
+					 Panel 14
+				</div>
+
+				<p class="ga-layer ga-black ga-padding" 
+					data-position="bottomRight" data-horizontal="10" data-vertical="10" data-width="40%">
+					Lorem ipsum dolor sit amet <span class="hide-small-screen">, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span> <span class="hide-medium-screen">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+				</p>
+			</div>
+		</div>
+    </div>
+
+    <!-- End of Grid Accordion -->
+
+    <div class="controls">
+    	Change responsive mode: 
+    	<span class="auto-arrow">&rarr;</span> <a href="#" class="auto">Auto</a> or 
+    	<span class="custom-arrow">&rarr;</span> <a href="#" class="custom">Custom</a>
+    </div>
+
+</body>
+</html>

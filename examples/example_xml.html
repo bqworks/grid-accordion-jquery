@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<title>Accordion Slider - Example XML</title>
+
+<link rel="stylesheet" type="text/css" href="../dist/css/accordion-slider.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../dist/js/jquery.accordionSlider.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		// instantiate the accordion
+		$('#example-xml').accordionSlider({
+			XMLSource: 'accordion.xml',
+			width: 960, 
+			height: 400,
+			visiblePanels: 5,
+			closePanelsOnMouseOut: false,
+			autoplay: false
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	
+	<!-- Accordion Slider -->
+
+	<div id="example-xml" class="accordion-slider"></div>
+
+    <!-- End of Accordion Slider -->
+
+</body>
+</html>

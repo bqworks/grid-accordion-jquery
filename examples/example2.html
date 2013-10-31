@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<title>Grid Accordion - Example 2</title>
+
+<link rel="stylesheet" type="text/css" href="../dist/css/grid-accordion.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="../libs/fancybox/jquery.fancybox.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../libs/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="../dist/js/jquery.gridAccordion.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		// instantiate the accordion
+		$('#example2').gridAccordion({
+			width: 960,
+			height: 800,
+			responsiveMode: 'custom',
+			autoplay: false,
+			mouseWheel:false,
+			breakpoints: {
+				700: {columns: 3},
+				500: {columns: 2}
+			}
+		});
+
+		// instantiate fancybox when a link is clicked
+		$('#example2 .ga-panel > a').on('click', function(event) {
+			event.preventDefault();
+
+			// check if the clicked link is also used in swiping the accordion
+			// by checking if the link has the 'ga-swiping' class attached.
+			// if the accordion is not being swiped, open the lightbox programmatically,
+			// at the correct index
+			if ($(this).hasClass('ga-swiping') === false)
+				$.fancybox.open($('#example2 .ga-panel > a'), {index:$(this).parent().index()});
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	
+	<!-- Grid Accordion -->
+
+	<div id="example2" class="grid-accordion">
+		<div class="ga-panels">
+			
+			<!-- Panel 1 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image1.jpg" data-retina="http://bqworks.com/accordion-slider/images/image1@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image1@2x.jpg" title="Lorem ipsum dolor sit amet">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image1_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image1_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 2 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image2.jpg" data-retina="http://bqworks.com/accordion-slider/images/image2@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image2@2x.jpg" title="consectetur adipisicing elit">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image2_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image2_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 3 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image3.jpg" data-retina="http://bqworks.com/accordion-slider/images/image3@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image3@2x.jpg" title="sed do eiusmod tempor incididunt">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image3_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image3_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 4 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image4.jpg" data-retina="http://bqworks.com/accordion-slider/images/image4@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image4@2x.jpg" title="ut labore et dolore magna aliqua">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image4_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image4_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 5 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image5.jpg" data-retina="http://bqworks.com/accordion-slider/images/image5@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image5@2x.jpg" title="Ut enim ad minim veniam">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image5_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image5_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 6 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image6.jpg" data-retina="http://bqworks.com/accordion-slider/images/image6@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image6@2x.jpg" title="quis nostrud exercitation ullamco">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image6_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image6_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 7 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image7.jpg" data-retina="http://bqworks.com/accordion-slider/images/image7@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image7@2x.jpg" title="laboris nisi ut aliquip">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image7_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image7_crop@2x.jpg"/>
+				</a>
+			</div>
+
+	        <!-- Panel 8 -->
+			<div class="ga-panel">
+				<img class="ga-background" src="http://bqworks.com/accordion-slider/images/image8.jpg" data-retina="http://bqworks.com/accordion-slider/images/image8@2x.jpg"/>
+
+				<a href="http://bqworks.com/accordion-slider/images/image8@2x.jpg" title="ex ea commodo consequat">
+					<img class="ga-background-opened" src="http://bqworks.com/accordion-slider/images/image8_crop.jpg" data-retina="http://bqworks.com/accordion-slider/images/image8_crop@2x.jpg"/>
+				</a>
+			</div>
+		</div>
+    </div>
+
+    <!-- End of Grid Accordion -->
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accordion lazyLoading="../dist/css/images/blank.gif">
+	 <!-- Panel 1 -->
+	<panel>
+		<background>http://bqworks.com/accordion-slider/images/image1.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image1@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+		
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 1
+		</layer>
+
+		<layer style="opened black padding" horizontal="40" vertical="10%" showTransition="left" hideTransition="left">
+			Lorem ipsum dolor sit amet
+		</layer>
+
+		<layer style="opened white padding" horizontal="40" vertical="22%" showTransition="left" showDelay="200" hideTransition="left" hideDelay="200">
+			consectetur adipisicing elit
+		</layer>
+
+		<layer style="opened black padding" horizontal="40" vertical="34%" width="350" showTransition="left" showDelay="400" hideTransition="left" hideDelay="500">
+			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 2 -->
+    <panel>
+    	<background>http://bqworks.com/accordion-slider/images/image2.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image2@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 2
+		</layer>
+
+		<layer position="bottomLeft" horizontal="20" vertical="20" width="100%">
+			<layer style="opened white padding" position="bottomLeft" showTransition="left" hideTransition="up" showDelay="400" hideDelay="200">
+				Lorem ipsum
+			</layer>
+
+			<layer style="opened black padding" position="bottomLeft" horizontal="120" showTransition="left" hideTransition="up" showDelay="600" hideDelay="100">
+				dolor sit amet
+			</layer>
+
+			<layer style="opened white padding" position="bottomLeft" horizontal="245" showTransition="left" hideTransition="up" showDelay="800">
+				consectetur adipisicing elit.
+			</layer>
+		</layer>
+	</panel>
+
+    <!-- Panel 3 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image3.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image3@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 3
+		</layer>
+
+		<layer style="opened white padding" horizontal="center" vertical="44%" showTransition="right" hideTransition="left" showDelay="500" >
+			Lorem ipsum dolor sit amet
+		</layer>
+		<layer style="opened black padding" horizontal="center" vertical="58%" showTransition="left" showDelay="700" hideTransition="right" hideDelay="200">
+			consectetur adipisicing elit
+		</layer>
+	</panel>
+
+    <!-- Panel 4 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image4.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image4@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 4
+		</layer>
+
+		<layer style="opened black padding" position="bottomLeft" showTransition="up" hideTransition="down">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 5 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image5.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image5@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 5
+		</layer>
+
+		<layer style="opened white padding" vertical="10" horizontal="2%" width="96%" showTransition="down" showDelay="400" hideTransition="up">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 6 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image6.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image6@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 6
+		</layer>
+
+		<layer style="opened white padding" horizontal="10" vertical="10" width="35%">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 7 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image7.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image7@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 7
+		</layer>
+
+		<layer style="opened black padding" position="bottomLeft" vertical="10" horizontal="2%" width="96%" showTransition="up" showDelay="400" hideTransition="down">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 8 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image8.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image8@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 8
+		</layer>
+		
+		<layer style="opened white padding" position="topRight" horizontal="7%" vertical="40%" showTransition="up" showDelay="500">
+			Lorem ipsum dolor sit amet
+		</layer>
+		<layer style="opened black padding" position="topRight" horizontal="7%" vertical="52%" showTransition="up" showDelay="700">
+			consectetur adipisicing elit
+		</layer>
+		<layer style="opened white padding" position="topRight" horizontal="7%" vertical="64%" width="350" showTransition="up" showDelay="900">
+			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+	<!-- Panel 9 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image9.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image9@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 9
+		</layer>
+		
+		<layer position="bottomLeft" horizontal="5%" vertical="10" width="90%" height="28%">
+
+			<layer style="opened black padding" showTransition="down" hideTransition="up">
+				Lorem ipsum dolor sit amet
+			</layer>
+
+			<layer style="opened white padding" vertical="50" showTransition="up" hideTransition="down">
+				consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			</layer>
+		</layer>
+	</panel>
+
+    <!-- Panel 10 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image10.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image10@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 10
+		</layer>
+		
+		<layer position="bottomLeft" horizontal="30" vertical="30" width="100%" height="50%">
+			
+			<layer style="opened white padding" showTransition="left" hideTransition="right">
+				Lorem ipsum dolor sit amet
+			</layer>
+
+			<layer style="opened black padding" vertical="50" showTransition="left" showDelay="200" hideTransition="right" hideDelay="200">
+				consectetur adipisicing elit
+			</layer>
+
+			<layer style="opened white padding" vertical="100" width="350" showTransition="left" showDelay="400" hideTransition="right" hideDelay="500">
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+			</layer>
+		</layer>
+	</panel>
+
+    <!-- Panel 11 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image11.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image11@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 11
+		</layer>
+
+		<layer style="opened white padding" position="bottomLeft" vertical="10" horizontal="2%" width="96%" showTransition="up">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+
+    <!-- Panel 12 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image12.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image12@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 12
+		</layer>
+
+		<layer position="topRight" horizontal="20" vertical="10%" width="50%" height="50%">
+			
+			<layer style="opened white padding" showTransition="right" hideTransition="left" showDelay="500">
+				Lorem ipsum dolor sit amet
+			</layer>
+
+			<layer style="opened black padding" vertical="50" showTransition="left" hideTransition="right" showDelay="700">
+				consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			</layer>
+		</layer>
+	</panel>
+
+	<!-- Panel 13 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image13.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image13@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 13
+		</layer>
+		
+		<layer horizontal="30" vertical="30" width="100%">
+			
+			<layer style="opened black padding" showTransition="left" hideTransition="down" showDelay="400" hideDelay="200">
+				Lorem ipsum
+			</layer>
+
+			<layer style="opened white padding" horizontal="120" showTransition="left" hideTransition="down" showDelay="600" hideDelay="100">
+				dolor sit amet
+			</layer>
+
+			<layer style="opened black padding" horizontal="245" showTransition="left" hideTransition="down" showDelay="800">
+				consectetur adipisicing elit.
+			</layer>
+		</layer>
+	</panel>
+
+    <!-- Panel 14 -->
+    <panel>
+		<background>http://bqworks.com/accordion-slider/images/image14.jpg</background>
+		<backgroundRetina>http://bqworks.com/accordion-slider/images/image14@2x.jpg</backgroundRetina>
+		<backgroundLink>http://bqworks.com/</backgroundLink>
+
+		<layer style="closed white panel-counter" position="bottomLeft" horizontal="8" vertical="8">
+			 Panel 14
+		</layer>
+
+		<layer style="black padding" position="bottomRight" horizontal="10" vertical="10" width="40%">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</layer>
+	</panel>
+</accordion>

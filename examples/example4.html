@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<title>Grid Accordion - Example 4</title>
+
+<link rel="stylesheet" type="text/css" href="../dist/css/grid-accordion.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="../libs/video-js/video-js.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../libs/video-js/video.js"></script>
+<script type="text/javascript" src="http://cdn.sublimevideo.net/js/7oi5bx6y.js"></script>
+
+<script type="text/javascript" src="../dist/js/jquery.gridAccordion.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		// instantiate the accordion
+		$('#example4').gridAccordion({
+			width: 960,
+			height: 350,
+			columns: 4,
+			rows: -1,
+			maxOpenedPanelHeight: '100%',
+			maxOpenedPanelWidth: '100%',
+			closePanelsOnMouseOut: false,
+			shadow: false,
+			panelDistance: 10,
+			autoplay: false,
+			mouseWheel: false
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	
+	<!-- Grid Accordion -->
+
+	<div id="example4" class="grid-accordion">
+		<div class="ga-panels">
+
+			<!-- Panel 1 -->
+	        <div class="ga-panel">
+	        	<div class="ga-layer text" data-width="235" data-height="350">
+	        		<p class="title">Cathedral</p>
+					<div class="description">
+						<p>The film is based on a short story by Jacek Dukaj under the same title. In 2002 "Cathedral" was awarded the main prize at SIGGRAPH festival. A year later it received an Oscar nomination in the category "Best Animated Short Film".</p>
+						<p>Synopsis: Story of a pilgrim who comes to the Cathedral on the border of the known world. He wants to find answers. He finds tranquility.</p>
+					</div>
+					<p class="link">Source: <a href="http://www.youtube.com/watch?v=msIjWthwWwI" target="_blank">youtube.com/</a></p>
+	        	</div>
+				<div class="ga-layer" data-horizontal="245">
+					<iframe class="ga-video" src="//www.youtube.com/embed/msIjWthwWwI?enablejsapi=1&amp;wmode=opaque" width="500" height="350" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+
+	        <!-- Panel 2 -->
+	        <div class="ga-panel">
+	        	<div class="ga-layer text" data-width="235" data-height="350">
+	        		<p class="title">Open Education</p>
+					<div class="description">
+						<p>A video made about a topic close to our hearts - Open Education! Blink Tower is a small team based in Cape Town, South Africa - and we love making explainer videos!</p>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+					</div>
+					<p class="link">Source: <a href="http://vimeo.com/43401199" target="_blank">vimeo.com</a></p>
+	        	</div>
+				<div class="ga-layer" data-horizontal="245">
+					<iframe class="ga-video" src="//player.vimeo.com/video/43401199?api=1" width="500" height="350" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+				</div>
+			</div>
+			
+			<!-- Panel 3 -->
+	        <div class="ga-panel">
+	        	<div class="ga-layer text" data-width="235" data-height="350">
+	        		<p class="title">Big Buck Bunny</p>
+					<div class="description">
+						<p>As a follow-up to the successful project Orange's "Elephants Dream", the Blender Foundation initiated another open movie project. Again a small team (7) of the best 3D artists and developers in the Blender community have been invited to come together to work in Amsterdam from October 2007 until April 2008 on completing a short 3D animation movie.</p>
+					</div>
+					<p class="link">Source: <a href="http://www.bigbuckbunny.org" target="_blank">bigbuckbunny.org</a></p>
+	        	</div>
+				<div class="ga-layer" data-horizontal="245">
+					<video id="video3" class="ga-video sublime" controls="controls" preload="none" width="500" height="350"
+						   poster="http://bqworks.com/products/assets/videos/bbb/bbb-poster.jpg">
+						<source src="http://bqworks.com/products/assets/videos/bbb/bbb-trailer.mp4" type='video/mp4'/>
+						<source src="http://bqworks.com/products/assets/videos/bbb/bbb-trailer.ogg" type='video/ogg'/>
+					</video>
+				</div>
+			</div>
+
+	        <!-- Panel 4 -->
+	        <div class="ga-panel">
+	        	<div class="ga-layer text" data-width="235" data-height="350">
+	        		<p class="title">Sintel</p>
+					<div class="description">
+						<p>"Sintel" is an independently produced short film, initiated by the Blender Foundation as a means to further improve and validate the free/open source 3D creation suite Blender.</p>
+						<p>This 15 minute film has been realized in the studio of the Amsterdam Blender Institute. In addition to that, several crucial technical and creative targets have been realized online.</p>
+					</div>
+					<p class="link">Source: <a href="http://www.sintel.org/" target="_blank">sintel.org</a></p>
+	        	</div>
+				<div class="ga-layer" data-horizontal="245">
+					<div class="ga-video" data-videojs-id="video2">
+						<video id="video2" class="video-js vjs-default-skin" poster="http://bqworks.com/products/assets/videos/sintel/sintel-poster.jpg" width="500" height="350" controls="controls" preload="none" data-setup="{}">
+							<source src="http://bqworks.com/products/assets/videos/sintel/sintel-trailer.mp4" type="video/mp4"/>
+							<source src="http://bqworks.com/products/assets/videos/sintel/sintel-trailer.ogv" type="video/ogg"/>
+						</video>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	
+	<!-- End of Grid Accordion -->
+
+    <div class="controls">
+    	Open panel: <a href="#example4/0">1</a>, <a href="#example4/1">2</a>, <a href="#example4/2">3</a>, <a href="#example4/3">4</a> 
+    	or <a href="#" onclick="$('#example4').gridAccordion('closePanels'); return false;">close all panels</a>
+    </div>
+
+</body>
+</html>

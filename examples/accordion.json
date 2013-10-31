@@ -1,0 +1,95 @@
+{
+	"accordion": {
+		"lazyLoading": "../dist/css/images/blank.gif",
+		"panels": [
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image1.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image1@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image1_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image1_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 1", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image2.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image2@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image2_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image2_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 2", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image3.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image3@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image3_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image3_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 3", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image4.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image4@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image4_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image4_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 4", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image5.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image5@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image5_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image5_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 5", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image6.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image6@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image6_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image6_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 6", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image7.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image7@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image7_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image7_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 7", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			},
+			{
+				"background": {"source": "http://bqworks.com/accordion-slider/images/image8.jpg"},
+				"backgroundRetina": {"source": "http://bqworks.com/accordion-slider/images/image8@2x.jpg"},
+				"backgroundOpened": {"source": "http://bqworks.com/accordion-slider/images/image8_crop.jpg"},
+				"backgroundOpenedRetina": {"source": "http://bqworks.com/accordion-slider/images/image8_crop@2x.jpg"},
+				"backgroundOpenedLink": {"address": "http://bqworks.com"},
+				"layers": [
+					{"content": "Panel 8", "style": "closed white padding panel-counter", "position": "bottomLeft", "horizontal": "8", "vertical": "8"},
+					{"content": "Lorem ipsum dolor sit amet", "style": "opened black padding", "showTransition": "down", "hideTransition": "up", "horizontal": "20", "vertical": "20"}
+				]
+			}
+		]
+	}
+}
