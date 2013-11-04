@@ -30,7 +30,6 @@
 			// and create Layer instances for each object
 			this.$panel.find('.ga-layer').each(function() {
 				var layer = new Layer($(this));
-
 				that.layers.push(layer);
 			});
 

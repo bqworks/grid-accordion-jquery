@@ -116,10 +116,6 @@
 		// keeps a reference to the ratio between the actual size of the accordion and the set size
 		this.autoResponsiveRatio = 1;
 
-		// indicates whether the panels will overlap, based on the set panelOverlap property
-		// and also based on the computed distance between panels
-		this.isOverlapping = false;
-
 		// stores all panels that contain images which are in the loading process
 		this.loadingPanels = [];
 
@@ -268,15 +264,6 @@
 				this.$maskContainer.attr('style', '');
 			}
 
-			// if there is distance between the panels, the panels can't overlap
-			if (this.settings.panelDistance > 0 || this.settings.panelOverlap === false) {
-				this.isOverlapping = false;
-				this.$accordion.removeClass('overlap');
-			} else if (this.settings.panelOverlap === true) {
-				this.isOverlapping = true;
-				this.$accordion.addClass('overlap');
-			}
-
 			// clear inline size of the background images because the orientation might have changes
 			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'width': '', 'height': ''});
 
@@ -371,6 +358,22 @@
 			// reset the list of panels that we are tracking
 			this.loadingPanels.length = 0;
 
+			// set the initial computedPanelDistance to the value defined in the options
+			this.computedPanelDistance = this.settings.panelDistance;
+
+			// parse computedPanelDistance and set it to a pixel value
+			if (typeof this.computedPanelDistance === 'string') {
+				if (this.computedPanelDistance.indexOf('%') !== -1) {
+					this.computedPanelDistance = this.totalWidth * (parseInt(this.computedPanelDistance, 10)/ 100);
+				} else if (this.computedPanelDistance.indexOf('px') !== -1) {
+					this.computedPanelDistance = parseInt(this.computedPanelDistance, 10);
+				}
+			}
+
+			// set the width and height, in pixels, of the closed panels
+			this.closedPanelWidth = (this.totalWidth - (this.columns - 1) * this.computedPanelDistance) / this.columns;
+			this.closedPanelHeight = (this.totalHeight - (this.rows - 1) * this.computedPanelDistance) / this.rows;
+
 			// set the initial computedOpenedPanelWidth to the value defined in the options
 			this.computedOpenedPanelWidth = this.settings.openedPanelWidth;
 
@@ -399,19 +402,19 @@
 				}
 			}
 
-			var openedPanelContentSize = this.getPanelAt(this.currentIndex).getContentSize();
-
 			// parse computedOpenedPanelWidth and set it to a pixel value
 			if (typeof this.computedOpenedPanelWidth === 'string') {
 				if (this.computedOpenedPanelWidth.indexOf('%') !== -1) {
 					this.computedOpenedPanelWidth = this.totalWidth * (parseInt(this.computedOpenedPanelWidth, 10)/ 100);
 				} else if (this.computedOpenedPanelWidth.indexOf('px') !== -1) {
 					this.computedOpenedPanelWidth = parseInt(this.computedOpenedPanelWidth, 10);
-				} else if (this.computedOpenedPanelWidth === 'max') {
-					this.computedOpenedPanelWidth = this.currentIndex === -1 ? this.totalWidth * 0.5 : openedPanelContentSize.width;
-					
-					if (openedPanelContentSize === 'loading' || this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
-						this.computedOpenedPanelWidth = this.maxComputedOpenedPanelWidth;
+				} else if (this.computedOpenedPanelWidth === 'max' && this.currentIndex !== -1) {
+					var openedPanelContentWidth = this.getPanelAt(this.currentIndex).getContentSize();
+
+					if (openedPanelContentWidth === 'loading')
+						this.computedOpenedPanelWidth = this.closedPanelWidth;
+					else
+						this.computedOpenedPanelWidth = Math.min(openedPanelContentWidth.width, this.maxComputedOpenedPanelWidth);
 				}
 			}
 
@@ -421,11 +424,13 @@
 					this.computedOpenedPanelHeight = this.totalHeight * (parseInt(this.computedOpenedPanelHeight, 10)/ 100);
 				} else if (this.computedOpenedPanelHeight.indexOf('px') !== -1) {
 					this.computedOpenedPanelHeight = parseInt(this.computedOpenedPanelHeight, 10);
-				} else if (this.computedOpenedPanelHeight === 'max') {
-					this.computedOpenedPanelHeight = this.currentIndex === -1 ? this.totalHeight * 0.5 : openedPanelContentSize.height;
-					
-					if (openedPanelContentSize === 'loading' || this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
-						this.computedOpenedPanelHeight = this.maxComputedOpenedPanelHeight;
+				} else if (this.computedOpenedPanelHeight === 'max' && this.currentIndex !== -1) {
+					var openedPanelContentHeight = this.getPanelAt(this.currentIndex).getContentSize();
+
+					if (openedPanelContentHeight === 'loading')
+						this.computedOpenedPanelHeight = this.closedPanelHeight;
+					else
+						this.computedOpenedPanelHeight = Math.min(openedPanelContentHeight.height, this.maxComputedOpenedPanelHeight);
 				}
 			}
 
@@ -435,37 +440,19 @@
 					maxWidth = minSize.width,
 					maxHeight = minSize.height;
 					
-				if (this.settings.openedPanelWidth === 'auto') {
+				if (this.settings.openedPanelWidth === 'auto')
 					this.computedOpenedPanelWidth = maxWidth;
-				}
 				
-				if (this.settings.openedPanelHeight === 'auto') {
+				if (this.settings.openedPanelHeight === 'auto')
 					this.computedOpenedPanelHeight = maxHeight;
-				}
 			}
 
 			// adjust the maximum width and height of the images
 			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'max-width': this.maxComputedOpenedPanelWidth, 'max-height': this.maxComputedOpenedPanelHeight});
-
-			// set the initial computedPanelDistance to the value defined in the options
-			this.computedPanelDistance = this.settings.panelDistance;
-
-			// parse computedPanelDistance and set it to a pixel value
-			if (typeof this.computedPanelDistance === 'string') {
-				if (this.computedPanelDistance.indexOf('%') !== -1) {
-					this.computedPanelDistance = this.totalWidth * (parseInt(this.computedPanelDistance, 10)/ 100);
-				} else if (this.computedPanelDistance.indexOf('px') !== -1) {
-					this.computedPanelDistance = parseInt(this.computedPanelDistance, 10);
-				}
-			}
-
+	
 			// set the width and height, in pixels, of the collapsed panels
 			this.collapsedPanelWidth = (this.totalWidth - this.computedOpenedPanelWidth - (this.columns - 1) * this.computedPanelDistance) / (this.columns - 1);
 			this.collapsedPanelHeight = (this.totalHeight - this.computedOpenedPanelHeight - (this.rows - 1) * this.computedPanelDistance) / (this.rows - 1);
-
-			// set the width and height, in pixels, of the closed panels
-			this.closedPanelWidth = (this.totalWidth - (this.columns - 1) * this.computedPanelDistance) / this.columns;
-			this.closedPanelHeight = (this.totalHeight - (this.rows - 1) * this.computedPanelDistance) / this.rows;
 
 			// round the values
 			this.computedOpenedPanelWidth = Math.floor(this.computedOpenedPanelWidth);
@@ -485,23 +472,18 @@
 			}
  
 			// reset the accordion's size so that the panels fit exactly inside if their size and position are rounded
-			var roundedWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1),
-				roundedHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
+			this.totalWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1);
+			this.totalHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
 
 			if (this.settings.responsiveMode === 'custom' || this.settings.responsive === false) {
-				this.$accordion.css({'width': roundedWidth, 'height': roundedHeight});
+				this.$accordion.css({'width': this.totalWidth, 'height': this.totalHeight});
 			} else {
-				this.$accordion.css({'width': roundedWidth * this.autoResponsiveRatio, 'height': roundedHeight * this.autoResponsiveRatio});
-				this.$maskContainer.css({'width': roundedWidth, 'height': roundedHeight});
+				this.$accordion.css({'width': this.totalWidth * this.autoResponsiveRatio, 'height': this.totalHeight * this.autoResponsiveRatio});
+				this.$maskContainer.css({'width': this.totalWidth, 'height': this.totalHeight});
 			}
 
 			// if there are multiple pages, set the correct position of the panels' container
-			if (this.getTotalPanels() > 1) {
-				// recalculate the totalWidth and totalHeight due to the fact that rounded sizes can cause incorrect positioning
-				// since the actual size of all panels from a page might be smaller than the whole width of the accordion
-				this.totalWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1);
-				this.totalHeight = this.closedPanelHeight * this.rows + this.computedPanelDistance * (this.rows - 1);
-				
+			if (this.getTotalPages() > 1) {
 				var cssObj = {},
 					targetPosition = - ((this.settings.orientation === 'horizontal' ? this.totalWidth : this.totalHeight) + this.computedPanelDistance) * this.currentPage;
 
@@ -547,14 +529,12 @@
 				}
 
 				// calculate the width and height of the panel
-				if (that.isOverlapping === false) {
-					if (that.currentIndex !== -1 && Math.floor(index / (that.rows * that.columns)) === that.currentPage) {
-						width = index % that.columns === that.currentIndex % that.columns ? that.computedOpenedPanelWidth : that.collapsedPanelWidth;
-						height = Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns) ? that.computedOpenedPanelHeight : that.collapsedPanelHeight;
-					} else {
-						width = that.closedPanelWidth;
-						height = that.closedPanelHeight;
-					}
+				if (that.currentIndex !== -1 && Math.floor(index / (that.rows * that.columns)) === that.currentPage) {
+					width = index % that.columns === that.currentIndex % that.columns ? that.computedOpenedPanelWidth : that.collapsedPanelWidth;
+					height = Math.floor(index / that.columns) === Math.floor(that.currentIndex / that.columns) ? that.computedOpenedPanelHeight : that.collapsedPanelHeight;
+				} else {
+					width = that.closedPanelWidth;
+					height = that.closedPanelHeight;
 				}
 
 				// if panels are set to open to their maximum width or height and the current panel
@@ -589,8 +569,7 @@
 				element.setPosition(leftPosition, topPosition);
 
 				// set the size of the panel
-				if (that.isOverlapping === false)
-					element.setSize(width, height);
+				element.setSize(width, height);
 			});
 
 			// check if the current window width is bigger than the biggest breakpoint
@@ -916,25 +895,29 @@
 			// reset the list of tracked loading panels
 			this.loadingPanels.length = 0;
 
-			this.$accordion.find('.ga-opened').removeClass('ga-opened');
+			this.$accordion.find('ga-panel.ga-opened').removeClass('ga-opened');
 			this.$accordion.find('.ga-panel').eq(this.currentIndex).addClass('ga-opened');
 
 			// check if the panel needs to open to its maximum width and/or height, and recalculate
 			// the width and/or height of the opened panel and the size of the collapsed panel
 			if (this.settings.openedPanelWidth === 'max') {
-				this.computedOpenedPanelWidth = this.getPanelAt(this.currentIndex).getContentSize().width;
+				var openedPanelContentWidth = this.getPanelAt(this.currentIndex).getContentSize();
 
-				if (this.computedOpenedPanelWidth > this.maxComputedOpenedPanelWidth)
-					this.computedOpenedPanelWidth = this.maxComputedOpenedPanelWidth;
+				if (openedPanelContentWidth === 'loading')
+					this.computedOpenedPanelWidth = this.closedPanelWidth;
+				else
+					this.computedOpenedPanelWidth = Math.min(openedPanelContentWidth.width, this.maxComputedOpenedPanelWidth);
 
 				this.collapsedPanelWidth = (this.totalWidth - this.computedOpenedPanelWidth - (this.columns - 1) * this.computedPanelDistance) / (this.columns - 1);
 			}
 
 			if (this.settings.openedPanelHeight === 'max') {
-				this.computedOpenedPanelHeight = this.getPanelAt(this.currentIndex).getContentSize().height;
+				var openedPanelContentHeight = this.getPanelAt(this.currentIndex).getContentSize();
 
-				if (this.computedOpenedPanelHeight > this.maxComputedOpenedPanelHeight)
-					this.computedOpenedPanelHeight = this.maxComputedOpenedPanelHeight;
+				if (openedPanelContentHeight === 'loading')
+					this.computedOpenedPanelHeight = this.closedPanelHeight;
+				else
+					this.computedOpenedPanelHeight = Math.min(openedPanelContentHeight.height, this.maxComputedOpenedPanelHeight);
 
 				this.collapsedPanelHeight = (this.totalHeight - this.computedOpenedPanelHeight - (this.rows - 1) * this.computedPanelDistance) / (this.rows - 1);
 			}
@@ -981,15 +964,11 @@
 									(Math.floor(i / this.columns) > Math.floor(this.currentIndex / this.columns) ? this.computedOpenedPanelHeight - this.collapsedPanelHeight : 0);
 				}
 
-				if (this.isOverlapping === false) {
-					var size = panel.getSize();
-
-					startWidth[i] = size.width;
-					startHeight[i] = size.height;
-					
-					targetWidth[i] = i % this.columns === this.currentIndex % this.columns ? this.computedOpenedPanelWidth : this.collapsedPanelWidth;
-					targetHeight[i] = Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns) ? this.computedOpenedPanelHeight : this.collapsedPanelHeight;
-				}
+				var size = panel.getSize();
+				startWidth[i] = size.width;
+				startHeight[i] = size.height;
+				targetWidth[i] = i % this.columns === this.currentIndex % this.columns ? this.computedOpenedPanelWidth : this.collapsedPanelWidth;
+				targetHeight[i] = Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns) ? this.computedOpenedPanelHeight : this.collapsedPanelHeight;
 
 				// adjust the left position and width of the vertically opened panels,
 				// if they are set to open to their maximum width
@@ -1018,7 +997,7 @@
 					animatedPanels.push(i);
 
 				// check if the panel's size needs to change
-				if (this.isOverlapping === false && (targetWidth[i] !== startWidth[i] || targetHeight[i] !== startHeight[i]) && $.inArray(i, animatedPanels) === -1)
+				if ((targetWidth[i] !== startWidth[i] || targetHeight[i] !== startHeight[i]) && $.inArray(i, animatedPanels) === -1)
 					animatedPanels.push(i);
 
 				counter++;
@@ -1045,9 +1024,7 @@
 							panel = that.getPanelAt(value);
 
 						panel.setPosition(progress * (targetLeft[value] - startLeft[value]) + startLeft[value], progress * (targetTop[value] - startTop[value]) + startTop[value]);
-
-						if (that.isOverlapping === false)
-							panel.setSize(progress * (targetWidth[value] - startWidth[value]) + startWidth[value], progress * (targetHeight[value] - startHeight[value]) + startHeight[value]);
+						panel.setSize(progress * (targetWidth[value] - startWidth[value]) + startWidth[value], progress * (targetHeight[value] - startHeight[value]) + startHeight[value]);
 					}
 				},
 				complete: function() {
@@ -1116,14 +1093,11 @@
 									(Math.floor(counter / this.columns)) * (this.closedPanelHeight + this.computedPanelDistance);
 				}
 
-				if (this.isOverlapping === false) {
-					var size = panel.getSize();
-					startWidth[i] = size.width;
-					startHeight[i] = size.height;
-					
-					targetWidth[i] = this.closedPanelWidth;
-					targetHeight[i] = this.closedPanelHeight;
-				}
+				var size = panel.getSize();
+				startWidth[i] = size.width;
+				startHeight[i] = size.height;
+				targetWidth[i] = this.closedPanelWidth;
+				targetHeight[i] = this.closedPanelHeight;
 
 				counter++;
 			}
@@ -1146,9 +1120,7 @@
 						var panel = that.getPanelAt(i);
 
 						panel.setPosition(progress * (targetLeft[i] - startLeft[i]) + startLeft[i], progress * (targetTop[i] - startTop[i]) + startTop[i]);
-
-						if (that.isOverlapping === false)
-							panel.setSize(progress * (targetWidth[i] - startWidth[i]) + startWidth[i], progress * (targetHeight[i] - startHeight[i]) + startHeight[i]);
+						panel.setSize(progress * (targetWidth[i] - startWidth[i]) + startWidth[i], progress * (targetHeight[i] - startHeight[i]) + startHeight[i]);
 					}
 				},
 				complete: function() {
@@ -1197,17 +1169,21 @@
 					contentSize = panel.getContentSize();
 
 				if (i % this.columns === this.currentIndex % this.columns) {
-					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1)
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
-					else if (contentSize.width < maxWidth)
+						maxWidth = this.closedPanelWidth;
+					} else if (contentSize.width < maxWidth) {
 						maxWidth = contentSize.width;
+					}
 				}
 
 				if (Math.floor(i / this.columns) === Math.floor(this.currentIndex / this.columns)) {
-					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1)
+					if (contentSize === 'loading' && $.inArray(i, this.loadingPanels) === -1) {
 						this.loadingPanels.push(i);
-					else if (contentSize.height < maxHeight)
+						maxHeight = this.closedPanelHeight;
+					} else if (contentSize.height < maxHeight) {
 						maxHeight = contentSize.height;
+					}
 				}
 			}
 
@@ -1445,7 +1421,7 @@
 			openPanelOn: 'hover',
 			closePanelsOnMouseOut: true,
 			mouseDelay: 200,
-			panelDistance: 0,
+			panelDistance: 10,
 			openPanelDuration: 700,
 			closePanelDuration: 700,
 			pageScrollDuration: 500,
@@ -1453,7 +1429,6 @@
 			breakpoints: null,
 			startPage: 0,
 			shadow: false,
-			panelOverlap: false,
 			init: function() {},
 			update: function() {},
 			accordionMouseOver: function() {},
@@ -1490,6 +1465,10 @@
 
 		// init the panel
 		this._init();
+
+		this.isLoading = false;
+
+		this.isLoaded = false;
 	};
 
 	GridAccordionPanel.prototype = {
@@ -1624,27 +1603,19 @@
 				that = this;
 
 			// check if there are loading images
-			if (this.checkImagesComplete() === 'loading')
-				return 'loading';
+			if (that.isLoaded === false)
+				if (this.checkImagesComplete() === 'loading')
+					return 'loading';
+			
+			// get the current size of the inner content and then temporarily set the panel to a small size
+			// in order to accurately calculate the size of the inner content
+			//var currentWidth = this.$panel.css('width'),
+			//	currentHeight = this.$panel.css('height');
 
-			if (this.settings.panelOverlap === false || parseInt(this.settings.panelDistance, 10) > 0) {
-				// get the current size of the inner content and then temporarily set the panel to a small size
-				// in order to accurately calculate the size of the inner content
-				var currentWidth = this.$panel.css('width'),
-					currentHeight = this.$panel.css('height');
-
-				this.$panel.css({'width': 10, 'height': 10});
-				width = this.$panel[0].scrollWidth;
-				height = this.$panel[0].scrollHeight;
-				this.$panel.css({'width': currentWidth, 'height': currentHeight});
-			} else {
-				// workaround for when scrollWidth and scrollHeight return incorrect values
-				// this happens in some browsers (Firefox and Opera a.t.m.) unless there is a set width and height for the element
-				this.$panel.css({'width': '100px','height': '100px',  'overflow': 'hidden'});
-				width = this.$panel[0].scrollWidth;
-				height = this.$panel[0].scrollHeight;
-				this.$panel.css({'width': '', 'height': '', 'overflow': ''});
-			}
+			//this.$panel.css({'width': '10px', 'height': '10px'});
+			width = this.$panel[0].scrollWidth;
+			height = this.$panel[0].scrollHeight;
+			//this.$panel.css({'width': currentWidth, 'height': currentHeight});
 
 			return {width: width, height: height};
 		},
@@ -1653,6 +1624,9 @@
 			Check the status of all images from the panel
 		*/
 		checkImagesComplete: function() {
+			if (this.isLoading === true)
+				return 'loading';
+
 			var that = this,
 				status = 'complete';
 
@@ -1660,27 +1634,33 @@
 			this.$panel.find('img').each(function(index) {
 				var image = $(this)[0];
 
-				if (image.complete === false)
+				if (image.complete === false || typeof $(this).attr('data-src') !== 'undefined')
 					status = 'loading';
 			});
 
 			// continue checking until all images have loaded
 			if (status === 'loading') {
+				this.isLoading = true;
+
 				var checkImage = setInterval(function() {
-					var isLoaded = true;
+					var loaded = true;
 
 					that.$panel.find('img').each(function(index) {
 						var image = $(this)[0];
 
-						if (image.complete === false)
-							isLoaded = false;
+						if (image.complete === false || typeof $(this).attr('data-src') !== 'undefined')
+							loaded = false;
 					});
 
-					if (isLoaded === true) {
+					if (loaded === true) {
+						that.isLoading = false;
+						that.isLoaded = true;
 						clearInterval(checkImage);
-						that.trigger({type: 'imagesComplete.' + NS, index: that.index, contentSize: that.getContentSize()});
+						that.trigger({type: 'imagesComplete.' + NS, index: that.index});
 					}
 				}, 100);
+			} else {
+				this.isLoaded = true;
 			}
 
 			return status;
@@ -2228,7 +2208,6 @@
 			// and create Layer instances for each object
 			this.$panel.find('.ga-layer').each(function() {
 				var layer = new Layer($(this));
-
 				that.layers.push(layer);
 			});
 
@@ -2647,13 +2626,6 @@
 				// assign the source of the image
 				newImage.attr('src', image.attr('data-src'));
 				newImage.removeAttr('data-src');
-
-				// get the size of the panel, after the new image was added, and 
-				// if there aren't loading images, trigger the 'imagesComplete' event
-				var newSize = panel.getContentSize();
-				if (newSize !== 'loading') {
-					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
-				}
 			}
 		},
 
@@ -2864,13 +2836,6 @@
 
 				// assign the source of the image
 				newImage.attr('src', newImagePath);
-
-				// get the size of the panel, after the new image was added, and 
-				// if there aren't loading images, trigger the 'imagesComplete' event
-				var newSize = panel.getContentSize();
-				if (newSize !== 'loading') {
-					panel.trigger({type: 'imagesComplete.' + NS, index: panel.getIndex()});
-				}
 			}
 		},
 

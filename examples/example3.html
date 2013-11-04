@@ -18,11 +18,14 @@
 		// instantiate the accordion
 		$('#example3').gridAccordion({
 			width: 960,
-			height: 400,
+			height: 800,
+			//openedPanelWidth: '500px',
+			//openedPanelHeight: '400px',
 			responsiveMode: 'custom',
-			columns: 5,
-			startPanel: 2,
-			closePanelsOnMouseOut: false,
+			columns: -1,
+			rows: 3,
+			startPanel: 4,
+			//closePanelsOnMouseOut: false,
 			shadow: false,
 			panelDistance: 10,
 			autoplay: false,
@@ -93,7 +96,7 @@
 					</p>
 				</div>
 			</div>
-			
+
 			<!-- Panel 3 -->
 	        <div class="ga-panel">
 				<img class="ga-background" src="../dist/css/images/blank.gif" data-src="http://bqworks.com/accordion-slider/images/image3.jpg" data-retina="http://bqworks.com/accordion-slider/images/image3@2x.jpg"/>

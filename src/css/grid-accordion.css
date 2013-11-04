@@ -32,10 +32,6 @@
 	overflow: hidden;
 }
 
-.grid-accordion.overlap .ga-panel {
-	overflow: visible;
-}
-
 .grid-accordion .ga-panel.ga-shadow {
 	-webkit-box-shadow: -5px 0px 40px 1px #000;
 	-mox-box-shadow: -5px 0px 40px 1px #000;
