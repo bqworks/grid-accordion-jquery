@@ -4,28 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 
-<title>Accordion Slider - Example JSON</title>
+<title>Grid Accordion - Example JSON</title>
 
-<link rel="stylesheet" type="text/css" href="../dist/css/accordion-slider.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="../dist/css/grid-accordion.min.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
-<script type="text/javascript" src="../dist/js/jquery.accordionSlider.min.js"></script>
+<script type="text/javascript" src="../dist/js/jquery.gridAccordion.min.js"></script>
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		// instantiate the accordion
-		$('#example-json').accordionSlider({
+		$('#example-json').gridAccordion({
 			JSONSource: 'accordion.json',
-			width: 960, 
-			height: 400,
+			width: 960,
+			height: 800,
 			responsiveMode: 'custom',
+			columns: 3,
+			rows: 3,
 			autoplay: false,
 			mouseWheel:false,
 			breakpoints: {
-				700: {visiblePanels: 6},
-				500: {visiblePanels: 4}
+				600: {columns: 2, rows: 2}
 			}
 		});
 	});
@@ -35,11 +36,11 @@
 
 <body>
 	
-	<!-- Accordion Slider -->
+	<!-- Grid Accordion -->
 
-	<div id="example-json" class="accordion-slider"></div>
+	<div id="example-json" class="grid-accordion"></div>
 
-    <!-- End of Accordion Slider -->
+    <!-- End of Grid Accordion -->
 
 </body>
 </html>

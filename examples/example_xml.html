@@ -4,25 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 
-<title>Accordion Slider - Example XML</title>
+<title>Grid Accordion - Example XML</title>
 
-<link rel="stylesheet" type="text/css" href="../dist/css/accordion-slider.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="../dist/css/grid-accordion.min.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="css/examples.css" media="screen"/>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src="../libs/jquery-1.10.1.min.js"></script>
-<script type="text/javascript" src="../dist/js/jquery.accordionSlider.min.js"></script>
+<script type="text/javascript" src="../dist/js/jquery.gridAccordion.min.js"></script>
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		// instantiate the accordion
-		$('#example-xml').accordionSlider({
+		$('#example-xml').gridAccordion({
 			XMLSource: 'accordion.xml',
-			width: 960, 
-			height: 400,
-			visiblePanels: 5,
-			closePanelsOnMouseOut: false,
-			autoplay: false
+			width: 960,
+			height: 700,
+			responsiveMode: 'auto',
+			openedPanelWidth: 'auto',
+			openedPanelHeight: 'auto',
+			closePanelsOnMouseOut: false
 		});
 	});
 </script>
@@ -31,11 +32,11 @@
 
 <body>
 	
-	<!-- Accordion Slider -->
+	<!-- Grid Accordion -->
 
-	<div id="example-xml" class="accordion-slider"></div>
+	<div id="example-xml" class="grid-accordion"></div>
 
-    <!-- End of Accordion Slider -->
+    <!-- End of Grid Accordion -->
 
 </body>
 </html>

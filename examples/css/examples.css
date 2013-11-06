@@ -5,14 +5,8 @@ body {
 
 #example1 .panel-counter {
 	padding: 5px;
-	font-size: 20px;
+	font-size: 16px;
 	color: #333;
-	-moz-transform-origin: left bottom;
-	-webkit-transform-origin: left bottom;
-	transform-origin: left bottom;
-	-moz-transform: rotate(-90deg) translateY(100%);
-	-webkit-transform: rotate(-90deg) translateY(100%);
-	transform: rotate(-90deg) translateY(100%);
 }
 
 @media (max-width: 860px) {
@@ -23,74 +17,57 @@ body {
 		left: 2px !important;
 	}
 
-	#example1.custom-responsive .hide-medium-screen,
-	#example3 .hide-medium-screen {
-		display: none;
+	#example1.custom-responsive .hide-medium-screen {
+		display: none !important;
 	}
 }
 
 @media (max-width: 640px) {
-	#example1.custom-responsive .ga-layer,
-	#example3.ga-horizontal .ga-layer {
+	#example1.custom-responsive .ga-layer {
 		font-size: 12px;
-	}
-
-	#example1.custom-responsive .hide-small-screen,
-	#example3 .hide-small-screen {
-		display: none;
 	}
 }
 
 @media (max-width: 450px) {
-	#example1.custom-responsive .ga-layer,
-	#example3.ga-horizontal .ga-layer {
+	#example1.custom-responsive .ga-layer {
 		font-size: 10px;
 		padding: 2px;
 	}
 }
 
-#example3 .ga-panel {
-	border: 2px solid #333;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#example4 .text {
+#example3 .text {
 	padding: 15px;
 	background-color: #F1F1F1;
 	color: #222;
 }
 
-#example4 .title {
+#example3 .title {
 	font-size: 24px;
 	margin: 0;
 }
 
-#example4 .description {
+#example3 .description {
 	font-size: 14px;
 	line-height: 1.2;
 }
 
-#example4 .link {
+#example3 .link {
 	position: absolute;
 	bottom: 0;
 }
 
-#example4 .link a {
+#example3 .link a {
 	color: #000;
+}
+
+#example3 iframe {
+	vertical-align: bottom;
 }
 
 #example-xml .ga-panel-counter {
 	padding: 5px;
-	font-size: 20px;
+	font-size: 16px;
 	color: #333;
-	-moz-transform-origin: left bottom;
-	-webkit-transform-origin: left bottom;
-	transform-origin: left bottom;
-	-moz-transform: rotate(-90deg) translateY(100%);
-	-webkit-transform: rotate(-90deg) translateY(100%);
-	transform: rotate(-90deg) translateY(100%);
 }
 
 .controls {
