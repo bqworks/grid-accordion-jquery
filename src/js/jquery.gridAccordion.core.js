@@ -449,7 +449,7 @@
 
 			// adjust the maximum width and height of the images
 			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'max-width': this.maxComputedOpenedPanelWidth, 'max-height': this.maxComputedOpenedPanelHeight});
-	
+
 			// set the width and height, in pixels, of the collapsed panels
 			this.collapsedPanelWidth = (this.totalWidth - this.computedOpenedPanelWidth - (this.columns - 1) * this.computedPanelDistance) / (this.columns - 1);
 			this.collapsedPanelHeight = (this.totalHeight - this.computedOpenedPanelHeight - (this.rows - 1) * this.computedPanelDistance) / (this.rows - 1);
@@ -461,15 +461,6 @@
 			this.collapsedPanelHeight = Math.floor(this.collapsedPanelHeight);
 			this.closedPanelWidth = Math.floor(this.closedPanelWidth);
 			this.closedPanelHeight = Math.floor(this.closedPanelHeight);
-
-			// get the total width and height of the panels' container
-			if (this.settings.orientation === 'horizontal') {
-				this.totalPanelsSize = this.totalWidth * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
-				this.$panelsContainer.css('width', this.totalPanelsSize);
-			} else {
-				this.totalPanelsSize = this.totalHeight * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
-				this.$panelsContainer.css('height', this.totalPanelsSize);
-			}
  
 			// reset the accordion's size so that the panels fit exactly inside if their size and position are rounded
 			this.totalWidth = this.closedPanelWidth * this.columns + this.computedPanelDistance * (this.columns - 1);
@@ -480,6 +471,15 @@
 			} else {
 				this.$accordion.css({'width': this.totalWidth * this.autoResponsiveRatio, 'height': this.totalHeight * this.autoResponsiveRatio});
 				this.$maskContainer.css({'width': this.totalWidth, 'height': this.totalHeight});
+			}
+
+			// get the total width and height of the panels' container
+			if (this.settings.orientation === 'horizontal') {
+				this.totalPanelsSize = this.totalWidth * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
+				this.$panelsContainer.css('width', this.totalPanelsSize);
+			} else {
+				this.totalPanelsSize = this.totalHeight * this.getTotalPages() + this.computedPanelDistance * (this.getTotalPages() - 1);
+				this.$panelsContainer.css('height', this.totalPanelsSize);
 			}
 
 			// if there are multiple pages, set the correct position of the panels' container
