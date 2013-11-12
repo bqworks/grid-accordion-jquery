@@ -166,7 +166,7 @@ Sets a delay for the hide transition. This delay starts from the moment when the
 
 The layers are animated using CSS3 transitions in most browsers. In IE9 and IE8 (where CSS3 transitions are not supported), the layers will only fade in/out and in IE7 and older, the layers will appear without any animation.
 
-This module is showcased in example1.html, example3.html and example4.html.
+This module is showcased in example1.html and example3.html.
 
 ### 6. Lazy Loading ###
 
@@ -250,7 +250,7 @@ It's also possible to specify the 'id' attribute of the panel instead of its ind
 
 In order to open the second panel, you can use either `http://domain.com/page#my-accordion/1` or `http://domain.com/page#my-accordion/my-panel`.
 
-This module is showcased in example4.html.
+This module is showcased in example3.html.
 
 ### 9. Swap Background ###
 
@@ -365,7 +365,7 @@ Please note that, in order to use SublimeVideo, you will also need to load a scr
 
 * The control bar of SublimeVideo videos will become unresponsive on iOS if the 'auto' responsive mode is used. It seems that, in general, scaling SublimeVideo using the CSS3 'transform' property will make them unresponsive to user input.
 
-This module is showcased in example4.html.
+This module is showcased in example3.html.
 
 ### 11. XML ###
 
