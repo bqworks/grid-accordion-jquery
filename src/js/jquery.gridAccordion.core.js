@@ -299,7 +299,7 @@
 			} else if (this.currentIndex !== -1) {
 				this.currentPage = Math.floor(this.currentIndex / (this.settings.columns * this.settings.rows));
 			} else if ((this.settings.columns !== this.previousColumns && this.previousColumns !== -1) || (this.settings.rows !== this.previousRows && this.previousRows !== -1)) {
-				var correctPage = Math.round((this.currentPage * (this.previousColumns * this.previousRows)) / (this.settings.columns * this.settings.rows));
+				var correctPage = Math.min(Math.round((this.currentPage * (this.previousColumns * this.previousRows)) / (this.settings.columns * this.settings.rows)), this.getTotalPages() - 1);
 
 				if (this.currentPage !== correctPage)
 					this.currentPage = correctPage;
@@ -1217,7 +1217,7 @@
 		getTotalPages: function() {
 			if (this.settings.columns === -1 || this.settings.rows === -1)
 				return 1;
-			
+
 			return Math.ceil(this.getTotalPanels() / (this.columns * this.rows));
 		},
 
@@ -1460,15 +1460,14 @@
 		// set a namespace for the panel
 		this.panelNS =  'GridAccordionPanel' + index + '.' + NS;
 
+		this.isLoading = false;
+		this.isLoaded = false;
+
 		// set the index of the panel
 		this.setIndex(index);
 
 		// init the panel
 		this._init();
-
-		this.isLoading = false;
-
-		this.isLoaded = false;
 	};
 
 	GridAccordionPanel.prototype = {
@@ -1603,7 +1602,7 @@
 				that = this;
 
 			// check if there are loading images
-			if (that.isLoaded === false)
+			if (this.isLoaded === false)
 				if (this.checkImagesComplete() === 'loading')
 					return 'loading';
 			
