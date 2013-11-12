@@ -33,9 +33,15 @@
 					return;
 
 				if (event.which === 37) {
-					that.previousPanel();
+					if (that.settings.keyboardTarget === 'page')
+						that.previousPage();
+					else
+						that.previousPanel();
 				} else if (event.which === 39) {
-					that.nextPanel();
+					if (that.settings.keyboardTarget === 'page')
+						that.nextPage();
+					else
+						that.nextPanel();
 				} else if (event.which === 13) {
 					that.$accordion.find('.ga-panel').eq(that.currentIndex).children('a')[0].click();
 				}
@@ -50,7 +56,8 @@
 
 		keyboardDefaults: {
 			keyboard: true,
-			keyboardOnlyOnFocus: false
+			keyboardOnlyOnFocus: false,
+			keyboardTarget: 'panel'
 		}
 	};
 
