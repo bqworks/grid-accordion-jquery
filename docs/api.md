@@ -240,6 +240,12 @@ Indicates if the accordion will respond to keyboard input only if the accordion 
 
 *Default value:* false
 
+#### keyboardTarget ####
+
+Sets what elements will be targeted by the keyboard input. Can be set to 'panel' or 'page'. Setting it to 'panel' will indicate that the panels will be scrolled, while setting it to 'page' indicate that the pages will be scrolled.
+
+*Default value:* 'panel'
+
 #### swapBackgroundDuration ####
 
 Sets the duration, in milliseconds, of the transition effect.
