@@ -106,7 +106,7 @@ Sets the maximum allowed height of the opened panel. This should be used when th
 
 #### openPanelOn ####
 
-If set to 'hover', the panels will be opened by moving the mouse pointer over them; if set to 'click', the panels will only open when clicked.
+If set to 'hover', the panels will be opened by moving the mouse pointer over them; if set to 'click', the panels will open when clicked.  Can also be set to 'never' to disable the opening of the panels.
 
 *Default value:* 'hover'
 
