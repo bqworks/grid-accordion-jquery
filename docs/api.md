@@ -206,7 +206,7 @@ Sets the direction in which the panels will be opened. Can be set to 'normal' (a
 
 #### autoplayOnHover ####
 
-Indicates if the autoplay will be paused when the accordion is hovered.
+Indicates if the autoplay will be paused or stopped when the accordion is hovered. Can be set to 'pause', 'stop' or 'none'.
 
 *Default value:* 'pause'
 
