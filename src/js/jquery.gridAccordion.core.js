@@ -895,7 +895,7 @@
 			// reset the list of tracked loading panels
 			this.loadingPanels.length = 0;
 
-			this.$accordion.find('ga-panel.ga-opened').removeClass('ga-opened');
+			this.$accordion.find('.ga-panel.ga-opened').removeClass('ga-opened');
 			this.$accordion.find('.ga-panel').eq(this.currentIndex).addClass('ga-opened');
 
 			// check if the panel needs to open to its maximum width and/or height, and recalculate
