@@ -150,7 +150,7 @@ Indicates the duration of the page scroll.
 
 Indicates the easing type of the page scroll. Setting a custom value requires the use of a jQuery easing plugin.
 
-*Default value:* 500
+*Default value:* 'swing'
 
 #### breakpoints ####
 
