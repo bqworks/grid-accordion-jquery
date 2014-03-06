@@ -2,7 +2,7 @@
 
 ## Introduction ##
 
-Grid Accordion has a modular architecture. It consists of a core and several optional modules. The advantage of modular architecture is that it allows you to only load the code you need and leave out what you don't need, resulting in a smaller file size for the script and, theoretically, better performance, although, practically, the performance impact is not noticeable even if you load all the modules. There are also advantages for developers, because the plugin is easier to extend and maintain.
+Grid Accordion has a modular architecture. It consists of a core and several optional modules. The advantage of modular architecture is that it allows you to load only the code you need and leave out what you don't need, resulting in a smaller file size for the script and, theoretically, better performance, although, practically, the performance impact is not noticeable even if you load all the modules. There are also advantages for developers, because the plugin is easier to extend and maintain.
 
 The jquery.gridAccordion.js file (and its minified version, jquery.gridAccordion.min.js) from the 'dist' folder includes all the modules, so that you can have quick and easy access to all the available features. However, if you would like to build a custom file, and you're familiar enough with JavaScript, please see the 'Building a custom file' chapter. Even if you don't want to construct a custom file, please go through the 'Modules presentation' chapter in order to learn how to use the Grid Accordion's features.
 
@@ -164,7 +164,7 @@ Sets the duration of the hide transition.
 
 Sets a delay for the hide transition. This delay starts from the moment when the panel starts closing.
 
-The layers are animated using CSS3 transitions in most browsers. In IE9 and IE8 (where CSS3 transitions are not supported), the layers will only fade in/out and in IE7 and older, the layers will appear without any animation.
+The layers are animated using CSS3 transitions in most browsers. In IE9 and IE8 (where CSS3 transitions are not supported), the layers will only fade in/out, and in IE7 and older, the layers will appear without any animation.
 
 This module is showcased in example1.html and example3.html.
 
@@ -381,7 +381,7 @@ $('#example-xml').gridAccordion({
 });
 ```
 
-In the accordion's HTML code, you will only need to create the main container DIV. The rest will be created automatically, based on the XML data.
+In the accordion's HTML code, you will need to create only the main container DIV. The rest will be created automatically, based on the XML data.
 
 ```
 <div id="example-xml" class="grid-accordion"></div>
@@ -477,7 +477,7 @@ $('#example-json').gridAccordion({
 });
 ```
 
-In the accordion's HTML code, you will only need to create the main container DIV. The rest will be created automatically, based on the JSON data.
+In the accordion's HTML code, you will need to create only the main container DIV. The rest will be created automatically, based on the JSON data.
 
 ```
 <div id="example-json" class="grid-accordion"></div>

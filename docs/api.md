@@ -42,7 +42,7 @@ Makes the accordion responsive. The accordion can be responsive even if the 'wid
 
 #### responsiveMode ####
 
-Sets the responsive mode of the accordion. Possible values are 'auto' and 'custom'. 'auto' resizes the accordion and all of its elements (e.g., layers, videos) automatically, while 'custom' only resizes the accordion container and panels, and you are given flexibility over the way inner elements (e.g., layers, videos) will respond to smaller sizes. For example, you could use CSS media queries to define different text sizes or to hide certain elements when the accordion becomes smaller, ensuring that all content remains readable without having to zoom in.
+Sets the responsive mode of the accordion. Possible values are 'auto' and 'custom'. 'auto' resizes the accordion and all of its elements (e.g., layers, videos) automatically, while 'custom' resizes only the accordion container and panels, and you are given flexibility over the way inner elements (e.g., layers, videos) will respond to smaller sizes. For example, you could use CSS media queries to define different text sizes or to hide certain elements when the accordion becomes smaller, ensuring that all content remains readable without having to zoom in.
 
 It's important to note that, if 'auto' responsiveness is used, the 'width' and 'height' need to be set to fixed values, so that the accordion can calculate correctly how much it needs to scale.
 

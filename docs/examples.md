@@ -6,7 +6,7 @@ This chapter contains a presentation of each example included with 'Grid Accordi
 
 Beyond demonstrating how to use layers and several other features, the main purpose of this example is to show the difference between 'auto' and 'custom' responsiveness. 
 
-The example allows you to change the responsive mode at any time in order to see how each option works. You will notice that changing the responsive mode to 'auto' will display all layer content completely, but will also resize the layers proportionally to the size of the accordion. Changing the responsive mode to 'custom' will keep the layers at a size that makes the text easy to read at any size of the accordion, but for this purpose it will hide part of the layers and only show the most important content.
+The example allows you to change the responsive mode at any time in order to see how each option works. You will notice that changing the responsive mode to 'auto' will display all layer content completely, but will also resize the layers proportionally to the size of the accordion. Changing the responsive mode to 'custom' will keep the layers at a size that makes the text easy to read at any size of the accordion, but for this purpose it will hide part of the layers and show only the most important content.
 
 'Custom' responsiveness is used in conjunction with CSS media queries, which are used to partly hide the layers at smaller screen sizes. The CSS code used in this example can be found in 'examples/css/examples.css'.
 
