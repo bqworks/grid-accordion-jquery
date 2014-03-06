@@ -144,7 +144,7 @@ Sets an offset for the position of the layer from which the layer will be animat
 
 Sets the duration of the show transition.
 
-##### show-delay #####
+##### data-show-delay #####
 
 Sets a delay for the show transition. This delay starts from the moment when the panel starts opening.
 
