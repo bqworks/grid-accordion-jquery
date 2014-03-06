@@ -333,13 +333,7 @@
 				this.$accordion.css('height', this.$accordion.innerWidth() / this.settings.aspectRatio);
 
 			// get the total size, in pixels, of the accordion
-			if (this.settings.responsiveMode === 'custom' && this.settings.responsive === true) {
-				// clear previous styling
-				this.$maskContainer.attr('style', '');
-
-				this.totalWidth = this.$accordion.innerWidth();
-				this.totalHeight = this.$accordion.innerHeight();
-			} else if (this.settings.responsiveMode === 'auto' && this.settings.responsive === true) {
+			if (this.settings.responsive === true && this.settings.responsiveMode === 'auto') {
 				// get the accordion's size ratio based on the set size and the actual size
 				this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
 
@@ -353,6 +347,12 @@
 				
 				this.totalWidth = this.$maskContainer.innerWidth();
 				this.totalHeight = this.$maskContainer.innerHeight();
+			} else {
+				// clear previous styling
+				this.$maskContainer.attr('style', '');
+
+				this.totalWidth = this.$accordion.innerWidth();
+				this.totalHeight = this.$accordion.innerHeight();
 			}
 
 			// reset the list of panels that we are tracking
