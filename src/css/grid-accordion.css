@@ -109,10 +109,29 @@
 	background-color: #000;
 }
 
+.grid-accordion.ga-has-buttons {
+	margin-bottom: 32px;
+}
+
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 	.grid-accordion .ga-pagination-button {
 		width: 14px;
 		height: 14px;
+	}
+
+	.grid-accordion.ga-has-buttons {
+		margin-bottom: 36px;
+	}
+}
+
+@media only screen and (min-device-width: 568px) and (max-device-width: 768px) {
+	.grid-accordion .ga-pagination-button {
+		width: 16px;
+		height: 16px;
+	}
+
+	.grid-accordion.ga-has-buttons {
+		margin-bottom: 38px;
 	}
 }
 
@@ -120,6 +139,10 @@
 	.grid-accordion .ga-pagination-button {
 		width: 18px;
 		height: 18px;
+	}
+
+	.grid-accordion.ga-has-buttons {
+		margin-bottom: 40px;
 	}
 }
 

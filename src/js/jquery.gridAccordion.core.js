@@ -1315,7 +1315,8 @@
 				paginationButtons.remove();
 				paginationButtons.off('click.' + NS, '.ga-pagination-button');
 				this.off('pageScroll.' + NS);
-			
+				
+				this.$accordion.removeClass('ga-has-buttons');
 			// if there are pages and the buttons were not created yet, create them now
 			} else if (totalPages > 1 && paginationButtons.length === 0) {
 				// create the buttons' container
@@ -1339,6 +1340,8 @@
 					paginationButtons.find('.ga-selected').removeClass('ga-selected');
 					paginationButtons.find('.ga-pagination-button').eq(event.index).addClass('ga-selected');
 				});
+
+				this.$accordion.addClass('ga-has-buttons');
 
 			// update the buttons if they already exist but their number differs from
 			// the number of existing pages
