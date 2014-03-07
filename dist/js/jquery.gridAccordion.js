@@ -1600,24 +1600,13 @@
 			Get the real size of the panel's content
 		*/
 		getContentSize: function() {
-			var width,
-				height,
-				that = this;
-
 			// check if there are loading images
 			if (this.isLoaded === false)
 				if (this.checkImagesComplete() === 'loading')
 					return 'loading';
 			
-			// get the current size of the inner content and then temporarily set the panel to a small size
-			// in order to accurately calculate the size of the inner content
-			//var currentWidth = this.$panel.css('width'),
-			//	currentHeight = this.$panel.css('height');
-
-			//this.$panel.css({'width': '10px', 'height': '10px'});
-			width = this.$panel[0].scrollWidth;
-			height = this.$panel[0].scrollHeight;
-			//this.$panel.css({'width': currentWidth, 'height': currentHeight});
+			var width = this.$panel[0].scrollWidth,
+				height = this.$panel[0].scrollHeight;
 
 			return {width: width, height: height};
 		},
