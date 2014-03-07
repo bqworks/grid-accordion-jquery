@@ -683,7 +683,7 @@
 				if (that.settings.openPanelOn === 'click') {
 					// open the panel if it's not already opened
 					// and close the panels if the clicked panel is opened
-					if (index !== this.currentIndex)
+					if (index !== that.currentIndex)
 						that.openPanel(event.index);
 					else
 						that.closePanels();
@@ -693,6 +693,15 @@
 				that.trigger(eventObject);
 				if ($.isFunction(that.settings.panelClick))
 					that.settings.panelClick.call(that, eventObject);
+			});
+
+			// disable links if the panel should open on click and it wasn't opened yet
+			panel.on('panelMouseDown.' + NS, function(event) {
+				if (index !== that.currentIndex && that.settings.openPanelOn === 'click') {
+					$(this).find('a').one('click', function(event) {
+						event.preventDefault();
+					});
+				}
 			});
 
 			// listen for 'imagesComplete' events and if the images were loaded in
@@ -1498,6 +1507,11 @@
 				that.trigger({type: 'panelClick.' + NS, index: that.index});
 			});
 
+			// listen for 'mousedown' events
+			this.on('mousedown.' + this.panelNS, function() {
+				that.trigger({type: 'panelMouseDown.' + NS, index: that.index});
+			});
+
 			// set position and size properties
 			this.update();
 
@@ -1531,6 +1545,7 @@
 			this.off('mouseenter.' + this.panelNS);
 			this.off('mouseleave.' + this.panelNS);
 			this.off('click.' + this.panelNS);
+			this.off('mousedown.' + this.panelNS);
 
 			// clean the element from attached styles and data
 			this.$panel.attr('style', '');

@@ -47,6 +47,7 @@
 						panel.off('panelMouseOver.' + NS);
 						panel.off('panelMouseOut.' + NS);
 						panel.off('panelClick.' + NS);
+						panel.off('panelMouseDown.' + NS);
 					});
 
 				// add or remove grabbing icon
