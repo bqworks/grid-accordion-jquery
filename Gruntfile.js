@@ -5,9 +5,16 @@ module.exports = function(grunt) {
     appName: 'Grid Accordion',
     jsFileName: 'jquery.gridAccordion',
     cssFileName: 'grid-accordion',
+    banner: '/*!\n' +
+            '* <%= pkg.prettyName %> - v<%= pkg.version %>\n' +
+            '* Homepage: <%= pkg.homepage %>\n' +
+            '* Author: <%= pkg.author.name %>\n' +
+            '* Author URL: <%= pkg.author.url %>\n' +
+            '* Date: <%= grunt.template.today("yyyy-mm-dd") %>\n*/\n',
     concat: {
       options: {
-        separator: '\n\n'
+        separator: '\n\n',
+        banner: '<%= banner %>'
       },
       dist: {
         src: [
@@ -19,7 +26,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '/*!\n<%= appName %> by <%= pkg.author %>\n<%= pkg.homepage %>\n*/\n'
+        banner: '<%= banner %>'
       },
       dist: {
         files: {
