@@ -3980,9 +3980,11 @@ JWPlayerVideo.prototype.replay = function() {
 			this.$panelsContainer.removeClass('ga-grab').addClass('ga-grabbing');
 
 			// disable click events on links
-			$(event.target).parents('.ga-panel').find('a').addClass('ga-swiping').one('click.TouchSwipe', function(event) {
+			$(event.target).parents('.ga-panel').find('a').one('click.TouchSwipe', function(event) {
 				event.preventDefault();
 			});
+
+			this.$accordion.addClass('ga-swiping');
 		},
 
 		_onTouchMove: function(event) {
@@ -4021,7 +4023,8 @@ JWPlayerVideo.prototype.replay = function() {
 
 		_onTouchEnd: function(event) {
 			// remove the move and end listeners
-			var moveEvent = this.isTouchSupport ? 'touchmove' : 'mousemove',
+			var that = this,
+				moveEvent = this.isTouchSupport ? 'touchmove' : 'mousemove',
 				endEvent = this.isTouchSupport ? 'touchend' : 'mouseup';
 
 			this.$panelsContainer.off(moveEvent + '.' + NS);
@@ -4038,7 +4041,8 @@ JWPlayerVideo.prototype.replay = function() {
 					this.openPanel(index);
 				} else {
 					// re-enable click events on links
-					$(event.target).parents('.ga-panel').find('a').removeClass('ga-swiping').off('click.TouchSwipe');
+					$(event.target).parents('.ga-panel').find('a').off('click.TouchSwipe');
+					this.$accordion.removeClass('ga-swiping');
 				}
 
 				return;
@@ -4046,7 +4050,8 @@ JWPlayerVideo.prototype.replay = function() {
 
 			// return if there was no movement and re-enable click events on links
 			if (this.isTouchMoving === false) {
-				$(event.target).parents('.ga-panel').find('a').removeClass('ga-swiping').off('click.TouchSwipe');
+				$(event.target).parents('.ga-panel').find('a').off('click.TouchSwipe');
+				this.$accordion.removeClass('ga-swiping');
 				return;
 			}
 
@@ -4057,7 +4062,7 @@ JWPlayerVideo.prototype.replay = function() {
 			// the existence of this class, and this class should still be 
 			// applied for those listeners, since there was a swipe event
 			setTimeout(function() {
-				$(event.target).parents('.ga-panel').find('a').removeClass('ga-swiping');
+				this.$accordion.removeClass('ga-swiping');
 			}, 1);
 
 			var noScrollAnimObj = {};

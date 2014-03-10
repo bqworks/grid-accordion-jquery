@@ -39,7 +39,7 @@
 			// by checking if the link has the 'ga-swiping' class attached.
 			// if the accordion is not being swiped, open the lightbox programmatically,
 			// at the correct index
-			if ($(this).hasClass('ga-swiping') === false)
+			if ($('#example2').hasClass('ga-swiping') === false)
 				$.fancybox.open($('#example2 .ga-panel > a'), {index:$(this).parent().index()});
 		});
 	});
