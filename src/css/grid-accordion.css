@@ -38,14 +38,17 @@
 	box-shadow: -5px 0px 40px 1px #000;
 }
 
+.grid-accordion img {
+	max-width: none;
+	max-height: none;
+}
+
 .ga-background,
 .ga-background-opened {
 	border: none;
 	vertical-align: bottom;
 	width: auto;
 	height: auto;
-	max-width: none;
-	max-height: none;
 }
 
 .ga-background-opened {
