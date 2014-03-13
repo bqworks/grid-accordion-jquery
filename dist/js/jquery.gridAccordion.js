@@ -1630,8 +1630,12 @@
 				if (this.checkImagesComplete() === 'loading')
 					return 'loading';
 			
+			this.$panel.find( '.ga-opened' ).css( 'display', 'none' );
+
 			var width = this.$panel[0].scrollWidth,
 				height = this.$panel[0].scrollHeight;
+
+			this.$panel.find( '.ga-opened' ).css( 'display', '' );
 
 			return {width: width, height: height};
 		},
