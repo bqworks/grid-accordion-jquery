@@ -38,7 +38,8 @@
 	box-shadow: -5px 0px 40px 1px #000;
 }
 
-.grid-accordion img,
+.grid-accordion .ga-background,
+.grid-accordion .ga-background-opened,
 .grid-accordion video,
 .grid-accordion iframe,
 .grid-accordion object,

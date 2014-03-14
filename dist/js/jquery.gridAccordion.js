@@ -3,7 +3,7 @@
 * Homepage: http://bqworks.com/grid-accordion/
 * Author: bqworks
 * Author URL: http://bqworks.com/
-* Date: 2014-03-13
+* Date: 2014-03-14
 */
 ;(function(window, $) {
 
