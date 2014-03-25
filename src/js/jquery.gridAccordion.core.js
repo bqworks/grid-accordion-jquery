@@ -133,6 +133,8 @@
 
 			this.settings = $.extend({}, this.defaults, this.options);
 
+			this.$accordion.removeClass('ga-no-js');
+
 			// get reference to the panels' container and 
 			// create additional mask container, which will mask the panels' container
 			this.$maskContainer = $('<div class="ga-mask"></div>').appendTo(this.$accordion);

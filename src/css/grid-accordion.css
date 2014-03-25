@@ -156,6 +156,10 @@
 	cursor: url(images/closedhand.cur), move;
 }
 
+.ga-no-js {
+	overflow: hidden;
+}
+
 .grid-accordion p.ga-layer {
 	font-size: 14px;
 	line-height: 1.4;
