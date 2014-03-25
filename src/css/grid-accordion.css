@@ -38,17 +38,6 @@
 	box-shadow: -5px 0px 40px 1px #000;
 }
 
-.grid-accordion .ga-background,
-.grid-accordion .ga-background-opened,
-.grid-accordion video,
-.grid-accordion iframe,
-.grid-accordion object,
-.grid-accordion embed,
-.grid-accordion canvas {
-	max-width: none;
-	max-height: none;
-}
-
 .ga-background,
 .ga-background-opened {
 	border: none;
@@ -66,7 +55,7 @@
 
 .ga-layer {
 	position: absolute;
-	margin: 0;
+	margin: 0 !important;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -165,4 +154,70 @@
 
 .ga-grabbing {
 	cursor: url(images/closedhand.cur), move;
+}
+
+.grid-accordion p.ga-layer {
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.grid-accordion h1.ga-layer {
+	font-size: 32px;
+	line-height: 1.4;
+}
+
+.grid-accordion h2.ga-layer {
+	font-size: 24px;
+	line-height: 1.4;
+}
+
+.grid-accordion h3.ga-layer {
+	font-size: 19px;
+	line-height: 1.4;
+}
+
+.grid-accordion h4.ga-layer {
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.grid-accordion h5.ga-layer {
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.grid-accordion h6.ga-layer {
+	font-size: 11px;
+	line-height: 1.4;
+}
+
+.grid-accordion img.ga-layer {
+	border: none;
+}
+
+.grid-accordion .ga-background,
+.grid-accordion .ga-background-opened {
+	transition: none !important;
+	-moz-transition: none !important;
+	-webkit-transition: none !important;
+	-o-transition: none !important;
+}
+
+.grid-accordion a {
+	position: static;
+	transition: none !important;
+	-moz-transition: none !important;
+	-webkit-transition: none !important;
+	-o-transition: none !important;
+}
+
+.grid-accordion .ga-background,
+.grid-accordion .ga-background-opened,
+.grid-accordion iframe,
+.grid-accordion object,
+.grid-accordion video,
+.grid-accordion embed,
+.grid-accordion canvas {
+	max-width: none;
+	max-height: none;
 }
