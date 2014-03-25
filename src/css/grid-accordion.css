@@ -158,6 +158,7 @@
 
 .ga-no-js {
 	overflow: hidden;
+	max-width: 100%;
 }
 
 .grid-accordion p.ga-layer {
