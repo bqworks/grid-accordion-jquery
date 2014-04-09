@@ -9,8 +9,7 @@ module.exports = function(grunt) {
             '* <%= pkg.prettyName %> - v<%= pkg.version %>\n' +
             '* Homepage: <%= pkg.homepage %>\n' +
             '* Author: <%= pkg.author.name %>\n' +
-            '* Author URL: <%= pkg.author.url %>\n' +
-            '* Date: <%= grunt.template.today("yyyy-mm-dd") %>\n*/\n',
+            '* Author URL: <%= pkg.author.url %>\n*/\n',
     concat: {
       options: {
         separator: '\n\n',
