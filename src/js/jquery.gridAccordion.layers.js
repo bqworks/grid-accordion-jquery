@@ -230,14 +230,17 @@
 					transformValues = '0, -' + offset + 'px';
 
 				start.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				start['-webkit-transform'] = start['-ms-transform'] = start.transform;
 
 				var target = {
 					'opacity': 1,
 					'transition': 'all ' + duration + 's'
 				};
 
-				if (typeof this.data.showTransition !== 'undefined')
+				if (typeof this.data.showTransition !== 'undefined') {
 					target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(0, 0, 0)' : 'translate(0, 0)';
+					target['-webkit-transform'] = target['-ms-transform'] = target.transform;
+				}
 
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
@@ -295,6 +298,7 @@
 					transformValues = '0, ' + offset + 'px';
 
 				target.transform = LayersHelper.useTransforms() === '3d' ? 'translate3d(' + transformValues + ', 0)' : 'translate(' + transformValues + ')';
+				target['-webkit-transform'] = target['-ms-transform'] = target.transform;
 				
 				// listen when the layer animation is complete
 				this.$layer.on('transitionend webkitTransitionEnd oTransitionEnd msTransitionEnd', function() {
