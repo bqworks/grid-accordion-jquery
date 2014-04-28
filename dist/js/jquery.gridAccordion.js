@@ -1084,6 +1084,9 @@
 				this.$accordion.addClass('ga-closed');
 			}
 
+			// remove the "opened" class from the previously opened panel
+			this.$accordion.find('.ga-panel.ga-opened').removeClass('ga-opened');
+
 			clearTimeout(this.mouseDelayTimer);
 
 			var that = this,
