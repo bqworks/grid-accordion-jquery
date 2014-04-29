@@ -56,7 +56,7 @@
 						that._fadeOutBackground(background);
 				}
 
-				if (event.previousIndex !== -1) {
+				if (event.previousIndex !== -1 && event.index !== event.previousIndex) {
 					// get the previously opened panel
 					var previousPanel = that.getPanelAt(event.previousIndex),
 						previousBackground = previousPanel.$panel.find('.ga-background'),
