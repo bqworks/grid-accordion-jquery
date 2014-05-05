@@ -1,5 +1,5 @@
 /*!
-* Grid Accordion - v2.2.0
+* Grid Accordion - v2.3.0
 * Homepage: http://bqworks.com/grid-accordion/
 * Author: bqworks
 * Author URL: http://bqworks.com/
