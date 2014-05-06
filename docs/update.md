@@ -6,6 +6,10 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.3.1**
+
+* fixed 'ga-swiping' class removal
+
 **v. 2.3**
 
 * fixed background image swap when startPanel is used

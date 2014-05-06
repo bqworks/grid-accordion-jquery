@@ -1,5 +1,5 @@
 /*!
-* Grid Accordion - v2.3.0
+* Grid Accordion - v2.3.1
 * Homepage: http://bqworks.com/grid-accordion/
 * Author: bqworks
 * Author URL: http://bqworks.com/
@@ -4086,7 +4086,7 @@ JWPlayerVideo.prototype.replay = function() {
 			// the existence of this class, and this class should still be 
 			// applied for those listeners, since there was a swipe event
 			setTimeout(function() {
-				this.$accordion.removeClass('ga-swiping');
+				that.$accordion.removeClass('ga-swiping');
 			}, 1);
 
 			var noScrollAnimObj = {};
