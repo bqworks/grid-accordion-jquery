@@ -71,8 +71,8 @@
 				endEvent = this.isTouchSupport ? 'touchend' : 'mouseup';
 
 			// get the initial position of the mouse pointer and the initial position of the panels' container
-			this.touchStartPoint.x = eventObject.pageX;
-			this.touchStartPoint.y = eventObject.pageY;
+			this.touchStartPoint.x = eventObject.pageX || eventObject.clientX;
+			this.touchStartPoint.y = eventObject.pageY || eventObject.clientY;
 			this.touchStartPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10);
 
 			// clear the distance
@@ -100,8 +100,8 @@
 			this.isTouchMoving = true;
 
 			// get the current position of the mouse pointer
-			this.touchEndPoint.x = eventObject.pageX;
-			this.touchEndPoint.y = eventObject.pageY;
+			this.touchEndPoint.x = eventObject.pageX || eventObject.clientX;
+			this.touchEndPoint.y = eventObject.pageY || eventObject.clientY;
 
 			// calculate the distance of the movement on both axis
 			this.touchDistance.x = this.touchEndPoint.x - this.touchStartPoint.x;
