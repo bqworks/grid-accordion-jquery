@@ -330,7 +330,7 @@ Each Video.js video must have a unique 'id' attribute. Also, because the Video.j
 
 ```
 <div class="ga-video" data-videojs-id="video1">
-	<video id="video1" class="ga-video video-js vjs-default-skin" poster="path/to/poster.jpg" width="500" height="350" controls="controls" preload="none"
+	<video id="video1" class="video-js vjs-default-skin" poster="path/to/poster.jpg" width="500" height="350" controls="controls" preload="none"
 			data-setup="{}">
 		<source src="path/to/video.mp4" type="video/mp4"/>
 		<source src="path/to/video.ogv" type="video/ogg"/>
