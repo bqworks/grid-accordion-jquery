@@ -708,8 +708,10 @@
 
 			// disable links if the panel should open on click and it wasn't opened yet
 			panel.on('panelMouseDown.' + NS, function(event) {
+				$(this).find('a').off('click.disablePanelLink');
+
 				if (index !== that.currentIndex && that.settings.openPanelOn === 'click') {
-					$(this).find('a').one('click', function(event) {
+					$(this).find('a').one('click.disablePanelLink', function(event) {
 						event.preventDefault();
 					});
 				}
