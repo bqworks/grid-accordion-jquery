@@ -29,7 +29,7 @@
 			if (window.devicePixelRatio >= 2)
 				return true;
 
-			if (window.matchMedia && (window.matchMedia("(-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)").matches))
+			if (window.matchMedia && (window.matchMedia("(-webkit-min-device-pixel-ratio: 2),(min-resolution: 2dppx)").matches))
 				return true;
 
 			return false;
