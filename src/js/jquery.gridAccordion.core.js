@@ -140,6 +140,13 @@
 			this.$maskContainer = $('<div class="ga-mask"></div>').appendTo(this.$accordion);
 			this.$panelsContainer = this.$accordion.find('.ga-panels').appendTo(this.$maskContainer);
 
+			if (this.settings.shuffle === true) {
+				var shuffledPanels = this.$panelsContainer.find('.ga-panel').sort(function() {
+					return 0.5 - Math.random();
+				});
+				this.$panelsContainer.empty().append(shuffledPanels);
+			}
+
 			// create the 'ga-panels' element if it wasn't created manually
 			if (this.$panelsContainer.length === 0)
 				this.$panelsContainer = $('<div class="ga-panels"></div>').appendTo(this.$maskContainer);
@@ -1473,6 +1480,7 @@
 			breakpoints: null,
 			startPage: 0,
 			shadow: false,
+			shuffle: false,
 			init: function() {},
 			update: function() {},
 			accordionMouseOver: function() {},
