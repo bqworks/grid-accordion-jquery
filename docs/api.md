@@ -186,6 +186,12 @@ Indicates if the panels will have a drop shadow effect.
 
 *Default value:* false
 
+#### shuffle ####
+
+Indicates if the panels will be shuffled/randomized.
+
+*Default value:* false
+
 #### autoplay ####
 
 Indicates if the autoplay will be enabled.
