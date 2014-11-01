@@ -102,12 +102,18 @@
 				if (typeof image.attr('height') !== 'undefined')
 					newImage.attr('height', image.attr('height'));
 
-				// add the new image in the same container and remove the older image
-				newImage.insertAfter(image);
-				image.remove();
+				if (typeof image.attr('alt') !== 'undefined')
+					newImage.attr('alt', image.attr('alt'));
+
+				if (typeof image.attr('title') !== 'undefined')
+					newImage.attr('title', image.attr('title'));
 
 				// assign the source of the image
 				newImage.attr('src', newImagePath);
+				
+				// add the new image in the same container and remove the older image
+				newImage.insertAfter(image);
+				image.remove();
 			}
 		},
 
