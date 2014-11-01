@@ -209,6 +209,8 @@
 
 			// listen for 'mouseleave' events
 			this.on('mouseleave.' + NS, function(event) {
+				clearTimeout(that.mouseDelayTimer);
+
 				// close the panels
 				if (that.settings.closePanelsOnMouseOut === true)
 					that.closePanels();
