@@ -343,17 +343,31 @@
 				// get the accordion's size ratio based on the set size and the actual size
 				this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
 
-				// scale the mask container based on the current ratio
 				this.$maskContainer.css({
 					width: this.settings.width,
-					height: this.settings.height,
-					'-webkit-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'-ms-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'-webkit-transform-origin': 'top left',
-					'-ms-transform-origin': 'top left',
-					'transform-origin': 'top left'
+					height: this.settings.height
 				});
+
+				// scale the mask container based on the current ratio
+				if ( this.autoResponsiveRatio < 1 ) {
+					this.$maskContainer.css({
+						'-webkit-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+						'-ms-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+						'transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+						'-webkit-transform-origin': 'top left',
+						'-ms-transform-origin': 'top left',
+						'transform-origin': 'top left'
+					});
+				} else {
+					this.$maskContainer.css({
+						'-webkit-transform': '',
+						'-ms-transform': '',
+						'transform': '',
+						'-webkit-transform-origin': '',
+						'-ms-transform-origin': '',
+						'transform-origin': ''
+					});
+				}
 				
 				this.totalWidth = this.$maskContainer.innerWidth();
 				this.totalHeight = this.$maskContainer.innerHeight();
