@@ -94,7 +94,11 @@
 
 			if (SwapBackgroundHelper.checkCSSTransitions() === true) {
 				// remove the transition property after the animation completes
-				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function() {
+				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function( event ) {
+					if ( event.target !== event.currentTarget ) {
+						return;
+					}
+
 					target.off(SwapBackgroundHelper.cssTransitionEndEvents);
 					target.css({'transition': ''});
 				});
@@ -112,7 +116,11 @@
 
 			if (SwapBackgroundHelper.checkCSSTransitions() === true) {
 				// remove the transition property and make the image invisible after the animation completes
-				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function() {
+				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function( event ) {
+					if ( event.target !== event.currentTarget ) {
+						return;
+					}
+
 					target.off(SwapBackgroundHelper.cssTransitionEndEvents);
 					target.css({'visibility': 'hidden', 'transition': ''});
 				});
