@@ -31,8 +31,6 @@
 		},
 
 		initJSON: function() {
-			$.extend(this.settings, this.JSONDefaults, this.options);
-
 			if (this.settings.JSONSource !== null)
 				this.updateJSON();
 		},

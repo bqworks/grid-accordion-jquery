@@ -26,8 +26,6 @@
 		initTouchSwipe: function() {
 			var that = this;
 
-			$.extend(this.settings, this.touchSwipeDefaults, this.options);
-
 			// check if touch swipe is enabled
 			if (this.settings.touchSwipe === false)
 				return;

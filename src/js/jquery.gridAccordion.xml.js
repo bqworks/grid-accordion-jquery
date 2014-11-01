@@ -37,8 +37,6 @@
 		},
 
 		initXML: function() {
-			$.extend(this.settings, this.XMLDefaults, this.options);
-
 			if (this.settings.XMLSource !== null)
 				this.updateXML();
 		},

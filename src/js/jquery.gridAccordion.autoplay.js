@@ -22,8 +22,6 @@
 		initAutoplay: function() {
 			var that = this;
 
-			$.extend(this.settings, this.autoplayDefaults, this.options);
-
 			if (this.settings.autoplay === true)
 				this.startAutoplay();
 

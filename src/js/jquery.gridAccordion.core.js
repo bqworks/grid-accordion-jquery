@@ -154,11 +154,34 @@
 			// initialize accordion modules
 			var modules = $.GridAccordion.modules.accordion;
 
-			if (typeof modules !== 'undefined')
-				for (var i in modules) {
-					if (typeof this['init' + modules[i]] !== 'undefined')
-						this['init' + modules[i]]();
+			// Merge the modules' default settings with the core's default settings
+			if ( typeof modules !== 'undefined' ) {
+				for ( var i in modules ) {
+					var defaults = modules[ i ] + 'Defaults';
+					
+					if ( typeof this[ defaults ] !== 'undefined' ) {
+						$.extend( this.settings, this[ defaults ] );
+					} else {
+						defaults = modules[ i ].substring( 0, 1 ).toLowerCase() + modules[ i ].substring( 1 ) + 'Defaults';
+
+						if ( typeof this[ defaults ] !== 'undefined' ) {
+							$.extend( this.settings, this[ defaults ] );
+						}
+					}
 				}
+			}
+
+			// Merge the user defined settings with the default settings
+			$.extend( this.settings, this.options );
+
+			// Initialize the modules
+			if ( typeof modules !== 'undefined' ) {
+				for ( var j in modules ) {
+					if ( typeof this[ 'init' + modules[ j ] ] !== 'undefined' ) {
+						this[ 'init' + modules[ j ] ]();
+					}
+				}
+			}
 
 			// keep a reference of the original settings and use it
 			// to restore the settings when the breakpoints are used

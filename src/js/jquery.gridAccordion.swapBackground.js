@@ -39,8 +39,6 @@
 		initSwapBackground: function() {
 			var that = this;
 
-			$.extend(this.settings, this.swapBackgroundDefaults, this.options);
-
 			this.on('panelOpen.SwapBackground.' + NS, function(event) {
 				// get the currently opened panel
 				var panel = that.getPanelAt(event.index),

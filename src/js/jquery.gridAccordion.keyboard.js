@@ -15,8 +15,6 @@
 			var that = this,
 				hasFocus = false;
 
-			$.extend(this.settings, this.keyboardDefaults, this.options);
-
 			if (this.settings.keyboard === false)
 				return;
 			

@@ -18,8 +18,6 @@
 		initMouseWheel: function() {
 			var that = this;
 
-			$.extend(this.settings, this.mouseWheelDefaults, this.options);
-
 			if (this.settings.mouseWheel === false)
 				return;
 

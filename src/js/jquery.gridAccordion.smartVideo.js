@@ -15,8 +15,6 @@
 	var SmartVideo = {
 
 		initSmartVideo: function() {
-			$.extend(this.settings, this.smartVideoDefaults, this.options);
-
 			this._setupVideos();
 		},
 
