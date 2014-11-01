@@ -293,7 +293,9 @@
 				$(window).off('resize.' + this.uniqueId + '.' + NS);
 				$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
 					// resize the accordion when the browser resizes
-					that.resize();
+					if (that.$accordion.is(':visible')) {
+						that.resize();
+					}
 				});
 			} else {
 				this.$accordion.css({width: this.settings.width, height: this.settings.height, maxWidth: '', maxHeight: ''});
