@@ -159,7 +159,7 @@
 			if (typeof this.data.horizontal !== 'undefined') {
 				if (this.data.horizontal === 'center') {
 					// prevent content wrapping while setting the width
-					if (this.$layer.attr('style').indexOf('width') === -1) {
+					if (this.$layer.attr('style').indexOf('width') === -1 && this.$layer.is('img') === false) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('width', this.$layer.outerWidth(true));
 					}
@@ -176,7 +176,7 @@
 			if (typeof this.data.vertical !== 'undefined') {
 				if (this.data.vertical === 'center') {
 					// prevent content wrapping while setting the height
-					if (this.$layer.attr('style').indexOf('height') === -1) {
+					if (this.$layer.attr('style').indexOf('height') === -1 && this.$layer.is('img') === false) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('height', this.$layer.outerHeight(true));
 					}
