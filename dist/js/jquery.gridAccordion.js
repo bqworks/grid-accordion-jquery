@@ -146,6 +146,13 @@
 			this.$maskContainer = $('<div class="ga-mask"></div>').appendTo(this.$accordion);
 			this.$panelsContainer = this.$accordion.find('.ga-panels').appendTo(this.$maskContainer);
 
+			if (this.settings.shuffle === true) {
+				var shuffledPanels = this.$panelsContainer.find('.ga-panel').sort(function() {
+					return 0.5 - Math.random();
+				});
+				this.$panelsContainer.empty().append(shuffledPanels);
+			}
+
 			// create the 'ga-panels' element if it wasn't created manually
 			if (this.$panelsContainer.length === 0)
 				this.$panelsContainer = $('<div class="ga-panels"></div>').appendTo(this.$maskContainer);
@@ -153,11 +160,34 @@
 			// initialize accordion modules
 			var modules = $.GridAccordion.modules.accordion;
 
-			if (typeof modules !== 'undefined')
-				for (var i in modules) {
-					if (typeof this['init' + modules[i]] !== 'undefined')
-						this['init' + modules[i]]();
+			// Merge the modules' default settings with the core's default settings
+			if ( typeof modules !== 'undefined' ) {
+				for ( var i in modules ) {
+					var defaults = modules[ i ] + 'Defaults';
+					
+					if ( typeof this[ defaults ] !== 'undefined' ) {
+						$.extend( this.settings, this[ defaults ] );
+					} else {
+						defaults = modules[ i ].substring( 0, 1 ).toLowerCase() + modules[ i ].substring( 1 ) + 'Defaults';
+
+						if ( typeof this[ defaults ] !== 'undefined' ) {
+							$.extend( this.settings, this[ defaults ] );
+						}
+					}
 				}
+			}
+
+			// Merge the user defined settings with the default settings
+			$.extend( this.settings, this.options );
+
+			// Initialize the modules
+			if ( typeof modules !== 'undefined' ) {
+				for ( var j in modules ) {
+					if ( typeof this[ 'init' + modules[ j ] ] !== 'undefined' ) {
+						this[ 'init' + modules[ j ] ]();
+					}
+				}
+			}
 
 			// keep a reference of the original settings and use it
 			// to restore the settings when the breakpoints are used
@@ -215,6 +245,8 @@
 
 			// listen for 'mouseleave' events
 			this.on('mouseleave.' + NS, function(event) {
+				clearTimeout(that.mouseDelayTimer);
+
 				// close the panels
 				if (that.settings.closePanelsOnMouseOut === true)
 					that.closePanels();
@@ -251,28 +283,6 @@
 
 			// reset the panels' container position
 			this.$panelsContainer.attr('style', '');
-
-			// prepare the accordion for responsiveness
-			if (this.settings.responsive === true) {
-				// if the accordion is responsive set the width to 100% and use
-				// the specified width and height as a max-width and max-height
-				this.$accordion.css({width: '100%', height: this.settings.height, maxWidth: this.settings.width, maxHeight: this.settings.height});
-
-				// if an aspect ratio was not specified, set the aspect ratio
-				// based on the specified width and height
-				if (this.settings.aspectRatio === -1)
-					this.settings.aspectRatio = this.settings.width / this.settings.height;
-
-				// resize the accordion when the browser resizes
-				$(window).off('resize.' + this.uniqueId + '.' + NS);
-				$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
-					// resize the accordion when the browser resizes
-					that.resize();
-				});
-			} else {
-				this.$accordion.css({width: this.settings.width, height: this.settings.height, maxWidth: '', maxHeight: ''});
-				this.$maskContainer.attr('style', '');
-			}
 
 			// clear inline size of the background images because the orientation might have changes
 			this.$accordion.find('img.ga-background, img.ga-background-opened').css({'width': '', 'height': ''});
@@ -321,6 +331,15 @@
 			// set the size of the accordion
 			this.resize();
 
+			// resize the accordion when the browser resizes
+			$(window).off('resize.' + this.uniqueId + '.' + NS);
+			$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
+				// resize the accordion when the browser resizes
+				if (that.$accordion.is(':visible')) {
+					that.resize();
+				}
+			});
+
 			// fire the update event
 			var eventObject = {type: 'update'};
 			that.trigger(eventObject);
@@ -334,39 +353,59 @@
 		resize: function() {
 			var that = this;
 
-			// reset the accordion to 100% before calculating the size of the other elements
-			if (this.settings.responsive === true)
-				this.$accordion.css({width: '100%'});
+			this.$maskContainer.attr('style', '');
 
-			// set the height of the accordion based on the aspect ratio
-			if (this.settings.aspectRatio !== -1)
+			// prepare the accordion for responsiveness
+			if (this.settings.responsive === true) {
+				// if the accordion is responsive set the width to 100% and use
+				// the specified width and height as a max-width and max-height
+				this.$accordion.css({width: '100%', height: this.settings.height, maxWidth: this.settings.width, maxHeight: this.settings.height});
+
+				// if an aspect ratio was not specified, set the aspect ratio
+				// based on the specified width and height
+				if (this.settings.aspectRatio === -1)
+					this.settings.aspectRatio = this.settings.width / this.settings.height;
+
 				this.$accordion.css('height', this.$accordion.innerWidth() / this.settings.aspectRatio);
 
-			// get the total size, in pixels, of the accordion
-			if (this.settings.responsive === true && this.settings.responsiveMode === 'auto') {
-				// get the accordion's size ratio based on the set size and the actual size
-				this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
+				if (this.settings.responsiveMode === 'auto') {
+					// get the accordion's size ratio based on the set size and the actual size
+					this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
 
-				// scale the mask container based on the current ratio
-				this.$maskContainer.css({
-					width: this.settings.width,
-					height: this.settings.height,
-					'-webkit-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'-ms-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
-					'-webkit-transform-origin': 'top left',
-					'-ms-transform-origin': 'top left',
-					'transform-origin': 'top left'
-				});
-				
-				this.totalWidth = this.$maskContainer.innerWidth();
-				this.totalHeight = this.$maskContainer.innerHeight();
+					this.$maskContainer.css({
+						width: this.settings.width,
+						height: this.settings.height
+					});
+
+					// scale the mask container based on the current ratio
+					if ( this.autoResponsiveRatio < 1 ) {
+						this.$maskContainer.css({
+							'-webkit-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+							'-ms-transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+							'transform': 'scaleX(' + this.autoResponsiveRatio + ') scaleY(' + this.autoResponsiveRatio + ')',
+							'-webkit-transform-origin': 'top left',
+							'-ms-transform-origin': 'top left',
+							'transform-origin': 'top left'
+						});
+					} else {
+						this.$maskContainer.css({
+							'-webkit-transform': '',
+							'-ms-transform': '',
+							'transform': '',
+							'-webkit-transform-origin': '',
+							'-ms-transform-origin': '',
+							'transform-origin': ''
+						});
+					}
+					
+					this.totalWidth = this.$maskContainer.innerWidth();
+					this.totalHeight = this.$maskContainer.innerHeight();
+				} else {
+					this.totalWidth = this.$accordion.innerWidth();
+					this.totalHeight = this.$accordion.innerHeight();
+				}
 			} else {
-				// clear previous styling
-				this.$maskContainer.attr('style', '');
-
-				this.totalWidth = this.$accordion.innerWidth();
-				this.totalHeight = this.$accordion.innerHeight();
+				this.$accordion.css({width: this.settings.width, height: this.settings.height, maxWidth: '', maxHeight: ''});
 			}
 
 			// reset the list of panels that we are tracking
@@ -714,8 +753,10 @@
 
 			// disable links if the panel should open on click and it wasn't opened yet
 			panel.on('panelMouseDown.' + NS, function(event) {
+				$(this).find('a').off('click.disablePanelLink');
+
 				if (index !== that.currentIndex && that.settings.openPanelOn === 'click') {
-					$(this).find('a').one('click', function(event) {
+					$(this).find('a').one('click.disablePanelLink', function(event) {
 						event.preventDefault();
 					});
 				}
@@ -1461,6 +1502,7 @@
 			breakpoints: null,
 			startPage: 0,
 			shadow: false,
+			shuffle: false,
 			init: function() {},
 			update: function() {},
 			accordionMouseOver: function() {},
@@ -1772,8 +1814,6 @@
 		initAutoplay: function() {
 			var that = this;
 
-			$.extend(this.settings, this.autoplayDefaults, this.options);
-
 			if (this.settings.autoplay === true)
 				this.startAutoplay();
 
@@ -1977,8 +2017,6 @@
 		},
 
 		initJSON: function() {
-			$.extend(this.settings, this.JSONDefaults, this.options);
-
 			if (this.settings.JSONSource !== null)
 				this.updateJSON();
 		},
@@ -2158,8 +2196,6 @@
 		initKeyboard: function() {
 			var that = this,
 				hasFocus = false;
-
-			$.extend(this.settings, this.keyboardDefaults, this.options);
 
 			if (this.settings.keyboard === false)
 				return;
@@ -2370,7 +2406,7 @@
 			if (typeof this.data.horizontal !== 'undefined') {
 				if (this.data.horizontal === 'center') {
 					// prevent content wrapping while setting the width
-					if (this.$layer.attr('style').indexOf('width') === -1) {
+					if (this.$layer.attr('style').indexOf('width') === -1 && this.$layer.is('img') === false) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('width', this.$layer.outerWidth(true));
 					}
@@ -2387,7 +2423,7 @@
 			if (typeof this.data.vertical !== 'undefined') {
 				if (this.data.vertical === 'center') {
 					// prevent content wrapping while setting the height
-					if (this.$layer.attr('style').indexOf('height') === -1) {
+					if (this.$layer.attr('style').indexOf('height') === -1 && this.$layer.is('img') === false) {
 						this.$layer.css('white-space', 'nowrap');
 						this.$layer.css('height', this.$layer.outerHeight(true));
 					}
@@ -2656,13 +2692,19 @@
 				if (typeof image.attr('height') !== 'undefined')
 					newImage.attr('height', image.attr('height'));
 
-				// add the new image in the same container and remove the older image
-				newImage.insertAfter(image);
-				image.remove();
+				if (typeof image.attr('alt') !== 'undefined')
+					newImage.attr('alt', image.attr('alt'));
 
+				if (typeof image.attr('title') !== 'undefined')
+					newImage.attr('title', image.attr('title'));
+				
 				// assign the source of the image
 				newImage.attr('src', image.attr('data-src'));
 				newImage.removeAttr('data-src');
+
+				// add the new image in the same container and remove the older image
+				newImage.insertAfter(image);
+				image.remove();
 			}
 		},
 
@@ -2695,8 +2737,6 @@
 
 		initMouseWheel: function() {
 			var that = this;
-
-			$.extend(this.settings, this.mouseWheelDefaults, this.options);
 
 			if (this.settings.mouseWheel === false)
 				return;
@@ -2794,7 +2834,7 @@
 			if (window.devicePixelRatio >= 2)
 				return true;
 
-			if (window.matchMedia && (window.matchMedia("(-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)").matches))
+			if (window.matchMedia && (window.matchMedia("(-webkit-min-device-pixel-ratio: 2),(min-resolution: 2dppx)").matches))
 				return true;
 
 			return false;
@@ -2867,12 +2907,18 @@
 				if (typeof image.attr('height') !== 'undefined')
 					newImage.attr('height', image.attr('height'));
 
-				// add the new image in the same container and remove the older image
-				newImage.insertAfter(image);
-				image.remove();
+				if (typeof image.attr('alt') !== 'undefined')
+					newImage.attr('alt', image.attr('alt'));
+
+				if (typeof image.attr('title') !== 'undefined')
+					newImage.attr('title', image.attr('title'));
 
 				// assign the source of the image
 				newImage.attr('src', newImagePath);
+				
+				// add the new image in the same container and remove the older image
+				newImage.insertAfter(image);
+				image.remove();
 			}
 		},
 
@@ -2902,8 +2948,6 @@
 	var SmartVideo = {
 
 		initSmartVideo: function() {
-			$.extend(this.settings, this.smartVideoDefaults, this.options);
-
 			this._setupVideos();
 		},
 
@@ -3023,25 +3067,19 @@
 	
 })(window, jQuery);
 
-/*
-	Video Controller jQuery plugin
-
-	Creates a universal controller for multiple video types and providers
-*/
-;(function($) {
+// Video Controller jQuery plugin
+// Creates a universal controller for multiple video types and providers
+;(function( $ ) {
 
 	"use strict";
 
-// check if an iOS device is used
-// this information is important because a video can not be
-// controlled programmatically unless the user has started the video manually
-var	userAgent = window.navigator.userAgent.toLowerCase(),
-	isIOS = (userAgent.match(/ipad/i) !== null) ||
-			(userAgent.match(/ipod/i) !== null) ||
-			(userAgent.match(/iphone/i) !== null);
+// Check if an iOS device is used.
+// This information is important because a video can not be
+// controlled programmatically unless the user has started the video manually.
+var	isIOS = window.navigator.userAgent.match( /(iPad|iPhone|iPod)/g ) ? true : false;
 
-var VideoController = function(instance, options) {
-	this.$video = $(instance);
+var VideoController = function( instance, options ) {
+	this.$video = $( instance );
 	this.options = options;
 	this.settings = {};
 	this.player = null;
@@ -3052,89 +3090,98 @@ var VideoController = function(instance, options) {
 VideoController.prototype = {
 
 	_init: function() {
-		this.settings = $.extend({}, this.defaults, this.options);
+		this.settings = $.extend( {}, this.defaults, this.options );
 
 		var that = this,
 			players = $.VideoController.players,
-			videoID = this.$video.attr('id');
+			videoID = this.$video.attr( 'id' );
 
-		// loop through the available video players
+		// Loop through the available video players
 		// and check if the targeted video element is supported by one of the players.
-		// if a compatible type is found, store the video type
-		for (var name in players) {
-			if (typeof players[name] !== 'undefined' && players[name].isType(this.$video)) {
-				this.player = new players[name](this.$video);
+		// If a compatible type is found, store the video type.
+		for ( var name in players ) {
+			if ( typeof players[ name ] !== 'undefined' && players[ name ].isType( this.$video ) ) {
+				this.player = new players[ name ]( this.$video );
 				break;
 			}
 		}
 
-		// return if the player could not be instantiated
-		if (this.player === null)
+		// Return if the player could not be instantiated
+		if ( this.player === null ) {
 			return;
+		}
 
-		// add event listeners
-		var events = ['ready', 'start', 'play', 'pause', 'ended'];
+		// Add event listeners
+		var events = [ 'ready', 'start', 'play', 'pause', 'ended' ];
 		
-		$.each(events, function(index, element) {
-			var event = 'video' + element.charAt(0).toUpperCase() + element.slice(1);
+		$.each( events, function( index, element ) {
+			var event = 'video' + element.charAt( 0 ).toUpperCase() + element.slice( 1 );
 
-			that.player.on(element, function() {
-				that.trigger({type: event, video: videoID});
-				if ($.isFunction(that.settings[event]))
-					that.settings[event].call(that, {type: event, video: videoID});
+			that.player.on( element, function() {
+				that.trigger({ type: event, video: videoID });
+				if ( $.isFunction( that.settings[ event ] ) ) {
+					that.settings[ event ].call( that, { type: event, video: videoID } );
+				}
 			});
 		});
 	},
 	
 	play: function() {
-		if (isIOS === true && this.player.isStarted() === false || this.player.getState() === 'playing')
+		if ( isIOS === true && this.player.isStarted() === false || this.player.getState() === 'playing' ) {
 			return;
+		}
 
 		this.player.play();
 	},
 	
 	stop: function() {
-		if (isIOS === true && this.player.isStarted() === false || this.player.getState() === 'stopped')
+		if ( isIOS === true && this.player.isStarted() === false || this.player.getState() === 'stopped' ) {
 			return;
+		}
 
 		this.player.stop();
 	},
 	
 	pause: function() {
-		if (isIOS === true && this.player.isStarted() === false || this.player.getState() === 'paused')
+		if ( isIOS === true && this.player.isStarted() === false || this.player.getState() === 'paused' ) {
 			return;
+		}
 
 		this.player.pause();
 	},
 
 	replay: function() {
-		if (isIOS === true && this.player.isStarted() === false)
+		if ( isIOS === true && this.player.isStarted() === false ) {
 			return;
+		}
 		
 		this.player.replay();
 	},
 
-	on: function(type, callback) {
-		return this.$video.on(type, callback);
+	on: function( type, callback ) {
+		return this.$video.on( type, callback );
 	},
 	
-	off: function(type) {
-		return this.$video.off(type);
+	off: function( type ) {
+		return this.$video.off( type );
 	},
 
-	trigger: function(data) {
-		return this.$video.triggerHandler(data);
+	trigger: function( data ) {
+		return this.$video.triggerHandler( data );
 	},
 
 	destroy: function() {
-		if (this.player.isStarted() === true)
+		if ( this.player.isStarted() === true ) {
 			this.stop();
+		}
 
-		this.player.off('ready');
-		this.player.off('start');
-		this.player.off('play');
-		this.player.off('pause');
-		this.player.off('ended');
+		this.player.off( 'ready' );
+		this.player.off( 'start' );
+		this.player.off( 'play' );
+		this.player.off( 'pause' );
+		this.player.off( 'ended' );
+
+		this.$video.removeData( 'videoController' );
 	},
 
 	defaults: {
@@ -3149,38 +3196,36 @@ VideoController.prototype = {
 $.VideoController = {
 	players: {},
 
-	addPlayer: function(name, player) {
-		this.players[name] = player;
+	addPlayer: function( name, player ) {
+		this.players[ name ] = player;
 	}
 };
 
-$.fn.videoController = function(options) {
-	var args = Array.prototype.slice.call(arguments, 1);
+$.fn.videoController = function( options ) {
+	var args = Array.prototype.slice.call( arguments, 1 );
 
 	return this.each(function() {
-		// instantiate the video controller or call a function on the current instance
-		if (typeof $(this).data('videoController') === 'undefined') {
-			var newInstance = new VideoController(this, options);
+		// Instantiate the video controller or call a function on the current instance
+		if ( typeof $( this ).data( 'videoController' ) === 'undefined' ) {
+			var newInstance = new VideoController( this, options );
 
-			// store a reference to the instance created
-			$(this).data('videoController', newInstance);
-		} else if (typeof options !== 'undefined') {
-			var	currentInstance = $(this).data('videoController');
+			// Store a reference to the instance created
+			$( this ).data( 'videoController', newInstance );
+		} else if ( typeof options !== 'undefined' ) {
+			var	currentInstance = $( this ).data( 'videoController' );
 
-			// check the type of argument passed
-			if (typeof currentInstance[options] === 'function') {
-				currentInstance[options].apply(currentInstance, args);
+			// Check the type of argument passed
+			if ( typeof currentInstance[ options ] === 'function' ) {
+				currentInstance[ options ].apply( currentInstance, args );
 			} else {
-				$.error(options + ' does not exist in videoController.');
+				$.error( options + ' does not exist in videoController.' );
 			}
 		}
 	});
 };
 
-/*
-	Base object for the video players
-*/
-var Video = function(video) {
+// Base object for the video players
+var Video = function( video ) {
 	this.$video = video;
 	this.player = null;
 	this.ready = false;
@@ -3216,47 +3261,45 @@ Video.prototype = {
 		return this.state;
 	},
 
-	on: function(type, callback) {
-		return this.events.on(type, callback);
+	on: function( type, callback ) {
+		return this.events.on( type, callback );
 	},
 	
-	off: function(type) {
-		return this.events.off(type);
+	off: function( type ) {
+		return this.events.off( type );
 	},
 
-	trigger: function(data) {
-		return this.events.triggerHandler(data);
+	trigger: function( data ) {
+		return this.events.triggerHandler( data );
 	}
 };
 
-/*
-	YouTube video
-*/
+// YouTube video
 var YoutubeVideoHelper = {
 	youtubeAPIAdded: false,
 	youtubeVideos: []
 };
 
-var YoutubeVideo = function(video) {
+var YoutubeVideo = function( video ) {
 	this.init = false;
 	var youtubeAPILoaded = window.YT && window.YT.Player;
 
-	if (typeof youtubeAPILoaded !== 'undefined') {
-		Video.call(this, video);
+	if ( typeof youtubeAPILoaded !== 'undefined' ) {
+		Video.call( this, video );
 	} else {
-		YoutubeVideoHelper.youtubeVideos.push({'video': video, 'scope': this});
+		YoutubeVideoHelper.youtubeVideos.push({ 'video': video, 'scope': this });
 		
-		if (YoutubeVideoHelper.youtubeAPIAdded === false) {
+		if ( YoutubeVideoHelper.youtubeAPIAdded === false ) {
 			YoutubeVideoHelper.youtubeAPIAdded = true;
 
-			var tag = document.createElement('script');
+			var tag = document.createElement( 'script' );
 			tag.src = "http://www.youtube.com/player_api";
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			var firstScriptTag = document.getElementsByTagName( 'script' )[0];
+			firstScriptTag.parentNode.insertBefore( tag, firstScriptTag );
 
 			window.onYouTubePlayerAPIReady = function() {
-				$.each(YoutubeVideoHelper.youtubeVideos, function(index, element) {
-					Video.call(element.scope, element.video);
+				$.each( YoutubeVideoHelper.youtubeVideos, function( index, element ) {
+					Video.call( element.scope, element.video );
 				});
 			};
 		}
@@ -3265,14 +3308,15 @@ var YoutubeVideo = function(video) {
 
 YoutubeVideo.prototype = new Video();
 YoutubeVideo.prototype.constructor = YoutubeVideo;
-$.VideoController.addPlayer('YoutubeVideo', YoutubeVideo);
+$.VideoController.addPlayer( 'YoutubeVideo', YoutubeVideo );
 
-YoutubeVideo.isType = function(video) {
-	if (video.is('iframe')) {
-		var src = video.attr('src');
+YoutubeVideo.isType = function( video ) {
+	if ( video.is( 'iframe' ) ) {
+		var src = video.attr( 'src' );
 
-		if (src.indexOf('youtube.com') !== -1 || src.indexOf('youtu.be') !== -1)
+		if ( src.indexOf( 'youtube.com' ) !== -1 || src.indexOf( 'youtu.be' ) !== -1 ) {
 			return true;
+		}
 	}
 
 	return false;
@@ -3286,34 +3330,34 @@ YoutubeVideo.prototype._init = function() {
 YoutubeVideo.prototype._setup = function() {
 	var that = this;
 
-	// get reference to the player
-	this.player = new YT.Player(this.$video[0], {
+	// Get a reference to the player
+	this.player = new YT.Player( this.$video[0], {
 		events: {
 			'onReady': function() {
-				that.trigger({type: 'ready'});
+				that.trigger({ type: 'ready' });
 				that.ready = true;
 			},
 			
-			'onStateChange': function(event) {
-				switch (event.data) {
+			'onStateChange': function( event ) {
+				switch ( event.data ) {
 					case YT.PlayerState.PLAYING:
 						if (that.started === false) {
 							that.started = true;
-							that.trigger({type: 'start'});
+							that.trigger({ type: 'start' });
 						}
 
 						that.state = 'playing';
-						that.trigger({type: 'play'});
+						that.trigger({ type: 'play' });
 						break;
 					
 					case YT.PlayerState.PAUSED:
 						that.state = 'paused';
-						that.trigger({type: 'pause'});
+						that.trigger({ type: 'pause' });
 						break;
 					
 					case YT.PlayerState.ENDED:
 						that.state = 'ended';
-						that.trigger({type: 'ended'});
+						that.trigger({ type: 'ended' });
 						break;
 				}
 			}
@@ -3322,91 +3366,102 @@ YoutubeVideo.prototype._setup = function() {
 };
 
 YoutubeVideo.prototype.play = function() {
-	this.player.playVideo();
+	var that = this;
+
+	if ( this.ready === true ) {
+		this.player.playVideo();
+	} else {
+		var timer = setInterval(function() {
+			if ( that.ready === true ) {
+				clearInterval( timer );
+				that.player.playVideo();
+			}
+		}, 100 );
+	}
 };
 
 YoutubeVideo.prototype.pause = function() {
-	// on iOS, simply pausing the video can make other videos unresponsive
-	// so we stop the video instead
-	if (isIOS === true)
+	// On iOS, simply pausing the video can make other videos unresponsive
+	// so we stop the video instead.
+	if ( isIOS === true ) {
 		this.stop();
-	else
+	} else {
 		this.player.pauseVideo();
+	}
 };
 
 YoutubeVideo.prototype.stop = function() {
-	this.player.seekTo(1);
+	this.player.seekTo( 1 );
 	this.player.stopVideo();
 	this.state = 'stopped';
 };
 
 YoutubeVideo.prototype.replay = function() {
-	this.player.seekTo(1);
+	this.player.seekTo( 1 );
 	this.player.playVideo();
 };
 
-YoutubeVideo.prototype.on = function(type, callback) {
+YoutubeVideo.prototype.on = function( type, callback ) {
 	var that = this;
 
-	if (this.init === true) {
-		Video.prototype.on.call(this, type, callback);
+	if ( this.init === true ) {
+		Video.prototype.on.call( this, type, callback );
 	} else {
 		var timer = setInterval(function() {
-			if (that.init === true) {
-				clearInterval(timer);
-				Video.prototype.on.call(that, type, callback);
+			if ( that.init === true ) {
+				clearInterval( timer );
+				Video.prototype.on.call( that, type, callback );
 			}
-		}, 100);
+		}, 100 );
 	}
 };
 
-/*
-	Vimeo video
-*/
+// Vimeo video
 var VimeoVideoHelper = {
 	vimeoAPIAdded: false,
 	vimeoVideos: []
 };
 
-var VimeoVideo = function(video) {
+var VimeoVideo = function( video ) {
 	this.init = false;
 
-	if (typeof window.Froogaloop !== 'undefined') {
-		Video.call(this, video);
+	if ( typeof window.Froogaloop !== 'undefined' ) {
+		Video.call( this, video );
 	} else {
-		VimeoVideoHelper.vimeoVideos.push({'video': video, 'scope': this});
+		VimeoVideoHelper.vimeoVideos.push({ 'video': video, 'scope': this });
 
-		if (VimeoVideoHelper.vimeoAPIAdded === false) {
+		if ( VimeoVideoHelper.vimeoAPIAdded === false ) {
 			VimeoVideoHelper.vimeoAPIAdded = true;
 
 			var tag = document.createElement('script');
 			tag.src = "http://a.vimeocdn.com/js/froogaloop2.min.js";
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			var firstScriptTag = document.getElementsByTagName( 'script' )[0];
+			firstScriptTag.parentNode.insertBefore( tag, firstScriptTag );
 		
 			var checkVimeoAPITimer = setInterval(function() {
-				if (typeof window.Froogaloop !== 'undefined') {
-					clearInterval(checkVimeoAPITimer);
+				if ( typeof window.Froogaloop !== 'undefined' ) {
+					clearInterval( checkVimeoAPITimer );
 					
-					$.each(VimeoVideoHelper.vimeoVideos, function(index, element) {
-						Video.call(element.scope, element.video);
+					$.each( VimeoVideoHelper.vimeoVideos, function( index, element ) {
+						Video.call( element.scope, element.video );
 					});
 				}
-			}, 100);
+			}, 100 );
 		}
 	}
 };
 
 VimeoVideo.prototype = new Video();
 VimeoVideo.prototype.constructor = VimeoVideo;
-$.VideoController.addPlayer('VimeoVideo', VimeoVideo);
+$.VideoController.addPlayer( 'VimeoVideo', VimeoVideo );
 
-VimeoVideo.isType = function(video) {
-	if (video.is('iframe')) {
+VimeoVideo.isType = function( video ) {
+	if ( video.is( 'iframe' ) ) {
 		var src = video.attr('src');
 
-		if (src.indexOf('vimeo.com') !== -1)
+		if ( src.indexOf( 'vimeo.com' ) !== -1 ) {
 			return true;
+		}
 	}
 
 	return false;
@@ -3420,83 +3475,93 @@ VimeoVideo.prototype._init = function() {
 VimeoVideo.prototype._setup = function() {
 	var that = this;
 
-	// get reference to the player
-	this.player = $f(this.$video[0]);
+	// Get a reference to the player
+	this.player = $f( this.$video[0] );
 	
-	this.player.addEvent('ready', function() {
+	this.player.addEvent( 'ready', function() {
 		that.ready = true;
-		that.trigger({type: 'ready'});
+		that.trigger({ type: 'ready' });
 		
-		that.player.addEvent('play', function() {
-			if (that.started === false) {
+		that.player.addEvent( 'play', function() {
+			if ( that.started === false ) {
 				that.started = true;
-				that.trigger({type: 'start'});
+				that.trigger({ type: 'start' });
 			}
 
 			that.state = 'playing';
-			that.trigger({type: 'play'});
+			that.trigger({ type: 'play' });
 		});
 		
-		that.player.addEvent('pause', function() {
+		that.player.addEvent( 'pause', function() {
 			that.state = 'paused';
-			that.trigger({type: 'pause'});
+			that.trigger({ type: 'pause' });
 		});
 		
-		that.player.addEvent('finish', function() {
+		that.player.addEvent( 'finish', function() {
 			that.state = 'ended';
-			that.trigger({type: 'ended'});
+			that.trigger({ type: 'ended' });
 		});
 	});
 };
 
 VimeoVideo.prototype.play = function() {
-	this.player.api('play');
+	var that = this;
+
+	if ( this.ready === true ) {
+		this.player.api( 'play' );
+	} else {
+		var timer = setInterval(function() {
+			if ( that.ready === true ) {
+				clearInterval( timer );
+				that.player.api( 'play' );
+			}
+		}, 100 );
+	}
 };
 
 VimeoVideo.prototype.pause = function() {
-	this.player.api('pause');
+	this.player.api( 'pause' );
 };
 
 VimeoVideo.prototype.stop = function() {
-	this.player.api('seekTo', 0);
-	this.player.api('pause');
+	this.player.api( 'seekTo', 0 );
+	this.player.api( 'pause' );
 	this.state = 'stopped';
 };
 
 VimeoVideo.prototype.replay = function() {
-	this.player.api('seekTo', 0);
-	this.player.api('play');
+	this.player.api( 'seekTo', 0 );
+	this.player.api( 'play' );
 };
 
-VimeoVideo.prototype.on = function(type, callback) {
+VimeoVideo.prototype.on = function( type, callback ) {
 	var that = this;
 
-	if (this.init === true) {
-		Video.prototype.on.call(this, type, callback);
+	if ( this.init === true ) {
+		Video.prototype.on.call( this, type, callback );
 	} else {
 		var timer = setInterval(function() {
-			if (that.init === true) {
-				clearInterval(timer);
-				Video.prototype.on.call(that, type, callback);
+			if ( that.init === true ) {
+				clearInterval( timer );
+				Video.prototype.on.call( that, type, callback );
 			}
-		}, 100);
+		}, 100 );
 	}
 };
 
-/*
-	HTML5 video
-*/
-var HTML5Video = function(video) {
-	Video.call(this, video);
+// HTML5 video
+var HTML5Video = function( video ) {
+	Video.call( this, video );
 };
 
 HTML5Video.prototype = new Video();
 HTML5Video.prototype.constructor = HTML5Video;
-$.VideoController.addPlayer('HTML5Video', HTML5Video);
+$.VideoController.addPlayer( 'HTML5Video', HTML5Video );
 
-HTML5Video.isType = function(video) {
-	if (video.is('video') && video.hasClass('video-js') === false && video.hasClass('sublime') === false)
+HTML5Video.isType = function( video ) {
+	if ( video.is( 'video' ) && video.hasClass( 'video-js' ) === false && video.hasClass( 'sublime' ) === false ) {
 		return true;
+	}
 
 	return false;
 };
@@ -3504,28 +3569,28 @@ HTML5Video.isType = function(video) {
 HTML5Video.prototype._init = function() {
 	var that = this;
 
-	// get reference to the player
+	// Get a reference to the player
 	this.player = this.$video[0];
 	this.ready = true;
 
-	this.player.addEventListener('play', function() {
-		if (that.started === false) {
+	this.player.addEventListener( 'play', function() {
+		if ( that.started === false ) {
 			that.started = true;
-			that.trigger({type: 'start'});
+			that.trigger({ type: 'start' });
 		}
 
 		that.state = 'playing';
-		that.trigger({type: 'play'});
+		that.trigger({ type: 'play' });
 	});
 	
-	this.player.addEventListener('pause', function() {
+	this.player.addEventListener( 'pause', function() {
 		that.state = 'paused';
-		that.trigger({type: 'pause'});
+		that.trigger({ type: 'pause' });
 	});
 	
-	this.player.addEventListener('ended', function() {
+	this.player.addEventListener( 'ended', function() {
 		that.state = 'ended';
-		that.trigger({type: 'ended'});
+		that.trigger({ type: 'ended' });
 	});
 };
 
@@ -3548,52 +3613,51 @@ HTML5Video.prototype.replay = function() {
 	this.player.play();
 };
 
-/*
-	VideoJS video
-*/
-var VideoJSVideo = function(video) {
-	Video.call(this, video);
+// VideoJS video
+var VideoJSVideo = function( video ) {
+	Video.call( this, video );
 };
 
 VideoJSVideo.prototype = new Video();
 VideoJSVideo.prototype.constructor = VideoJSVideo;
-$.VideoController.addPlayer('VideoJSVideo', VideoJSVideo);
+$.VideoController.addPlayer( 'VideoJSVideo', VideoJSVideo );
 
-VideoJSVideo.isType = function(video) {
-	if ((typeof video.attr('data-videojs-id') !== 'undefined' || video.hasClass('video-js')) && typeof videojs !== 'undefined')
+VideoJSVideo.isType = function( video ) {
+	if ( ( typeof video.attr( 'data-videojs-id' ) !== 'undefined' || video.hasClass( 'video-js' ) ) && typeof videojs !== 'undefined' ) {
 		return true;
+	}
 
 	return false;
 };
 
 VideoJSVideo.prototype._init = function() {
 	var that = this,
-		videoID = this.$video.hasClass('video-js') ? this.$video.attr('id') : this.$video.attr('data-videojs-id');
+		videoID = this.$video.hasClass( 'video-js' ) ? this.$video.attr( 'id' ) : this.$video.attr( 'data-videojs-id' );
 	
-	this.player = videojs(videoID);
+	this.player = videojs( videoID );
 
 	this.player.ready(function() {
 		that.ready = true;
-		that.trigger({type: 'ready'});
+		that.trigger({ type: 'ready' });
 
-		that.player.on('play', function() {
-			if (that.started === false) {
+		that.player.on( 'play', function() {
+			if ( that.started === false ) {
 				that.started = true;
-				that.trigger({type: 'start'});
+				that.trigger({ type: 'start' });
 			}
 
 			that.state = 'playing';
-			that.trigger({type: 'play'});
+			that.trigger({ type: 'play' });
 		});
 		
-		that.player.on('pause', function() {
+		that.player.on( 'pause', function() {
 			that.state = 'paused';
-			that.trigger({type: 'pause'});
+			that.trigger({ type: 'pause' });
 		});
 		
-		that.player.on('ended', function() {
+		that.player.on( 'ended', function() {
 			that.state = 'ended';
-			that.trigger({type: 'ended'});
+			that.trigger({ type: 'ended' });
 		});
 	});
 };
@@ -3607,30 +3671,29 @@ VideoJSVideo.prototype.pause = function() {
 };
 
 VideoJSVideo.prototype.stop = function() {
-	this.player.currentTime(0);
+	this.player.currentTime( 0 );
 	this.player.pause();
 	this.state = 'stopped';
 };
 
 VideoJSVideo.prototype.replay = function() {
-	this.player.currentTime(0);
+	this.player.currentTime( 0 );
 	this.player.play();
 };
 
-/*
-	Sublime video
-*/
-var SublimeVideo = function(video) {
-	Video.call(this, video);
+// Sublime video
+var SublimeVideo = function( video ) {
+	Video.call( this, video );
 };
 
 SublimeVideo.prototype = new Video();
 SublimeVideo.prototype.constructor = SublimeVideo;
-$.VideoController.addPlayer('SublimeVideo', SublimeVideo);
+$.VideoController.addPlayer( 'SublimeVideo', SublimeVideo );
 
-SublimeVideo.isType = function(video) {
-	if (video.hasClass('sublime') && typeof sublime !== 'undefined')
+SublimeVideo.isType = function( video ) {
+	if ( video.hasClass( 'sublime' ) && typeof sublime !== 'undefined' ) {
 		return true;
+	}
 
 	return false;
 };
@@ -3639,35 +3702,35 @@ SublimeVideo.prototype._init = function() {
 	var that = this;
 
 	sublime.ready(function() {
-		// get a reference to the player
-		that.player = sublime.player(that.$video.attr('id'));
+		// Get a reference to the player
+		that.player = sublime.player( that.$video.attr( 'id' ) );
 
 		that.ready = true;
-		that.trigger({type: 'ready'});
+		that.trigger({ type: 'ready' });
 
-		that.player.on('play', function() {
-			if (that.started === false) {
+		that.player.on( 'play', function() {
+			if ( that.started === false ) {
 				that.started = true;
-				that.trigger({type: 'start'});
+				that.trigger({ type: 'start' });
 			}
 
 			that.state = 'playing';
-			that.trigger({type: 'play'});
+			that.trigger({ type: 'play' });
 		});
 
-		that.player.on('pause', function() {
+		that.player.on( 'pause', function() {
 			that.state = 'paused';
-			that.trigger({type: 'pause'});
+			that.trigger({ type: 'pause' });
 		});
 
-		that.player.on('stop', function() {
+		that.player.on( 'stop', function() {
 			that.state = 'stopped';
-			that.trigger({type: 'stop'});
+			that.trigger({ type: 'stop' });
 		});
 
-		that.player.on('end', function() {
+		that.player.on( 'end', function() {
 			that.state = 'ended';
-			that.trigger({type: 'ended'});
+			that.trigger({ type: 'ended' });
 		});
 	});
 };
@@ -3689,21 +3752,20 @@ SublimeVideo.prototype.replay = function() {
 	this.player.play();
 };
 
-/*
-	JWPlayer video
-*/
-var JWPlayerVideo = function(video) {
-	Video.call(this, video);
+// JWPlayer video
+var JWPlayerVideo = function( video ) {
+	Video.call( this, video );
 };
 
 JWPlayerVideo.prototype = new Video();
 JWPlayerVideo.prototype.constructor = JWPlayerVideo;
-$.VideoController.addPlayer('JWPlayerVideo', JWPlayerVideo);
+$.VideoController.addPlayer( 'JWPlayerVideo', JWPlayerVideo );
 
-JWPlayerVideo.isType = function(video) {
-	if ((typeof video.attr('data-jwplayer-id') !== 'undefined' || video.hasClass('jwplayer') || video.find("object[data*='jwplayer']").length !== 0) &&
-		typeof jwplayer !== 'undefined')
+JWPlayerVideo.isType = function( video ) {
+	if ( ( typeof video.attr( 'data-jwplayer-id' ) !== 'undefined' || video.hasClass( 'jwplayer' ) || video.find( "object[data*='jwplayer']" ).length !== 0 ) &&
+		typeof jwplayer !== 'undefined') {
 		return true;
+	}
 
 	return false;
 };
@@ -3712,48 +3774,49 @@ JWPlayerVideo.prototype._init = function() {
 	var that = this,
 		videoID;
 
-	if (this.$video.hasClass('jwplayer'))
-		videoID = this.$video.attr('id');
-	else if (typeof this.$video.attr('data-jwplayer-id') !== 'undefined')
-		videoID = this.$video.attr('data-jwplayer-id');
-	else if (this.$video.find("object[data*='jwplayer']").length !== 0)
-		videoID = this.$video.find('object').attr('id');
+	if ( this.$video.hasClass( 'jwplayer' ) ) {
+		videoID = this.$video.attr( 'id' );
+	} else if ( typeof this.$video.attr( 'data-jwplayer-id' ) !== 'undefined' ) {
+		videoID = this.$video.attr( 'data-jwplayer-id');
+	} else if ( this.$video.find( "object[data*='jwplayer']" ).length !== 0 ) {
+		videoID = this.$video.find( 'object' ).attr( 'id' );
+	}
 
-	// get reference to the player
-	this.player = jwplayer(videoID);
+	// Get a reference to the player
+	this.player = jwplayer( videoID );
 
 	this.player.onReady(function() {
 		that.ready = true;
-		that.trigger({type: 'ready'});
+		that.trigger({ type: 'ready' });
 	
 		that.player.onPlay(function() {
-			if (that.started === false) {
+			if ( that.started === false ) {
 				that.started = true;
-				that.trigger({type: 'start'});
+				that.trigger({ type: 'start' });
 			}
 
 			that.state = 'playing';
-			that.trigger({type: 'play'});
+			that.trigger({ type: 'play' });
 		});
 
 		that.player.onPause(function() {
 			that.state = 'paused';
-			that.trigger({type: 'pause'});
+			that.trigger({ type: 'pause' });
 		});
 		
 		that.player.onComplete(function() {
 			that.state = 'ended';
-			that.trigger({type: 'ended'});
+			that.trigger({ type: 'ended' });
 		});
 	});
 };
 
 JWPlayerVideo.prototype.play = function() {
-	this.player.play(true);
+	this.player.play( true );
 };
 
 JWPlayerVideo.prototype.pause = function() {
-	this.player.pause(true);
+	this.player.pause( true );
 };
 
 JWPlayerVideo.prototype.stop = function() {
@@ -3762,11 +3825,11 @@ JWPlayerVideo.prototype.stop = function() {
 };
 
 JWPlayerVideo.prototype.replay = function() {
-	this.player.seek(0);
-	this.player.play(true);
+	this.player.seek( 0 );
+	this.player.play( true );
 };
 
-})(jQuery);
+})( jQuery );
 
 /*
 	Swap Background module for Grid Accordion
@@ -3808,8 +3871,6 @@ JWPlayerVideo.prototype.replay = function() {
 
 		initSwapBackground: function() {
 			var that = this;
-
-			$.extend(this.settings, this.swapBackgroundDefaults, this.options);
 
 			this.on('panelOpen.SwapBackground.' + NS, function(event) {
 				// get the currently opened panel
@@ -3866,7 +3927,11 @@ JWPlayerVideo.prototype.replay = function() {
 
 			if (SwapBackgroundHelper.checkCSSTransitions() === true) {
 				// remove the transition property after the animation completes
-				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function() {
+				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function( event ) {
+					if ( event.target !== event.currentTarget ) {
+						return;
+					}
+
 					target.off(SwapBackgroundHelper.cssTransitionEndEvents);
 					target.css({'transition': ''});
 				});
@@ -3884,7 +3949,11 @@ JWPlayerVideo.prototype.replay = function() {
 
 			if (SwapBackgroundHelper.checkCSSTransitions() === true) {
 				// remove the transition property and make the image invisible after the animation completes
-				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function() {
+				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function( event ) {
+					if ( event.target !== event.currentTarget ) {
+						return;
+					}
+
 					target.off(SwapBackgroundHelper.cssTransitionEndEvents);
 					target.css({'visibility': 'hidden', 'transition': ''});
 				});
@@ -3942,8 +4011,6 @@ JWPlayerVideo.prototype.replay = function() {
 		initTouchSwipe: function() {
 			var that = this;
 
-			$.extend(this.settings, this.touchSwipeDefaults, this.options);
-
 			// check if touch swipe is enabled
 			if (this.settings.touchSwipe === false)
 				return;
@@ -3989,8 +4056,8 @@ JWPlayerVideo.prototype.replay = function() {
 				endEvent = this.isTouchSupport ? 'touchend' : 'mouseup';
 
 			// get the initial position of the mouse pointer and the initial position of the panels' container
-			this.touchStartPoint.x = eventObject.pageX;
-			this.touchStartPoint.y = eventObject.pageY;
+			this.touchStartPoint.x = eventObject.pageX || eventObject.clientX;
+			this.touchStartPoint.y = eventObject.pageY || eventObject.clientY;
 			this.touchStartPosition = parseInt(this.$panelsContainer.css(this.positionProperty), 10);
 
 			// clear the distance
@@ -4018,8 +4085,8 @@ JWPlayerVideo.prototype.replay = function() {
 			this.isTouchMoving = true;
 
 			// get the current position of the mouse pointer
-			this.touchEndPoint.x = eventObject.pageX;
-			this.touchEndPoint.y = eventObject.pageY;
+			this.touchEndPoint.x = eventObject.pageX || eventObject.clientX;
+			this.touchEndPoint.y = eventObject.pageY || eventObject.clientY;
 
 			// calculate the distance of the movement on both axis
 			this.touchDistance.x = this.touchEndPoint.x - this.touchStartPoint.x;
@@ -4188,8 +4255,6 @@ JWPlayerVideo.prototype.replay = function() {
 		},
 
 		initXML: function() {
-			$.extend(this.settings, this.XMLDefaults, this.options);
-
 			if (this.settings.XMLSource !== null)
 				this.updateXML();
 		},
