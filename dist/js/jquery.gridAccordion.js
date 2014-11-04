@@ -137,21 +137,12 @@
 		_init: function() {
 			var that = this;
 
-			this.settings = $.extend({}, this.defaults, this.options);
-
 			this.$accordion.removeClass('ga-no-js');
 
 			// get reference to the panels' container and 
 			// create additional mask container, which will mask the panels' container
 			this.$maskContainer = $('<div class="ga-mask"></div>').appendTo(this.$accordion);
 			this.$panelsContainer = this.$accordion.find('.ga-panels').appendTo(this.$maskContainer);
-
-			if (this.settings.shuffle === true) {
-				var shuffledPanels = this.$panelsContainer.find('.ga-panel').sort(function() {
-					return 0.5 - Math.random();
-				});
-				this.$panelsContainer.empty().append(shuffledPanels);
-			}
 
 			// create the 'ga-panels' element if it wasn't created manually
 			if (this.$panelsContainer.length === 0)
@@ -166,19 +157,19 @@
 					var defaults = modules[ i ] + 'Defaults';
 					
 					if ( typeof this[ defaults ] !== 'undefined' ) {
-						$.extend( this.settings, this[ defaults ] );
+						$.extend( this.defaults, this[ defaults ] );
 					} else {
 						defaults = modules[ i ].substring( 0, 1 ).toLowerCase() + modules[ i ].substring( 1 ) + 'Defaults';
 
 						if ( typeof this[ defaults ] !== 'undefined' ) {
-							$.extend( this.settings, this[ defaults ] );
+							$.extend( this.defaults, this[ defaults ] );
 						}
 					}
 				}
 			}
 
 			// Merge the user defined settings with the default settings
-			$.extend( this.settings, this.options );
+			this.settings = $.extend({}, this.defaults, this.options);
 
 			// Initialize the modules
 			if ( typeof modules !== 'undefined' ) {
@@ -193,6 +184,13 @@
 			// to restore the settings when the breakpoints are used
 			this.originalSettings = $.extend({}, this.settings);
 
+			if (this.settings.shuffle === true) {
+				var shuffledPanels = this.$panelsContainer.find('.ga-panel').sort(function() {
+					return 0.5 - Math.random();
+				});
+				this.$panelsContainer.empty().append(shuffledPanels);
+			}
+			
 			// set a panel to be opened from the start
 			this.currentIndex = this.settings.startPanel;
 
@@ -255,6 +253,11 @@
 				that.trigger(eventObject);
 				if ($.isFunction(that.settings.accordionMouseOut))
 					that.settings.accordionMouseOut.call(that, eventObject);
+			});
+
+			// resize the accordion when the browser resizes
+			$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
+				that.resize();
 			});
 
 			// fire the 'init' event
@@ -330,15 +333,6 @@
 
 			// set the size of the accordion
 			this.resize();
-
-			// resize the accordion when the browser resizes
-			$(window).off('resize.' + this.uniqueId + '.' + NS);
-			$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
-				// resize the accordion when the browser resizes
-				if (that.$accordion.is(':visible')) {
-					that.resize();
-				}
-			});
 
 			// fire the update event
 			var eventObject = {type: 'update'};
