@@ -251,6 +251,11 @@
 					that.settings.accordionMouseOut.call(that, eventObject);
 			});
 
+			// resize the accordion when the browser resizes
+			$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
+				that.resize();
+			});
+
 			// fire the 'init' event
 			this.trigger({type: 'init'});
 			if ($.isFunction(this.settings.init))
@@ -324,15 +329,6 @@
 
 			// set the size of the accordion
 			this.resize();
-
-			// resize the accordion when the browser resizes
-			$(window).off('resize.' + this.uniqueId + '.' + NS);
-			$(window).on('resize.' + this.uniqueId + '.' + NS, function() {
-				// resize the accordion when the browser resizes
-				if (that.$accordion.is(':visible')) {
-					that.resize();
-				}
-			});
 
 			// fire the update event
 			var eventObject = {type: 'update'};
