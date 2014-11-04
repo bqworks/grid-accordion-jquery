@@ -131,8 +131,6 @@
 		_init: function() {
 			var that = this;
 
-			this.settings = $.extend({}, this.defaults, this.options);
-
 			this.$accordion.removeClass('ga-no-js');
 
 			// get reference to the panels' container and 
@@ -160,19 +158,19 @@
 					var defaults = modules[ i ] + 'Defaults';
 					
 					if ( typeof this[ defaults ] !== 'undefined' ) {
-						$.extend( this.settings, this[ defaults ] );
+						$.extend( this.defaults, this[ defaults ] );
 					} else {
 						defaults = modules[ i ].substring( 0, 1 ).toLowerCase() + modules[ i ].substring( 1 ) + 'Defaults';
 
 						if ( typeof this[ defaults ] !== 'undefined' ) {
-							$.extend( this.settings, this[ defaults ] );
+							$.extend( this.defaults, this[ defaults ] );
 						}
 					}
 				}
 			}
 
 			// Merge the user defined settings with the default settings
-			$.extend( this.settings, this.options );
+			this.settings = $.extend({}, this.defaults, this.options);
 
 			// Initialize the modules
 			if ( typeof modules !== 'undefined' ) {
