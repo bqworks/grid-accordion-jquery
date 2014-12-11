@@ -6,6 +6,15 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.4.1**
+
+* some bug fixes
+
+**v. 2.4**
+
+* add shuffle option
+* various fixes and improvements
+
 **v. 2.3.1**
 
 * fixed 'ga-swiping' class removal

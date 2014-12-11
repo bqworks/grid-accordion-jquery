@@ -1,5 +1,5 @@
 # Grid Accordion - by [bqworks](http://bqworks.com/) #
-*__Version 2.3__*
+*__Version 2.4.1__*
 
 Hi, and thank you for purchasing Grid Accordion!
 
