@@ -92,6 +92,8 @@
 		_fadeInBackground: function(target) {
 			var duration = this.settings.swapBackgroundDuration;
 
+			target.css({'visibility': 'visible'});
+
 			if (SwapBackgroundHelper.checkCSSTransitions() === true) {
 				// remove the transition property after the animation completes
 				target.off(SwapBackgroundHelper.cssTransitionEndEvents).on(SwapBackgroundHelper.cssTransitionEndEvents, function( event ) {
