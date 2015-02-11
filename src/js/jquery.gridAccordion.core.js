@@ -394,6 +394,8 @@
 				}
 			} else {
 				this.$accordion.css({width: this.settings.width, height: this.settings.height, maxWidth: '', maxHeight: ''});
+				this.totalWidth = this.$accordion.innerWidth();
+				this.totalHeight = this.$accordion.innerHeight();
 			}
 
 			// reset the list of panels that we are tracking
