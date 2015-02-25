@@ -6,6 +6,12 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.5**
+
+* fix hidden background when fadeOutBackground is enabled
+* fix non-responsive bug
+* improve touch swipe support on touch-enabled desktop browsers
+
 **v. 2.4.1**
 
 * some bug fixes
