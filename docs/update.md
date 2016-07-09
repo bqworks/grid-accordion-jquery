@@ -6,6 +6,10 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.5.1**
+
+* prevent error when Enter is pressed on slides without links
+
 **v. 2.5**
 
 * fix hidden background when fadeOutBackground is enabled
