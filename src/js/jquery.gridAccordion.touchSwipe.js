@@ -35,6 +35,16 @@
 			this.touchSwipeEvents.endEvent = 'touchend' + '.' + this.uniqueId + '.' + NS + ' mouseup' + '.' + this.uniqueId + '.' + NS;
 			
 			this.$panelsContainer.on(this.touchSwipeEvents.startEvent, $.proxy(this._onTouchStart, this));
+			this.$panelsContainer.on( 'dragstart.' + NS, function( event ) {
+				event.preventDefault();
+			});
+
+			// prevent 'click' events unless there is intention for a 'click'
+			this.$panelsContainer.find( 'a' ).on( 'click.' + NS, function( event ) {
+				if ( typeof event.originalEvent.touches === 'undefined' && that.$accordion.hasClass('ga-swiping') ) {
+					event.preventDefault();
+				}
+			});
 
 			this.on('update.TouchSwipe.' + NS, function() {
 				// add or remove grabbing icon
@@ -53,10 +63,6 @@
 			if ($(event.target).closest('.ga-selectable').length >= 1 || (typeof event.originalEvent.touches === 'undefined' && this.getTotalPages() === 1))
 				return;
 
-			// prevent default behavior only for mouse events
-			if (typeof event.originalEvent.touches === 'undefined')
-				event.preventDefault();
-
 			// get the initial position of the mouse pointer and the initial position of the panels' container
 			this.touchStartPoint.x = eventObject.pageX || eventObject.clientX;
 			this.touchStartPoint.y = eventObject.pageY || eventObject.clientY;
@@ -65,17 +71,12 @@
 			// clear the distance
 			this.touchDistance.x = this.touchDistance.y = 0;
 
-			// listen for move and end events
-			this.$panelsContainer.on(this.touchSwipeEvents.moveEvent, $.proxy(this._onTouchMove, this));
+			// listen for 'move' and 'end' events
+			$(document).on(this.touchSwipeEvents.moveEvent, $.proxy(this._onTouchMove, this));
 			$(document).on(this.touchSwipeEvents.endEvent, $.proxy(this._onTouchEnd, this));
 
 			// swap grabbing icons
 			this.$panelsContainer.removeClass('ga-grab').addClass('ga-grabbing');
-
-			// disable click events on links
-			$(event.target).parents('.ga-panel').find('a').one('click.TouchSwipe', function(event) {
-				event.preventDefault();
-			});
 
 			this.$accordion.addClass('ga-swiping');
 		},
@@ -83,7 +84,7 @@
 		_onTouchMove: function(event) {
 			var eventObject = typeof event.originalEvent.touches !== 'undefined' ? event.originalEvent.touches[0] : event.originalEvent;
 
-			// indicate that the move event is being fired
+			// indicate that the 'move' event is being fired
 			this.isTouchMoving = true;
 
 			// get the current position of the mouse pointer
@@ -115,43 +116,28 @@
 		},
 
 		_onTouchEnd: function(event) {
-			// remove the move and end listeners
 			var that = this;
 
-			this.$panelsContainer.off(this.touchSwipeEvents.moveEvent);
+			// remove the 'move' and 'end' listeners
+			$(document).off(this.touchSwipeEvents.moveEvent);
 			$(document).off(this.touchSwipeEvents.endEvent);
 
 			// swap grabbing icons
 			this.$panelsContainer.removeClass('ga-grabbing').addClass('ga-grab');
 
 			// check if there is intention for a tap
-			if (typeof event.originalEvent.touches !== 'undefined' && (this.isTouchMoving === false || this.isTouchMoving === true && Math.abs(this.touchDistance.x) < 10 && Math.abs(this.touchDistance.y) < 10)) {
+			if (this.isTouchMoving === false || this.isTouchMoving === true && Math.abs(this.touchDistance.x) < 10 && Math.abs(this.touchDistance.y) < 10) {
+				this.$accordion.removeClass('ga-swiping');
+
 				var index = $(event.target).parents('.ga-panel').index();
 
-				if (index !== this.currentIndex && index !== -1) {
-					event.preventDefault();
+				if (typeof event.originalEvent.touches !== 'undefined' && index !== this.currentIndex && index !== -1) {
 					this.openPanel(index);
-				} else {
-					// re-enable click events on links
-					$(event.target).parents('.ga-panel').find('a').off('click.TouchSwipe');
-					this.$accordion.removeClass('ga-swiping');
+
+					// don't follow links
+					event.preventDefault();
 				}
-
-				return;
 			}
-
-			// return if there was no movement and re-enable click events on links
-			if (this.isTouchMoving === false) {
-				$(event.target).parents('.ga-panel').find('a').off('click.TouchSwipe');
-				this.$accordion.removeClass('ga-swiping');
-				return;
-			}
-
-			$(event.target).parents('.ga-panel').one('click', function(event) {
-				event.preventDefault();
-			});
-
-			this.isTouchMoving = false;
 
 			// remove the 'ga-swiping' class but with a delay
 			// because there might be other event listeners that check
@@ -160,6 +146,13 @@
 			setTimeout(function() {
 				that.$accordion.removeClass('ga-swiping');
 			}, 1);
+
+			// return if there was no movement and re-enable click events on links
+			if (this.isTouchMoving === false) {
+				this.$accordion.removeClass('ga-swiping');
+			}
+
+			this.isTouchMoving = false;
 
 			var noScrollAnimObj = {};
 			noScrollAnimObj[this.positionProperty] = this.touchStartPosition;
@@ -201,10 +194,16 @@
 		},
 
 		destroyTouchSwipe: function() {
+			this.$panelsContainer.off( 'dragstart.' + NS );
+			this.$panelsContainer.find( 'a' ).off( 'click.' + NS );
+
 			this.$panelsContainer.off(this.touchSwipeEvents.startEvent);
 			$(document).off(this.touchSwipeEvents.endEvent);
-			this.$panelsContainer.off(this.touchSwipeEvents.moveEvent);
+			$(document).off(this.touchSwipeEvents.moveEvent);
+
 			this.off('update.TouchSwipe.' + NS);
+
+			this.$panelsContainer.removeClass('ga-grab');
 		},
 
 		touchSwipeDefaults: {
