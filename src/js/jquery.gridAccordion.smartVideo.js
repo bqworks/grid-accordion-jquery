@@ -360,7 +360,7 @@ var YoutubeVideo = function( video ) {
 			YoutubeVideoHelper.youtubeAPIAdded = true;
 
 			var tag = document.createElement( 'script' );
-			tag.src = "http://www.youtube.com/player_api";
+			tag.src = "//www.youtube.com/player_api";
 			var firstScriptTag = document.getElementsByTagName( 'script' )[0];
 			firstScriptTag.parentNode.insertBefore( tag, firstScriptTag );
 
@@ -501,7 +501,7 @@ var VimeoVideo = function( video ) {
 			VimeoVideoHelper.vimeoAPIAdded = true;
 
 			var tag = document.createElement('script');
-			tag.src = "http://a.vimeocdn.com/js/froogaloop2.min.js";
+			tag.src = "//a.vimeocdn.com/js/froogaloop2.min.js";
 			var firstScriptTag = document.getElementsByTagName( 'script' )[0];
 			firstScriptTag.parentNode.insertBefore( tag, firstScriptTag );
 		
