@@ -6,6 +6,11 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.6**
+
+* improve click/tap event handling when touch-swipe is enabled
+* other minor fixes
+
 **v. 2.5.1**
 
 * prevent error when Enter is pressed on slides without links
