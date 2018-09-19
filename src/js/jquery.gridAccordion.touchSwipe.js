@@ -72,7 +72,7 @@
 			this.touchDistance.x = this.touchDistance.y = 0;
 
 			// listen for 'move' and 'end' events
-			$(document).on(this.touchSwipeEvents.moveEvent, $.proxy(this._onTouchMove, this));
+			this.$panelsContainer.on(this.touchSwipeEvents.moveEvent, $.proxy(this._onTouchMove, this));
 			$(document).on(this.touchSwipeEvents.endEvent, $.proxy(this._onTouchEnd, this));
 
 			// swap grabbing icons
@@ -119,7 +119,7 @@
 			var that = this;
 
 			// remove the 'move' and 'end' listeners
-			$(document).off(this.touchSwipeEvents.moveEvent);
+			this.$panelsContainer.off(this.touchSwipeEvents.moveEvent);
 			$(document).off(this.touchSwipeEvents.endEvent);
 
 			// swap grabbing icons
@@ -198,8 +198,8 @@
 			this.$panelsContainer.find( 'a' ).off( 'click.' + NS );
 
 			this.$panelsContainer.off(this.touchSwipeEvents.startEvent);
+			this.$panelsContainer.off(this.touchSwipeEvents.moveEvent);
 			$(document).off(this.touchSwipeEvents.endEvent);
-			$(document).off(this.touchSwipeEvents.moveEvent);
 
 			this.off('update.TouchSwipe.' + NS);
 
