@@ -6,6 +6,13 @@ When a new version is available, you can download it for free from your CodeCany
 
 ## Changelog ##
 
+**v. 2.7**
+
+* update Vimeo API
+* fix issue with preventDefault being called inside passive listener
+* fix the aspect ratio when the height has a relative value
+* improve mouse/touch event handling
+
 **v. 2.6**
 
 * improve click/tap event handling when touch-swipe is enabled
