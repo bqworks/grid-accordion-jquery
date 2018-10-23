@@ -360,10 +360,12 @@
 					// get the accordion's size ratio based on the set size and the actual size
 					this.autoResponsiveRatio = this.$accordion.innerWidth() / this.settings.width;
 
-					this.$maskContainer.css({
-						width: this.settings.width,
-						height: this.settings.height
-					});
+					this.$maskContainer.css('width', this.settings.width);
+
+					if ( isNaN( this.settings.height ) )
+						this.$maskContainer.css('height', Math.min(this.settings.width / this.settings.aspectRatio, parseInt(this.settings.height, 10) / 100 * $(window).height()));
+					else
+						this.$maskContainer.css('height', Math.min(this.settings.width / this.settings.aspectRatio, this.settings.height));
 
 					// scale the mask container based on the current ratio
 					if ( this.autoResponsiveRatio < 1 ) {
