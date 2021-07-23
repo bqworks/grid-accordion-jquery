@@ -21,7 +21,11 @@ Check the plugin's [presentation page](http://bqworks.net/grid-accordion/) for e
 
 ### 1. Get a copy of the plugin ###
 
-You can fork or download the plugin from GitHub.
+You can fork or download the plugin from GitHub, or you can install it through `npm`.
+
+```
+$ npm install grid-accordion
+```
 
 ### 2. Load the required files ###
 
