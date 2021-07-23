@@ -15,4 +15,4 @@ Icon
 *.sublime-workspace
 
 /node_modules/
-test
+/test/
