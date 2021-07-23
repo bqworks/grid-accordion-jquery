@@ -2,18 +2,24 @@
   "name": "grid-accordion",
   "prettyName": "Grid Accordion",
   "description": "Responsive jQuery grid accordion, featuring modular architecture, touch swipe, pagination, retina, video support and much more.",
-  "version": "2.7",
-  "homepage": "http://bqworks.com/grid-accordion/",
+  "version": "2.8",
+  "homepage": "http://bqworks.net/grid-accordion/",
   "author": {
     "name": "bqworks",
-    "url": "http://bqworks.com/"
+    "url": "http://bqworks.net/"
   },
+  "keywords": [
+    "jquery-plugin",
+    "grid-accordion",
+    "responsive-grid"
+  ],
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-cssmin": "^1.0.1",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-uglify": "^0.10.0",
-    "grunt-contrib-watch": "^1.0.0"
-  }
+    "grunt": "~1.4.0",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-jshint": "~3.0.0",
+    "grunt-contrib-uglify": "~5.0.0",
+    "grunt-contrib-cssmin": "~4.0.0",
+    "grunt-contrib-watch": "~1.1.0"
+  },
+  "license": "MIT"
 }
