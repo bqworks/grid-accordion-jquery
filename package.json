@@ -16,10 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bqworks/grid-accordion-js"
+    "url": "https://github.com/bqworks/grid-accordion-jquery"
   },
   "bugs": {
-    "url": "https://github.com/bqworks/grid-accordion-js/issues"
+    "url": "https://github.com/bqworks/grid-accordion-jquery/issues"
   },
   "keywords": [
     "jquery-plugin",
