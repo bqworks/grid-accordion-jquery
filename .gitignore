@@ -11,8 +11,5 @@ Icon
 .Spotlight-V100
 .Trashes
 
-*.sublime-project
-*.sublime-workspace
-
-/node_modules/
-/test/
+node_modules
+test
