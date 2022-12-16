@@ -1,6 +1,8 @@
 # [Grid Accordion - jQuery plugin](https://bqworks.net/grid-accordion/) #
 
->A responsive and touch-enabled jQuery grid accordion plugin that combines the functionality of a grid with that of an accordion.
+A responsive and touch-enabled jQuery grid accordion plugin that combines the functionality of a grid with that of an accordion.
+
+>The Grid Accordion is also available as a [WordPress plugin](https://wordpress.org/plugins/grid-accordion/).
 
 Main features: 
 
@@ -38,8 +40,15 @@ Inside the page's head tag include the accordion's CSS file.
 In the page's footer, just before <code>&lt;/body&gt;</code>, include the required JavaScript files.
 
 ```html
-<script src="libs/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
 <script src="dist/js/jquery.gridAccordion.min.js"></script>
+```
+
+You can also load the CSS and JS code from unpkg.com:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/grid-accordion/dist/css/grid-accordion.min.css"/>
+<script type="text/javascript" src="https://unpkg.com/grid-accordion/dist/js/jquery.gridAccordion.min.js"></script>
 ```
 
 ### 3. Create the HTML markup ###
