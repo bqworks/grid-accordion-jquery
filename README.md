@@ -115,7 +115,7 @@ Grid Accordion has 40+ customizable options. More about this in the [JavaScript 
 
 ## Support ##
 
-If you found a bug or have a feature suggestion, please submit it in the [Issues tracker](https://github.com/bqworks/grid-accordion-js/issues).
+If you found a bug or have a feature suggestion, please submit it in the [Issues tracker](https://github.com/bqworks/grid-accordion-jquery/issues).
 
 ## License ##
 
