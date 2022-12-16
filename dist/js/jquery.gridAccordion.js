@@ -1,8 +1,8 @@
 /*!
-* Grid Accordion - v2.8
-* Homepage: http://bqworks.net/grid-accordion/
+* Grid Accordion - v2.8.1
+* Homepage: https://bqworks.net/grid-accordion/
 * Author: bqworks
-* Author URL: http://bqworks.net/
+* Author URL: https://bqworks.net/
 */
 ;(function(window, $) {
 
