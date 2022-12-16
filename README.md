@@ -1,4 +1,4 @@
-# [Grid Accordion - jQuery plugin](http://bqworks.net/grid-accordion/) #
+# [Grid Accordion - jQuery plugin](https://bqworks.net/grid-accordion/) #
 
 >A responsive and touch-enabled jQuery grid accordion plugin that combines the functionality of a grid with that of an accordion.
 
@@ -15,7 +15,7 @@ Main features:
 * video support
 * JavaScript breakpoints 
 
-Check the plugin's [presentation page](http://bqworks.net/grid-accordion/) for examples and more details of the available features.
+Check the plugin's [presentation page](https://bqworks.net/grid-accordion/) for examples and more details of the available features.
 
 ## Getting started ##
 
@@ -110,4 +110,4 @@ If you found a bug or have a feature suggestion, please submit it in the [Issues
 
 ## License ##
 
-The plugin is available under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.
+The plugin is available under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.

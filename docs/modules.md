@@ -168,7 +168,7 @@ Enables the accordion to load images only when they are in view. It makes sense 
 </div>
 
 <div class="ga-panel">
-	<a href="http://bqworks.com">
+	<a href="https://bqworks.net">
 		<img class="ga-background" src="path/to/blank.gif" data-src="path/to/image2.jpg"/>
 	</a>
 </div>
@@ -198,7 +198,7 @@ The high resolution image needs to be specified in the `data-retina` attribute, 
 </div>
 
 <div class="ga-panel">
-	<a href="http://bqworks.com">
+	<a href="https://bqworks.net">
 		<img class="ga-background" src="path/to/blank.gif" data-src="path/to/image3.jpg" data-retina="path/to/image3@2x.jpg" width="400" height="300"/>
 	</a>
 </div>
@@ -214,7 +214,7 @@ This module is showcased in example1.html, example2.html and example3.html.
 
 Provides the possibility to link to a specific panel in the accordion. You can use this to have the accordion opened at a specific panel when the page loads or to load a specific panel later at a later time.
 
-The hash that needs to be appended to the URL consists of the 'id' attribute of the accordion and the index of the panel separated by a slash character (/). For example, `http://domain.com/page#my-accordion/0` will open the first panel (because panel indexes start with 0) in the accordion that has the 'id' set to 'my-accordion'.
+The hash that needs to be appended to the URL consists of the 'id' attribute of the accordion and the index of the panel separated by a slash character (/). For example, `https://domain.com/page#my-accordion/0` will open the first panel (because panel indexes start with 0) in the accordion that has the 'id' set to 'my-accordion'.
 
 It's also possible to specify the 'id' attribute of the panel instead of its index.
 
@@ -236,7 +236,7 @@ It's also possible to specify the 'id' attribute of the panel instead of its ind
 </div>
 ```
 
-In order to open the second panel, you can use either `http://domain.com/page#my-accordion/1` or `http://domain.com/page#my-accordion/my-panel`.
+In order to open the second panel, you can use either `https://domain.com/page#my-accordion/1` or `https://domain.com/page#my-accordion/my-panel`.
 
 This module is showcased in example3.html.
 
@@ -257,7 +257,7 @@ Allows you to set an alternative background image that will appear when the pane
 
 <div class="ga-panel">
 	<img class="ga-background" src="path/to/blank.gif" data-src="path/to/image3.jpg" data-retina="path/to/image3@2x.jpg"/>
-	<a href="http://bqworks.com">
+	<a href="https://bqworks.net">
 		<img class="ga-background-opened" src="path/to/blank.gif" data-src="path/to/alt_image3.jpg" data-retina="path/to/alt_image3@2x.jpg"/>
 	</a>
 </div>
@@ -284,7 +284,7 @@ The videos need to have the `enablejsapi=1` parameter appended to the URL of the
 *Example:*
 
 ```
-<iframe class="ga-video" src="http://www.youtube.com/embed/msIjWthwWwI?enablejsapi=1&amp;wmode=opaque" width="500" height="350" frameborder="0" allowfullscreen></iframe>
+<iframe class="ga-video" src="https://www.youtube.com/embed/msIjWthwWwI?enablejsapi=1&amp;wmode=opaque" width="500" height="350" frameborder="0" allowfullscreen></iframe>
 ```
 
 ##### Vimeo #####
@@ -294,7 +294,7 @@ The videos need to have the `api=1` parameter appended to the URL of the video.
 *Example:*
 
 ```
-<iframe class="ga-video" src="http://player.vimeo.com/video/43401199?api=1" width="500" height="350" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe class="ga-video" src="https://player.vimeo.com/video/43401199?api=1" width="500" height="350" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
 
 ##### HTML5 #####
@@ -326,7 +326,7 @@ Each Video.js video must have a unique 'id' attribute. Also, because the Video.j
 </div>
 ```
 
-Please note that, in order to use Video.js, you need to load the Video.js JavaScript and CSS files in your page. More information about how to use Video.js, in general, can be found on the [official Video.js page](http://www.videojs.com/). 
+Please note that, in order to use Video.js, you need to load the Video.js JavaScript and CSS files in your page. More information about how to use Video.js, in general, can be found on the [official Video.js page](https://www.videojs.com/). 
 
 ##### SublimeVideo #####
 
@@ -341,7 +341,7 @@ Each SublimeVideo instance must have a unique 'id' attribute.
 </video>
 ```
 
-Please note that, in order to use SublimeVideo, you will also need to load a script in your page which you need to download from the SublimeVideo page. More information about how to use SublimeVideo, in general, can be found on the [official SublimeVideo page](http://www.sublimevideo.net/).
+Please note that, in order to use SublimeVideo, you will also need to load a script in your page which you need to download from the SublimeVideo page. More information about how to use SublimeVideo, in general, can be found on the [official SublimeVideo page](https://www.sublimevideo.net/).
 
 ##### Notes #####
 
@@ -398,7 +398,7 @@ These are the node names that need to be used:
 		<backgroundRetina>path/to/image1@2x.jpg</backgroundRetina>
 		<backgroundOpened>path/to/alt_image1.jpg</backgroundOpened>
 		<backgroundOpenedRetina>path/to/alt_image1@2x.jpg</backgroundOpenedRetina>
-		<backgroundLink>http://bqworks.com/</backgroundLink>
+		<backgroundLink>https://bqworks.net/</backgroundLink>
 	</panel>
 
     <panel>
@@ -406,7 +406,7 @@ These are the node names that need to be used:
 		<backgroundRetina>path/to/image2@2x.jpg</backgroundRetina>
 		<backgroundOpened>path/to/alt_image2.jpg</backgroundOpened>
 		<backgroundOpenedRetina>path/to/alt_image2@2x.jpg</backgroundOpenedRetina>
-		<backgroundOpenedLink>http://bqworks.com/</backgroundOpenedLink>
+		<backgroundOpenedLink>https://bqworks.net/</backgroundOpenedLink>
 	</panel>
 </accordion>
 ```
@@ -496,14 +496,14 @@ These are the node names that need to be used:
 				"backgroundRetina": {"source": "path/to/image1@2x.jpg"},
 				"backgroundOpened": {"source": "path/to/alt_image1.jpg"},
 				"backgroundOpenedRetina": {"source": "path/to/image1@2x.jpg"},
-				"backgroundLink": {"address": "http://bqworks.com"}
+				"backgroundLink": {"address": "https://bqworks.net"}
 			},
 			{
 				"background": {"source": "path/to/image2.jpg"},
 				"backgroundRetina": {"source": "path/to/image2@2x.jpg"},
 				"backgroundOpened": {"source": "path/to/alt_image2.jpg"},
 				"backgroundOpenedRetina": {"source": "path/to/alt_image2@2x.jpg"},
-				"backgroundOpenedLink": {"address": "http://bqworks.com"}
+				"backgroundOpenedLink": {"address": "https://bqworks.net"}
 			}
 		]
 	}
