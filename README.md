@@ -1,3 +1,8 @@
+[![npm version](https://img.shields.io/npm/v/grid-accordion)](https://www.npmjs.com/package/grid-accordion)
+[![License](https://img.shields.io/github/license/bqworks/grid-accordion)](https://github.com/bqworks/grid-accordion-jquery/blob/master/LICENSE)
+[![Build](https://github.com/bqworks/grid-accordion-jquery/actions/workflows/build.yml/badge.svg)](https://github.com/bqworks/grid-accordion-jquery/actions/workflows/build.yml)
+[![Downloads](https://img.shields.io/npm/dt/grid-accordion)](https://github.com/bqworks/grid-accordion-jquery)
+
 # [Grid Accordion - jQuery plugin](https://bqworks.net/grid-accordion/) #
 
 A responsive and touch-enabled jQuery grid accordion plugin that combines the functionality of a grid with that of an accordion.
